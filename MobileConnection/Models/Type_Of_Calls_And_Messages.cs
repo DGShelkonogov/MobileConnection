@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MobileConnection.Models
 {
-    public class Type_Of_Calls_And_Messages
+    public class Type_Of_Calls_And_Messages : INotifyPropertyChanged
     {
         [Key]
         public int ID_Type_Of_Calls_And_Messages { get; set; }
@@ -15,5 +16,7 @@ namespace MobileConnection.Models
         [Required]
         [StringLength(40)]
         public string Type_Name { get; set; }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
     }
 }

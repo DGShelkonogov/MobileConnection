@@ -7,63 +7,84 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="LoginWindow.xaml.cs">
+    <Compile Update="AdminHomeWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ClientWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="CorporateClientWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Pages\Admin\CallLogPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Pages\Admin\CallPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Pages\Admin\ClientPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Pages\Admin\CorporateClientPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Pages\Admin\MessageLogPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Pages\Admin\MessagePage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Pages\Admin\PrivateClientPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Pages\Admin\TypeOfCallsAndMessagesPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Pages\AuthorizationPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Pages\ClientPage.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Pages\Corporate_ClientPage.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Pages\EmployeePage.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Pages\PostPage.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Pages\RecoveryPage.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Pages\RegistrationPage.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Pages\ServicePage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="LoginWindow.xaml">
+    <Page Update="AdminHomeWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="MainWindow.xaml">
+    <Page Update="ClientWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="CorporateClientWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\Admin\CallLogPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\Admin\CallPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\Admin\ClientPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\Admin\CorporateClientPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\Admin\MessageLogPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\Admin\MessagePage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\Admin\PrivateClientPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\Admin\TypeOfCallsAndMessagesPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Pages\AuthorizationPage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Pages\ClientPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Pages\Corporate_ClientPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Pages\EmployeePage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Pages\PostPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Pages\RecoveryPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Pages\RegistrationPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Pages\ServicePage.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

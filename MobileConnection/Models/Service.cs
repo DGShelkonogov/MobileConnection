@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 namespace MobileConnection.Models
 {
 
-    public class Service
+    public class Service : INotifyPropertyChanged
     {
         [Key]
         public int ID_Service { get; set; }
@@ -26,5 +27,7 @@ namespace MobileConnection.Models
         public Employee Employee { get; set; }
 
         public virtual ICollection<Client> Clients { get; set; }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
     }
 }

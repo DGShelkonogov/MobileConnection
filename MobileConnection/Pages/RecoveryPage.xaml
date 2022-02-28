@@ -8,8 +8,25 @@
       Background="White"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="RecoveryPage">
-
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Label Content="Восстановление доступа" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label Content="Email:" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1"/>
+        <Button Content="Подтвердить" HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Center"/>
+        <Label Content="Секретный код" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="3"/>
+        <TextBox HorizontalAlignment="Center" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Center" Width="120"/>
+        <Button Content="Вход" HorizontalAlignment="Center" Grid.Row="5" VerticalAlignment="Center"/>
+        <Button Content="Назад" HorizontalAlignment="Left" Grid.Row="6" VerticalAlignment="Bottom" Height="30" Width="50"/>
+
+
+
     </Grid>
 </Page>

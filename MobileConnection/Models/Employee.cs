@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MobileConnection.Models
 {
-    public class Employee
+    public class Employee : INotifyPropertyChanged
     {
         [Key]
         public int ID_Employee { get; set; }
@@ -28,9 +29,6 @@ namespace MobileConnection.Models
         [Required]
         public Post Post { get; set; }
 
-
-
-
-
+        public event PropertyChangedEventHandler? PropertyChanged;
     }
 }

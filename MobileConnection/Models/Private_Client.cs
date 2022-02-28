@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MobileConnection.Models
 {
-    public class Private_Client
+    public class Private_Client : INotifyPropertyChanged
     {
         [Key]
         public int ID_Private_Client { get; set; }
@@ -39,5 +40,6 @@ namespace MobileConnection.Models
         [Required]
         public Client Client { get; set; }
 
+        public event PropertyChangedEventHandler? PropertyChanged;
     }
 }
