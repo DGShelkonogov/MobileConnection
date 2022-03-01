@@ -23,9 +23,7 @@ namespace MobileConnection.Models
         [StringLength(11)]
         public string Subscriber_Number { get; set; }
 
-        public Type_Of_Calls_And_Messages Type { get; set; }
-
-        public virtual ICollection<Client> Clients { get; set; }
+        public Type_Of_Call_And_Message Type { get; set; }
 
         public event PropertyChangedEventHandler? PropertyChanged;
     }

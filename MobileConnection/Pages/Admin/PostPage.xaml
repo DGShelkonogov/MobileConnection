@@ -27,7 +27,7 @@
         <DataGrid x:Name="dtg" Grid.Row="1" AutoGenerateColumns="False" CellEditEnding="dataGrid_CellEditEnding">
             <DataGrid.Columns>
                 <DataGridTextColumn 
-                    Header="Услуга"
+                    Header="Должность"
                     Width="*"
                     Binding="{Binding Path=Post_Name, 
                     UpdateSourceTrigger=PropertyChanged}"/>
@@ -38,8 +38,6 @@
                     <EventSetter Event="MouseDown" Handler="Row_DoubleClick"/>
                 </Style>
             </DataGrid.ItemContainerStyle>
-            
-            
         </DataGrid>
 
         <Grid Grid.Row="2">

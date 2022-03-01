@@ -31,6 +31,10 @@ namespace MobileConnection.Models
         public string Physical_Adsress { get; set; }
 
         [Required]
+        [StringLength(70)]
+        public string Personal_Account_Number { get; set; }
+
+        [Required]
         public Client Client { get; set; }
 
         public event PropertyChangedEventHandler? PropertyChanged;

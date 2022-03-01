@@ -26,7 +26,7 @@ namespace MobileConnection.Models
         [Required]
         public Employee Employee { get; set; }
 
-        public virtual ICollection<Client> Clients { get; set; }
+        public virtual ICollection<Client> Clients { get; set; } = new List<Client>();
 
         public event PropertyChangedEventHandler? PropertyChanged;
     }

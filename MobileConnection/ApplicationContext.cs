@@ -18,7 +18,9 @@ namespace MobileConnection
         public DbSet<Post> Posts { get; set; }
         public DbSet<Private_Client> Private_Clients { get; set; }
         public DbSet<Service> Services { get; set; }
-        public DbSet<Type_Of_Calls_And_Messages> Type_Of_Calls_And_Messages { get; set; }
+        public DbSet<Type_Of_Call_And_Message> Type_Of_Calls_And_Messages { get; set; }
+        public DbSet<ClientCall> ClientCalls { get; set; }
+        public DbSet<ClientMessage> ClientMessages { get; set; }
 
         public ApplicationContext()
         {

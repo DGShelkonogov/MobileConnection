@@ -10,11 +10,11 @@ none
 false
 TRACE;RELEASE;NET;NET6_0;NETCOREAPP
 C:\Users\dana\source\repos\MobileConnection\MobileConnection\App.xaml
-131391615080
+17-1262400074
 
-24-905499006
+311977798669
 208-1479983875
-LoginWindow.xaml;MainWindow.xaml;Pages\Admin\EmployeePage.xaml;Pages\Admin\PostPage.xaml;Pages\Admin\ServicePage.xaml;Pages\AuthorizationPage.xaml;Pages\Client\ClientPage.xaml;Pages\Client\Corporate_ClientPage.xaml;Pages\Client\ServicePage.xaml;Pages\EmployeePage.xaml;Pages\RecoveryPage.xaml;Pages\RegistrationPage.xaml;Pages\ServicePage.xaml;
+AdminHomeWindow.xaml;ClientWindow.xaml;CorporateClientWindow.xaml;Pages\Admin\CallLogPage.xaml;Pages\Admin\CallPage.xaml;Pages\Admin\ClientPage.xaml;Pages\Admin\CorporateClientPage.xaml;Pages\Admin\EmployeePage.xaml;Pages\Admin\MessageLogPage.xaml;Pages\Admin\MessagePage.xaml;Pages\Admin\PostPage.xaml;Pages\Admin\PrivateClientPage.xaml;Pages\Admin\ServicePage.xaml;Pages\Admin\TypeOfCallsAndMessagesPage.xaml;Pages\AuthorizationPage.xaml;Pages\RecoveryPage.xaml;Pages\ServicePage.xaml;
 
 True
 

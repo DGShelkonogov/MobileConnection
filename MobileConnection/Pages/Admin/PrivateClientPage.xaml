@@ -12,7 +12,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="200"/>
         </Grid.RowDefinitions>
 
         <Grid>
@@ -20,10 +20,60 @@
                 <ColumnDefinition/>
                 <ColumnDefinition Width="100"/>
             </Grid.ColumnDefinitions>
-            <TextBox TextWrapping="Wrap" Margin="10,10,10,10"/>
-            <Button Grid.Column="1" Content="Поиск"  Margin="10,10,10,10" />
+            <TextBox x:Name="txbSearch" TextWrapping="Wrap" Margin="10,10,10,10"/>
+            <Button Click="Button_Click_Search" Grid.Column="1" Content="Поиск"  Margin="10,10,10,10" />
         </Grid>
-        <DataGrid Grid.Row="1" />
+        <DataGrid x:Name="dtg" Grid.Row="1" AutoGenerateColumns="False" CellEditEnding="dataGrid_CellEditEnding">
+            <DataGrid.Columns>
+                <DataGridTextColumn 
+                    Header="Номер счета"
+                    Width="*"
+                    Binding="{Binding Path=Client.Account_Number, 
+                    UpdateSourceTrigger=PropertyChanged}"/>
+
+                <DataGridTextColumn 
+                    Header="Фамилия"
+                    Width="*"
+                    Binding="{Binding Path=Client_Surname, 
+                    UpdateSourceTrigger=PropertyChanged}"/>
+
+                <DataGridTextColumn 
+                    Header="Имя"
+                    Width="*"
+                    Binding="{Binding Path=Client_Name, 
+                    UpdateSourceTrigger=PropertyChanged}"/>
+
+                <DataGridTextColumn 
+                    Header="Отчество"
+                    Width="*"
+                    Binding="{Binding Path=Client_Patronymic, 
+                    UpdateSourceTrigger=PropertyChanged}"/>
+
+                <DataGridTextColumn 
+                    Header="Дата рождения"
+                    Width="*"
+                    Binding="{Binding Path=Date_Of_Birth, 
+                    UpdateSourceTrigger=PropertyChanged}"/>
+
+                <DataGridTextColumn 
+                    Header="Серия паспорта"
+                    Width="*"
+                    Binding="{Binding Path=Passport_Series, 
+                    UpdateSourceTrigger=PropertyChanged}"/>
+
+                <DataGridTextColumn 
+                    Header="Номер паспорта"
+                    Width="*"
+                    Binding="{Binding Path=Passport_Number, 
+                    UpdateSourceTrigger=PropertyChanged}"/>
+
+                <DataGridTextColumn 
+                    Header="Адрес"
+                    Width="*"
+                    Binding="{Binding Path=Adsress, 
+                    UpdateSourceTrigger=PropertyChanged}"/>
+            </DataGrid.Columns>
+        </DataGrid>
 
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
@@ -36,7 +86,7 @@
                     <RowDefinition/>
                     <RowDefinition Height="50"/>
                 </Grid.RowDefinitions>
-                <Button Content="Назад"  Margin="10,10,10,10" Grid.Row="1"/>
+                <Button Content="Назад"  Margin="10,10,10,10" Grid.Row="1" Click="Button_Click_Back"/>
             </Grid>
 
             <Grid Grid.Column="3">
@@ -46,9 +96,9 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <Button Content="Добавить"  Margin="10,10,10,10" Grid.Row="0"/>
-                <Button Content="Изменить"  Margin="10,10,10,10" Grid.Row="1"/>
-                <Button Content="Удалить"  Margin="10,10,10,10" Grid.Row="2"/>
+                <Button Content="Добавить"  Margin="10,10,10,10" Grid.Row="0" Click="Button_Click_Add"/>
+                <Button Content="Изменить"  Margin="10,10,10,10" Grid.Row="1" Click="Button_Click_Edit"/>
+                <Button Content="Удалить"  Margin="10,10,10,10" Grid.Row="2" Click="Button_Click_Delete"/>
                
             </Grid>
 
@@ -70,7 +120,7 @@
                         <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="Номер счета" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                    <TextBox Grid.Column="1" TextWrapping="Wrap"/>
+                    <ComboBox x:Name="cmbClients" DisplayMemberPath="Account_Number" Grid.Column="1" />
                 </Grid>
 
                 <Grid Grid.Row="1">
@@ -79,7 +129,7 @@
                         <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="Фамилия" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                    <TextBox Grid.Column="1" TextWrapping="Wrap"/>
+                    <TextBox x:Name="txbClient_Surname" Grid.Column="1" TextWrapping="Wrap"/>
                 </Grid>
 
                 <Grid Grid.Row="2">
@@ -88,25 +138,24 @@
                         <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="Имя" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                    <TextBox Grid.Column="1" TextWrapping="Wrap"/>
+                    <TextBox x:Name="txbClient_Name" Grid.Column="1" TextWrapping="Wrap"/>
                 </Grid>
 
                 <Grid Grid.Row="3">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="150"/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="Отчество" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                    <TextBox Grid.Column="1" TextWrapping="Wrap"/>
+                    <TextBox x:Name="txbClient_Patronymic" Grid.Column="1" TextWrapping="Wrap"/>
                 </Grid>
-
                 <Grid Grid.Row="4">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="Дата рождения" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                    <TextBox Grid.Column="1" TextWrapping="Wrap"/>
+                    <TextBox x:Name="txbDate_Of_Birth" Grid.Column="1" TextWrapping="Wrap"/>
                 </Grid>
 
                 <Grid Grid.Row="5">
@@ -115,7 +164,7 @@
                         <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="Серия паспорта" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                    <TextBox Grid.Column="1" TextWrapping="Wrap"/>
+                    <TextBox x:Name="txbPassport_Series" Grid.Column="1" TextWrapping="Wrap"/>
                 </Grid>
 
                 <Grid Grid.Row="6">
@@ -124,7 +173,7 @@
                         <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="Номер паспорта" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                    <TextBox Grid.Column="1" TextWrapping="Wrap"/>
+                    <TextBox x:Name="txbPassport_Number" Grid.Column="1" TextWrapping="Wrap"/>
                 </Grid>
 
                 <Grid Grid.Row="7">
@@ -133,7 +182,7 @@
                         <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="Адрес" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                    <TextBox Grid.Column="1" TextWrapping="Wrap"/>
+                    <TextBox x:Name="txbAdsress" Grid.Column="1" TextWrapping="Wrap"/>
                 </Grid>
             </Grid>
         </Grid>

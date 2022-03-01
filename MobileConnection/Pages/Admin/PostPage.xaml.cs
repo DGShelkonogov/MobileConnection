@@ -29,6 +29,7 @@ namespace MobileConnection.Pages.Admin
             InitializeComponent();
 
             db = DBConnection.getConnection();
+
             Posts = new(db.Posts.ToList());
             dtg.ItemsSource = Posts;
         }
@@ -36,22 +37,20 @@ namespace MobileConnection.Pages.Admin
        
         private void Button_Click_Back(object sender, RoutedEventArgs e)
         {
-
+            AdminHomeWindow win = (AdminHomeWindow)Window.GetWindow(this);
+            win.btnBack_Click_Back();
         }
 
         private void Button_Click_Add(object sender, RoutedEventArgs e)
         {
-            using (var db = new ApplicationContext())
+            Post post = new Post
             {
-                Post post = new Post
-                {
-                    Post_Name = tbxTitle.Text.ToString(),
-                };
-                Posts.Add(post);
-                db.Posts.Add(post);
-                db.SaveChanges();
-                tbxTitle.Text = "";
-            }
+                Post_Name = tbxTitle.Text.ToString(),
+            };
+            Posts.Add(post);
+            db.Posts.Add(post);
+            db.SaveChanges();
+            tbxTitle.Text = "";
         }
 
         private void Button_Click_Edit(object sender, RoutedEventArgs e)

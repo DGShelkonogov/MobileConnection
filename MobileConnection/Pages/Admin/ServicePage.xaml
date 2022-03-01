@@ -17,7 +17,6 @@
             <RowDefinition Height="35"/>
             <RowDefinition Height="35"/>
             <RowDefinition Height="35"/>
-
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
@@ -26,10 +25,36 @@
                 <ColumnDefinition/>
                 <ColumnDefinition Width="100"/>
             </Grid.ColumnDefinitions>
-            <TextBox TextWrapping="Wrap" Margin="10,10,10,10"/>
-            <Button Grid.Column="1" Content="Поиск"  Margin="10,10,10,10" />
+            <TextBox x:Name="txbSearch" TextWrapping="Wrap" Margin="10,10,10,10"/>
+            <Button Grid.Column="1" Content="Поиск" Margin="10,10,10,10" Click="Button_Click_Search"/>
         </Grid>
-        <DataGrid Grid.Row="1" />
+        <DataGrid x:Name="dtg" Grid.Row="1" AutoGenerateColumns="False" CellEditEnding="dataGrid_CellEditEnding">
+            <DataGrid.Columns>
+                <DataGridTextColumn 
+                    Header="Наименование"
+                    Width="*"
+                    Binding="{Binding Path=Service_Name, 
+                    UpdateSourceTrigger=PropertyChanged}"/>
+
+                <DataGridTextColumn 
+                    Header="Статус"
+                    Width="*"
+                    Binding="{Binding Path=Service_Status, 
+                    UpdateSourceTrigger=PropertyChanged}"/>
+
+                <DataGridTextColumn 
+                    Header="Стоимость"
+                    Width="*"
+                    Binding="{Binding Path=Cost, 
+                    UpdateSourceTrigger=PropertyChanged}"/>
+
+                <DataGridTextColumn 
+                    Header="Сотрудник"
+                    Width="*"
+                    Binding="{Binding Path=Employee.Employee_Name, 
+                    UpdateSourceTrigger=PropertyChanged}"/>
+            </DataGrid.Columns>
+        </DataGrid>
 
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
@@ -37,7 +62,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Label Content="Наименование" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center"/>
-            <TextBox Grid.Column="1" TextWrapping="Wrap"/>
+            <TextBox x:Name="txbService_Name" Grid.Column="1" TextWrapping="Wrap"/>
         </Grid>
 
         <Grid Grid.Row="3">
@@ -46,7 +71,14 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Label Content="Статус" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center"/>
-            <ComboBox Grid.Column="1"/>
+            <ComboBox Grid.Column="1" x:Name="cmbStatuses">
+                <ComboBoxItem Tag="true">
+                    <Label Content="Активна"/>
+                </ComboBoxItem>
+                <ComboBoxItem  Tag="false">
+                    <Label Content="Не активна"/>
+                </ComboBoxItem>
+            </ComboBox>
         </Grid>
 
         <Grid Grid.Row="4">
@@ -55,7 +87,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Label Content="Стоимость" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center"/>
-            <TextBox Grid.Column="1" TextWrapping="Wrap"/>
+            <TextBox Grid.Column="1" TextWrapping="Wrap" x:Name="txbCost"/>
         </Grid>
 
         <Grid Grid.Row="5">
@@ -64,7 +96,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Label Content="Сотрудник" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center"/>
-            <ComboBox Grid.Column="1" />
+            <ComboBox Grid.Column="1" x:Name="cmbEmployees" DisplayMemberPath="Employee_Name"/>
         </Grid>
 
       
@@ -75,10 +107,10 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button Content="Назад" Margin="10,10,10,10"/>
-            <Button Content="Добавить" Margin="10,10,10,10" Grid.Column="1"/>
-            <Button Content="Изменить" Margin="10,10,10,10" Grid.Column="2"/>
-            <Button Content="Удалить" Margin="10,10,10,10" Grid.Column="3"/>
+            <Button Content="Назад" Margin="10,10,10,10" Click="Button_Click_Back"/>
+            <Button Content="Добавить" Margin="10,10,10,10" Grid.Column="1" Click="Button_Click_Add"/>
+            <Button Content="Изменить" Margin="10,10,10,10" Grid.Column="2" Click="Button_Click_Edit"/>
+            <Button Content="Удалить" Margin="10,10,10,10" Grid.Column="3" Click="Button_Click_Delete"/>
         </Grid>
     </Grid>
 </Page>

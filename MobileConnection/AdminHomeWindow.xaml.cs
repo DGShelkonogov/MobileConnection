@@ -36,5 +36,20 @@ namespace MobileConnection
         {
             setPage((sender as Button).Tag.ToString());
         }
+
+       
+
+
+        public void btnBack_Click_Back()
+        {
+            try
+            {
+                Frame.GoBack();
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
     }
 }

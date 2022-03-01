@@ -31,7 +31,6 @@ C:\Users\dana\source\repos\MobileConnection\MobileConnection\obj\Debug\net6.0-wi
 C:\Users\dana\source\repos\MobileConnection\MobileConnection\obj\Debug\net6.0-windows\Pages\Admin\ServicePage.g.cs
 C:\Users\dana\source\repos\MobileConnection\MobileConnection\obj\Debug\net6.0-windows\Pages\Admin\TypeOfCallsAndMessagesPage.g.cs
 C:\Users\dana\source\repos\MobileConnection\MobileConnection\obj\Debug\net6.0-windows\Pages\AuthorizationPage.g.cs
-C:\Users\dana\source\repos\MobileConnection\MobileConnection\obj\Debug\net6.0-windows\Pages\Client\ServicePage.g.cs
 C:\Users\dana\source\repos\MobileConnection\MobileConnection\obj\Debug\net6.0-windows\Pages\RecoveryPage.g.cs
 C:\Users\dana\source\repos\MobileConnection\MobileConnection\obj\Debug\net6.0-windows\App.g.cs
 C:\Users\dana\source\repos\MobileConnection\MobileConnection\obj\Debug\net6.0-windows\MobileConnection_MarkupCompile.cache
@@ -48,7 +47,6 @@ C:\Users\dana\source\repos\MobileConnection\MobileConnection\obj\Debug\net6.0-wi
 C:\Users\dana\source\repos\MobileConnection\MobileConnection\obj\Debug\net6.0-windows\Pages\Admin\ServicePage.baml
 C:\Users\dana\source\repos\MobileConnection\MobileConnection\obj\Debug\net6.0-windows\Pages\Admin\TypeOfCallsAndMessagesPage.baml
 C:\Users\dana\source\repos\MobileConnection\MobileConnection\obj\Debug\net6.0-windows\Pages\AuthorizationPage.baml
-C:\Users\dana\source\repos\MobileConnection\MobileConnection\obj\Debug\net6.0-windows\Pages\Client\ServicePage.baml
 C:\Users\dana\source\repos\MobileConnection\MobileConnection\obj\Debug\net6.0-windows\Pages\RecoveryPage.baml
 C:\Users\dana\source\repos\MobileConnection\MobileConnection\obj\Debug\net6.0-windows\MobileConnection.g.resources
 C:\Users\dana\source\repos\MobileConnection\MobileConnection\obj\Debug\net6.0-windows\MobileConnection.GeneratedMSBuildEditorConfig.editorconfig
@@ -66,3 +64,5 @@ C:\Users\dana\source\repos\MobileConnection\MobileConnection\obj\Debug\net6.0-wi
 C:\Users\dana\source\repos\MobileConnection\MobileConnection\obj\Debug\net6.0-windows\CorporateClientWindow.g.cs
 C:\Users\dana\source\repos\MobileConnection\MobileConnection\obj\Debug\net6.0-windows\ClientWindow.baml
 C:\Users\dana\source\repos\MobileConnection\MobileConnection\obj\Debug\net6.0-windows\CorporateClientWindow.baml
+C:\Users\dana\source\repos\MobileConnection\MobileConnection\obj\Debug\net6.0-windows\Pages\ServicePage.g.cs
+C:\Users\dana\source\repos\MobileConnection\MobileConnection\obj\Debug\net6.0-windows\Pages\ServicePage.baml

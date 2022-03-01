@@ -15,14 +15,14 @@ namespace MobileConnection.Models
 
         [Required]
         [StringLength(25)]
-        public string Employee_Surname { get; set; }
+        public string Client_Surname { get; set; }
 
         [Required]
         [StringLength(25)]
-        public string Employee_Name { get; set; }
+        public string Client_Name { get; set; }
 
         [StringLength(25)]
-        public string Employee_Patronymic { get; set; }
+        public string Client_Patronymic { get; set; }
 
         [Required]
         public DateOnly Date_Of_Birth { get; set; }

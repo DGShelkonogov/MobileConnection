@@ -13,7 +13,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="200"/>
         </Grid.RowDefinitions>
 
         <Grid>
@@ -21,10 +21,48 @@
                 <ColumnDefinition/>
                 <ColumnDefinition Width="100"/>
             </Grid.ColumnDefinitions>
-            <TextBox TextWrapping="Wrap" Margin="10,10,10,10"/>
-            <Button Grid.Column="1" Content="Поиск"  Margin="10,10,10,10" />
+            <TextBox x:Name="txbSearch" TextWrapping="Wrap" Margin="10,10,10,10"/>
+            <Button Grid.Column="1" Content="Поиск"  Margin="10,10,10,10" Click="Button_Click_Search"/>
         </Grid>
-        <DataGrid Grid.Row="1" />
+        <DataGrid x:Name="dtg" Grid.Row="1" AutoGenerateColumns="False" CellEditEnding="dataGrid_CellEditEnding">
+            <DataGrid.Columns>
+                <DataGridTextColumn 
+                    Header="Номер счета"
+                    Width="*"
+                    Binding="{Binding Path=Client.Account_Number, 
+                    UpdateSourceTrigger=PropertyChanged}"/>
+
+                <DataGridTextColumn 
+                    Header="ИНН"
+                    Width="*"
+                    Binding="{Binding Path=INN, 
+                    UpdateSourceTrigger=PropertyChanged}"/>
+
+                <DataGridTextColumn 
+                    Header="Наименование"
+                    Width="*"
+                    Binding="{Binding Path=Company_Name, 
+                    UpdateSourceTrigger=PropertyChanged}"/>
+
+                <DataGridTextColumn 
+                    Header="Юрический адрес"
+                    Width="*"
+                    Binding="{Binding Path=Legal_Adsress, 
+                    UpdateSourceTrigger=PropertyChanged}"/>
+
+                <DataGridTextColumn 
+                    Header="Фактический адрес"
+                    Width="*"
+                    Binding="{Binding Path=Physical_Adsress, 
+                    UpdateSourceTrigger=PropertyChanged}"/>
+
+                <DataGridTextColumn 
+                    Header="Номер лицевого счета"
+                    Width="*"
+                    Binding="{Binding Path=Personal_Account_Number, 
+                    UpdateSourceTrigger=PropertyChanged}"/>
+            </DataGrid.Columns>
+        </DataGrid>
 
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
@@ -37,7 +75,7 @@
                     <RowDefinition/>
                     <RowDefinition Height="50"/>
                 </Grid.RowDefinitions>
-                <Button Content="Назад"  Margin="10,10,10,10" Grid.Row="1"/>
+                <Button Content="Назад"  Margin="10,10,10,10" Grid.Row="1" Click="Button_Click_Back"/>
             </Grid>
 
             <Grid Grid.Column="3">
@@ -47,9 +85,9 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <Button Content="Добавить"  Margin="10,10,10,10" Grid.Row="0"/>
-                <Button Content="Изменить"  Margin="10,10,10,10" Grid.Row="1"/>
-                <Button Content="Удалить"  Margin="10,10,10,10" Grid.Row="2"/>
+                <Button Content="Добавить"  Margin="10,10,10,10" Grid.Row="0" Click="Button_Click_Add"/>
+                <Button Content="Изменить"  Margin="10,10,10,10" Grid.Row="1" Click="Button_Click_Edit"/>
+                <Button Content="Удалить"  Margin="10,10,10,10" Grid.Row="2" Click="Button_Click_Delete"/>
             </Grid>
 
             <Grid Grid.Column="1">
@@ -57,7 +95,6 @@
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
-          
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
@@ -68,8 +105,8 @@
                         <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
-                    <Label Content="Номер счета" HorizontalAlignment="Left" Margin="60,0,0,1" VerticalAlignment="Bottom"/>
-                    <TextBox Grid.Column="1" TextWrapping="Wrap"/>
+                    <Label Content="Номер счета" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                    <ComboBox x:Name="cmbClients" DisplayMemberPath="Account_Number" Grid.Column="1" />
                 </Grid>
 
                 <Grid Grid.Row="1">
@@ -78,7 +115,7 @@
                         <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="ИНН" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                    <TextBox Grid.Column="1" TextWrapping="Wrap"/>
+                    <TextBox x:Name="txbINN" Grid.Column="1" TextWrapping="Wrap"/>
                 </Grid>
 
                 <Grid Grid.Row="2">
@@ -87,16 +124,16 @@
                         <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="Наименование" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                    <TextBox Grid.Column="1" TextWrapping="Wrap"/>
+                    <TextBox x:Name="txbCompany_Name" Grid.Column="1" TextWrapping="Wrap"/>
                 </Grid>
 
                 <Grid Grid.Row="3">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="150"/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="Юридический адрес" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                    <TextBox Grid.Column="1" TextWrapping="Wrap"/>
+                    <TextBox x:Name="txbLegal_Adsress" Grid.Column="1" TextWrapping="Wrap"/>
                 </Grid>
 
                 <Grid Grid.Row="4">
@@ -105,7 +142,7 @@
                         <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="Фактический адрес" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                    <TextBox Grid.Column="1" TextWrapping="Wrap"/>
+                    <TextBox x:Name="txbPhysical_Adsress" Grid.Column="1" TextWrapping="Wrap"/>
                 </Grid>
 
                 <Grid Grid.Row="5">
@@ -114,10 +151,13 @@
                         <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="Номер лицевого счета" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                    <TextBox Grid.Column="1" TextWrapping="Wrap"/>
+                    <TextBox Grid.Column="1" x:Name="txbPersonal_Account_Number" TextWrapping="Wrap"/>
                 </Grid>
 
             
+
+         
+
 
             </Grid>
         </Grid>

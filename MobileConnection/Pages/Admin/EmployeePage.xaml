@@ -13,12 +13,12 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition/>
-            <RowDefinition Height="35"/>
-            <RowDefinition Height="35"/>
-            <RowDefinition Height="35"/>
-            <RowDefinition Height="35"/>
-            <RowDefinition Height="35"/>
-            <RowDefinition Height="35"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
@@ -27,10 +27,54 @@
                 <ColumnDefinition/>
                 <ColumnDefinition Width="100"/>
             </Grid.ColumnDefinitions>
-            <TextBox TextWrapping="Wrap" Margin="10,10,10,10"/>
-            <Button Grid.Column="1" Content="Поиск"  Margin="10,10,10,10" />
+            <TextBox x:Name="txbSearch" TextWrapping="Wrap" Margin="10,10,10,10"/>
+            <Button Grid.Column="1" Content="Поиск"  Margin="10,10,10,10" Click="Button_Click_Search"/>
         </Grid>
-        <DataGrid Grid.Row="1" />
+        <DataGrid x:Name="dtg" Grid.Row="1" AutoGenerateColumns="False" CellEditEnding="dataGrid_CellEditEnding">
+            <DataGrid.Columns>
+                <DataGridTextColumn 
+                    Header="Фамилия"
+                    Width="*"
+                    Binding="{Binding Path=Employee_Surname, 
+                    UpdateSourceTrigger=PropertyChanged}"/>
+
+                <DataGridTextColumn 
+                    Header="Имя"
+                    Width="*"
+                    Binding="{Binding Path=Employee_Name, 
+                    UpdateSourceTrigger=PropertyChanged}"/>
+
+                <DataGridTextColumn 
+                    Header="Отчество"
+                    Width="*"
+                    Binding="{Binding Path=Employee_Patronymic, 
+                    UpdateSourceTrigger=PropertyChanged}"/>
+
+                <DataGridTextColumn 
+                    Header="Email"
+                    Width="*"
+                    Binding="{Binding Path=Employee_Email, 
+                    UpdateSourceTrigger=PropertyChanged}"/>
+
+                <DataGridTextColumn 
+                    Header="Пароль"
+                    Width="*"
+                    Binding="{Binding Path=Password, 
+                    UpdateSourceTrigger=PropertyChanged}"/>
+
+                <DataGridTextColumn 
+                    Header="Должность"
+                    Width="*"
+                    Binding="{Binding Path=Post.Post_Name, 
+                    UpdateSourceTrigger=PropertyChanged}"/>
+            </DataGrid.Columns>
+
+            <DataGrid.ItemContainerStyle>
+                <Style TargetType="DataGridRow">
+                    <EventSetter Event="MouseDown" Handler="Row_DoubleClick"/>
+                </Style>
+            </DataGrid.ItemContainerStyle>
+        </DataGrid>
 
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
@@ -38,7 +82,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Label Content="Фамилия" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center"/>
-            <TextBox Grid.Column="1"  TextWrapping="Wrap"/>
+            <TextBox x:Name="tbxSurname" Grid.Column="1"  TextWrapping="Wrap"/>
         </Grid>
 
         <Grid Grid.Row="3">
@@ -47,7 +91,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Label Content="Имя" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center"/>
-            <TextBox Grid.Column="1" TextWrapping="Wrap"/>
+            <TextBox x:Name="tbxName" Grid.Column="1" TextWrapping="Wrap"/>
         </Grid>
 
         <Grid Grid.Row="4">
@@ -56,7 +100,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Label Content="Отчество" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center"/>
-            <TextBox Grid.Column="1" TextWrapping="Wrap"/>
+            <TextBox x:Name="tbxPatronymic" Grid.Column="1" TextWrapping="Wrap"/>
         </Grid>
 
         <Grid Grid.Row="5">
@@ -65,7 +109,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Label Content="Email" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center"/>
-            <TextBox Grid.Column="1" TextWrapping="Wrap"/>
+            <TextBox x:Name="tbxEmail" Grid.Column="1" TextWrapping="Wrap"/>
         </Grid>
 
         <Grid Grid.Row="6">
@@ -74,7 +118,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Label Content="Пароль" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center"/>
-            <TextBox Grid.Column="1"  TextWrapping="Wrap"/>
+            <PasswordBox x:Name="tbxPassword" Grid.Column="1"  />
         </Grid>
 
         <Grid Grid.Row="7">
@@ -83,8 +127,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Label Content="Должность" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center"/>
-            <ComboBox Grid.Column="1" />
-
+            <ComboBox x:Name="cmbPosts" DisplayMemberPath="Post_Name" Grid.Column="1" />
         </Grid>
 
         <Grid Grid.Row="10">
@@ -94,10 +137,10 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button Content="Назад" Margin="10,10,10,10"/>
-            <Button Content="Добавить" Margin="10,10,10,10" Grid.Column="1"/>
-            <Button Content="Изменить" Margin="10,10,10,10" Grid.Column="2"/>
-            <Button Content="Удалить" Margin="10,10,10,10" Grid.Column="3"/>
+            <Button Content="Назад" Margin="10,10,10,10" Click="Button_Click_Back"/>
+            <Button Content="Добавить" Margin="10,10,10,10" Grid.Column="1" Click="Button_Click_Add"/>
+            <Button Content="Изменить" Margin="10,10,10,10" Grid.Column="2" Click="Button_Click_Edit"/>
+            <Button Content="Удалить" Margin="10,10,10,10" Grid.Column="3" Click="Button_Click_Delete"/>
         </Grid>
     </Grid>
 </Page>

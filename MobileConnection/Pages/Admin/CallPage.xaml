@@ -26,10 +26,43 @@
                 <ColumnDefinition/>
                 <ColumnDefinition Width="100"/>
             </Grid.ColumnDefinitions>
-            <TextBox TextWrapping="Wrap" Margin="10,10,10,10"/>
-            <Button Grid.Column="1" Content="Поиск"  Margin="10,10,10,10" />
+            <TextBox x:Name="txbSearch" TextWrapping="Wrap" Margin="10,10,10,10"/>
+            <Button Grid.Column="1" Content="Поиск"  Margin="10,10,10,10" Click="Button_Click_Search"/>
         </Grid>
-        <DataGrid Grid.Row="1" />
+        
+        <DataGrid x:Name="dtg" Grid.Row="1" AutoGenerateColumns="False" CellEditEnding="dataGrid_CellEditEnding">
+            <DataGrid.Columns>
+                <DataGridTextColumn 
+                    Header="Дата звонка"
+                    Width="2*"
+                    Binding="{Binding Path=Call_Date, 
+                    UpdateSourceTrigger=PropertyChanged}"/>
+
+                <DataGridTextColumn 
+                    Header="Время начала звонка"
+                    Width="2*"
+                    Binding="{Binding Path=Call_Start_Time, 
+                    UpdateSourceTrigger=PropertyChanged}"/>
+
+                <DataGridTextColumn 
+                    Header="Продолжительность"
+                    Width="2*"
+                    Binding="{Binding Path=Duration, 
+                    UpdateSourceTrigger=PropertyChanged}"/>
+
+                <DataGridTextColumn 
+                    Header="Номер вызываемого абонента"
+                    Width="3*"
+                    Binding="{Binding Path=Subscriber_Called_Number, 
+                    UpdateSourceTrigger=PropertyChanged}"/>
+
+                <DataGridTextColumn 
+                    Header="Тип звонка"
+                    Width="3*"
+                    Binding="{Binding Path=Type.Type_Name, 
+                    UpdateSourceTrigger=PropertyChanged}"/>
+            </DataGrid.Columns>
+        </DataGrid>
 
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
@@ -37,7 +70,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Label Content="Дата звонка" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center"/>
-            <TextBox Grid.Column="1" TextWrapping="Wrap"/>
+            <TextBox x:Name="tbxCall_Date" Grid.Column="1" TextWrapping="Wrap"/>
         </Grid>
 
         <Grid Grid.Row="3">
@@ -46,7 +79,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Label Content="Время начала звонка" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center"/>
-            <TextBox Grid.Column="1"  TextWrapping="Wrap"/>
+            <TextBox x:Name="tbxCall_Start_Time" Grid.Column="1"  TextWrapping="Wrap"/>
         </Grid>
 
         <Grid Grid.Row="4">
@@ -55,7 +88,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Label Content="Продолжительность" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center"/>
-            <TextBox Grid.Column="1" TextWrapping="Wrap"/>
+            <TextBox x:Name="tbxDuration" Grid.Column="1" TextWrapping="Wrap"/>
         </Grid>
 
         <Grid Grid.Row="5">
@@ -64,7 +97,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Label Content="Номер вызываемого абонента" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center"/>
-            <TextBox Grid.Column="1" TextWrapping="Wrap"/>
+            <TextBox x:Name="tbxSubscriber_Called_Number" Grid.Column="1" TextWrapping="Wrap"/>
         </Grid>
 
  
@@ -74,7 +107,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Label Content="Тип звонка" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center"/>
-            <ComboBox Grid.Column="1"/>
+            <ComboBox x:Name="cmbTypeCall" DisplayMemberPath="Type_Name" Grid.Column="1"/>
 
         </Grid>
 
@@ -85,10 +118,10 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button Content="Назад" Margin="10,10,10,10"/>
-            <Button Content="Добавить" Margin="10,10,10,10" Grid.Column="1"/>
-            <Button Content="Изменить" Margin="10,10,10,10" Grid.Column="2"/>
-            <Button Content="Удалить" Margin="10,10,10,10" Grid.Column="3"/>
+            <Button Content="Назад" Margin="10,10,10,10" Click="Button_Click_Back"/>
+            <Button Content="Добавить" Margin="10,10,10,10" Grid.Column="1" Click="Button_Click_Add"/>
+            <Button Content="Изменить" Margin="10,10,10,10" Grid.Column="2" Click="Button_Click_Edit"/>
+            <Button Content="Удалить" Margin="10,10,10,10" Grid.Column="3" Click="Button_Click_Delete"/>
         </Grid>
     </Grid>
 </Page>

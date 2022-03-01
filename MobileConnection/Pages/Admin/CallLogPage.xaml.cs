@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using MobileConnection.Models;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +23,125 @@ namespace MobileConnection.Pages.Admin
     /// </summary>
     public partial class CallLogPage : Page
     {
+        ApplicationContext db;
+        public ObservableCollection<ClientCall> ClientCalls { get; set; }
+
+        public List<Call> Calls { get; set; }
+        public List<Client> Clients { get; set; }
+
         public CallLogPage()
         {
             InitializeComponent();
+            db = DBConnection.getConnection();
+
+            ClientCalls = new(db.ClientCalls
+                .Include(x => x.Client)
+                .Include(x => x.Call)
+                .ToList());
+
+            Calls = new(db.Calls.ToList());
+            Clients = new(db.Clients.ToList());
+
+            cmbCall.ItemsSource = Calls;
+            cmbClients.ItemsSource = Clients;
+            dtg.ItemsSource = ClientCalls;
+
+        }
+
+        private void Button_Click_Back(object sender, RoutedEventArgs e)
+        {
+            AdminHomeWindow win = (AdminHomeWindow)Window.GetWindow(this);
+            win.btnBack_Click_Back();
+        }
+
+
+        private void Button_Click_Add(object sender, RoutedEventArgs e)
+        {
+            Client client = cmbClients.SelectedItem as Client;
+            Call call = cmbCall.SelectedItem as Call;
+
+            ClientCall clientCall = new ClientCall
+            {
+                Client = db.Clients.FirstOrDefault(x => x.ID_Client == client.ID_Client),
+                Call = db.Calls.FirstOrDefault(x => x.ID_Call == call.ID_Call),
+            };
+
+            ClientCalls.Add(clientCall);
+            db.ClientCalls.Add(clientCall);
+            db.SaveChanges();
+            clearRows();
+        }
+
+
+        private void Button_Click_Edit(object sender, RoutedEventArgs e)
+        {
+            ClientCall clientCall = ClientCalls[dtg.SelectedIndex];
+            if (clientCall != null)
+            {
+                Client client = cmbClients.SelectedItem as Client;
+                Call call = cmbCall.SelectedItem as Call;
+                clientCall = new ClientCall
+                {
+                    Client = db.Clients.FirstOrDefault(x => x.ID_Client == client.ID_Client),
+                    Call = db.Calls.FirstOrDefault(x => x.ID_Call == call.ID_Call),
+                };
+
+                db.ClientCalls.Update(clientCall);
+                db.SaveChanges();
+                clearRows();
+            }
+        }
+
+        private void Button_Click_Delete(object sender, RoutedEventArgs e)
+        {
+            ClientCall clientCall = ClientCalls[dtg.SelectedIndex];
+            if (clientCall != null)
+            {
+                ClientCalls.Remove(clientCall);
+                db.ClientCalls.Remove(clientCall);
+                db.SaveChanges();
+            }
+        }
+
+        private void dataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            ClientCall clientCall = e.Row.Item as ClientCall;
+
+            if (clientCall != null)
+            {
+                db.ClientCalls.Update(clientCall);
+                db.SaveChanges();
+            }
+        }
+
+        private void Button_Click_Search(object sender, RoutedEventArgs e)
+        {
+            string search = txbSearch.Text;
+            if (search == null)
+            {
+                ClientCalls = new(db.ClientCalls
+                    .Include(x => x.Client)
+                    .Include(x => x.Call)
+                    .ToList());
+
+                dtg.ItemsSource = ClientCalls;
+                return;
+            }
+            ClientCalls = new(db.ClientCalls
+                    .Include(x => x.Client)
+                    .Include(x => x.Call)
+                    .Where(x => x.Client.Phone_Number.Contains(search) 
+                    || x.Call.Subscriber_Called_Number.Contains(search))
+                    .ToList());
+
+            dtg.ItemsSource = ClientCalls;
+        }
+
+
+        public void clearRows()
+        {
+            cmbCall.SelectedItem = null;
+            cmbClients.SelectedItem = null;
         }
     }
 }

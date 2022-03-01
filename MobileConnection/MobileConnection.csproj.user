@@ -46,6 +46,9 @@
     <Compile Update="Pages\RecoveryPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Pages\ServicePage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="AdminHomeWindow.xaml">
@@ -85,6 +88,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Pages\RecoveryPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\ServicePage.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

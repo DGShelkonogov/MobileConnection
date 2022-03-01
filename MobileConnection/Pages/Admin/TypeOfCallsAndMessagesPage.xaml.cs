@@ -1,5 +1,7 @@
-﻿using System;
+﻿using MobileConnection.Models;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +22,94 @@ namespace MobileConnection.Pages.Admin
     /// </summary>
     public partial class TypeOfCallsAndMessagesPage : Page
     {
+        ApplicationContext db;
+        public ObservableCollection<Type_Of_Call_And_Message> Type_Of_Calls_And_Messages { get; set; }
+
+
         public TypeOfCallsAndMessagesPage()
         {
             InitializeComponent();
+            db = DBConnection.getConnection();
+            Type_Of_Calls_And_Messages = new(db.Type_Of_Calls_And_Messages.ToList());
+            dtg.ItemsSource = Type_Of_Calls_And_Messages;
+        }
+
+
+        private void Button_Click_Back(object sender, RoutedEventArgs e)
+        {
+            AdminHomeWindow win = (AdminHomeWindow)Window.GetWindow(this);
+            win.btnBack_Click_Back();
+        }
+
+        private void Button_Click_Add(object sender, RoutedEventArgs e)
+        {
+            Type_Of_Call_And_Message type = new Type_Of_Call_And_Message
+            {
+                Type_Name = tbxTitle.Text.ToString(),
+            };
+
+            Type_Of_Calls_And_Messages.Add(type);
+            db.Type_Of_Calls_And_Messages.Add(type);
+            db.SaveChanges();
+            tbxTitle.Text = "";
+        }
+
+        private void Button_Click_Edit(object sender, RoutedEventArgs e)
+        {
+            Type_Of_Call_And_Message type = Type_Of_Calls_And_Messages[dtg.SelectedIndex];
+            if (type != null)
+            {
+                type.Type_Name = tbxTitle.Text.ToString();
+                db.Type_Of_Calls_And_Messages.Update(type);
+                db.SaveChanges();
+                tbxTitle.Text = "";
+            }
+        }
+
+        private void Button_Click_Delete(object sender, RoutedEventArgs e)
+        {
+            Type_Of_Call_And_Message type = Type_Of_Calls_And_Messages[dtg.SelectedIndex];
+            if (type != null)
+            {
+                Type_Of_Calls_And_Messages.Remove(type);
+                db.Type_Of_Calls_And_Messages.Remove(type);
+                db.SaveChanges();
+            }
+        }
+
+        private void dataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            Type_Of_Call_And_Message type = e.Row.Item as Type_Of_Call_And_Message;
+
+            if (type != null)
+            {
+                db.Type_Of_Calls_And_Messages.Update(type);
+                db.SaveChanges();
+            }
+        }
+
+
+
+        private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Type_Of_Call_And_Message type = Type_Of_Calls_And_Messages[dtg.SelectedIndex];
+            if (type != null)
+                tbxTitle.Text = type.Type_Name;
+        }
+
+        private void Button_Click_Search(object sender, RoutedEventArgs e)
+        {
+            string search = txbSearch.Text;
+            if (search == null)
+            {
+                Type_Of_Calls_And_Messages = new(db.Type_Of_Calls_And_Messages.ToList());
+                dtg.ItemsSource = Type_Of_Calls_And_Messages;
+                return;
+            }
+            Type_Of_Calls_And_Messages = new(db.Type_Of_Calls_And_Messages
+                .Where(x => x.Type_Name.Contains(search))
+                .ToList());
+            dtg.ItemsSource = Type_Of_Calls_And_Messages;
         }
     }
 }

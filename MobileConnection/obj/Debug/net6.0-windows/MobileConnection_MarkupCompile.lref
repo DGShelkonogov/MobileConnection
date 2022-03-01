@@ -1,6 +1,8 @@
 ﻿
 
 FC:\Users\dana\source\repos\MobileConnection\MobileConnection\AdminHomeWindow.xaml;;
+FC:\Users\dana\source\repos\MobileConnection\MobileConnection\ClientWindow.xaml;;
+FC:\Users\dana\source\repos\MobileConnection\MobileConnection\CorporateClientWindow.xaml;;
 FC:\Users\dana\source\repos\MobileConnection\MobileConnection\Pages\Admin\CallLogPage.xaml;;
 FC:\Users\dana\source\repos\MobileConnection\MobileConnection\Pages\Admin\CallPage.xaml;;
 FC:\Users\dana\source\repos\MobileConnection\MobileConnection\Pages\Admin\ClientPage.xaml;;
@@ -13,8 +15,6 @@ FC:\Users\dana\source\repos\MobileConnection\MobileConnection\Pages\Admin\Privat
 FC:\Users\dana\source\repos\MobileConnection\MobileConnection\Pages\Admin\ServicePage.xaml;;
 FC:\Users\dana\source\repos\MobileConnection\MobileConnection\Pages\Admin\TypeOfCallsAndMessagesPage.xaml;;
 FC:\Users\dana\source\repos\MobileConnection\MobileConnection\Pages\AuthorizationPage.xaml;;
-FC:\Users\dana\source\repos\MobileConnection\MobileConnection\Pages\Client\ServicePage.xaml;;
 FC:\Users\dana\source\repos\MobileConnection\MobileConnection\Pages\RecoveryPage.xaml;;
-FC:\Users\dana\source\repos\MobileConnection\MobileConnection\ClientWindow.xaml;;
-FC:\Users\dana\source\repos\MobileConnection\MobileConnection\CorporateClientWindow.xaml;;
+FC:\Users\dana\source\repos\MobileConnection\MobileConnection\Pages\ServicePage.xaml;;
 

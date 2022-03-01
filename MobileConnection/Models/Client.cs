@@ -37,9 +37,7 @@ namespace MobileConnection.Models
         [Required]
         public decimal Tariff_Cost { get; set; }
 
-        public virtual ICollection<Service> Services { get; set; }
-        public virtual ICollection<Message> Messages { get; set; }
-        public virtual ICollection<Call> Calls { get; set; }
+        public virtual ICollection<Service> Services { get; set; } = new List<Service>();
 
         public event PropertyChangedEventHandler? PropertyChanged;
     }

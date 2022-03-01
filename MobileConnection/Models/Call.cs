@@ -21,15 +21,13 @@ namespace MobileConnection.Models
         public TimeOnly Call_Start_Time { get; set; } 
         
         [Required]
-        public TimeOnly Duration { get; set; }
+        public string Duration { get; set; }
 
         [Required]
         [StringLength(11)]
         public string Subscriber_Called_Number { get; set; }
 
-        public Type_Of_Calls_And_Messages Type { get; set; }
-
-        public virtual ICollection<Client> Clients { get; set; }
+        public Type_Of_Call_And_Message Type { get; set; }
 
         public event PropertyChangedEventHandler? PropertyChanged;
     }

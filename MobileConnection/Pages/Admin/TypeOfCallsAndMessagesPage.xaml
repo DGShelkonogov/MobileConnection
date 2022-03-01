@@ -22,10 +22,24 @@
                 <ColumnDefinition/>
                 <ColumnDefinition Width="100"/>
             </Grid.ColumnDefinitions>
-            <TextBox TextWrapping="Wrap" Margin="10,10,10,10"/>
-            <Button Grid.Column="1" Content="Поиск"  Margin="10,10,10,10" />
+            <TextBox x:Name="txbSearch" TextWrapping="Wrap" Margin="10,10,10,10"/>
+            <Button Grid.Column="1" Content="Поиск"  Margin="10,10,10,10" Click="Button_Click_Search"/>
         </Grid>
-        <DataGrid Grid.Row="1" />
+        <DataGrid x:Name="dtg" Grid.Row="1" AutoGenerateColumns="False" CellEditEnding="dataGrid_CellEditEnding">
+            <DataGrid.Columns>
+                <DataGridTextColumn 
+                    Header="Наименование типа"
+                    Width="*"
+                    Binding="{Binding Path=Type_Name, 
+                    UpdateSourceTrigger=PropertyChanged}"/>
+            </DataGrid.Columns>
+
+            <DataGrid.ItemContainerStyle>
+                <Style TargetType="DataGridRow">
+                    <EventSetter Event="MouseDown" Handler="Row_DoubleClick"/>
+                </Style>
+            </DataGrid.ItemContainerStyle>
+        </DataGrid>
 
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
@@ -33,7 +47,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Label Content="Наименование типа" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center"/>
-            <TextBox Grid.Column="1" Margin="10,10,10,10" TextWrapping="Wrap"/>
+            <TextBox x:Name="tbxTitle" Grid.Column="1" Margin="10,10,10,10" TextWrapping="Wrap"/>
         </Grid>
 
         <Grid Grid.Row="3">
@@ -43,10 +57,10 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button Content="Назад" Margin="10,10,10,10"/>
-            <Button Content="Добавить" Margin="10,10,10,10" Grid.Column="1"/>
-            <Button Content="Изменить" Margin="10,10,10,10" Grid.Column="2"/>
-            <Button Content="Удалить" Margin="10,10,10,10" Grid.Column="3"/>
+            <Button Content="Назад" Margin="10,10,10,10" Click="Button_Click_Back"/>
+            <Button Content="Добавить" Margin="10,10,10,10" Grid.Column="1" Click="Button_Click_Add"/>
+            <Button Content="Изменить" Margin="10,10,10,10" Grid.Column="2" Click="Button_Click_Edit"/>
+            <Button Content="Удалить" Margin="10,10,10,10" Grid.Column="3" Click="Button_Click_Delete"/>
         </Grid>
     </Grid>
 </Page>
