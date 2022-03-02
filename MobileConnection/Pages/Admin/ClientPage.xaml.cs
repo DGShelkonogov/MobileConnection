@@ -25,6 +25,8 @@ namespace MobileConnection.Pages.Admin
 
         ApplicationContext db;
         public ObservableCollection<Client> Clients { get; set; }
+
+        private static Client _saveClient;
         public ClientPage()
         {
             InitializeComponent();
@@ -49,22 +51,35 @@ namespace MobileConnection.Pages.Admin
 
         private void Button_Click_Add(object sender, RoutedEventArgs e)
         {
-
-            Client client = new Client
+            try
             {
-                Account_Number = txbAccount_Number.Text,
-                Client_Email = txbClient_Email.Text,
-                Client_Password = txbClient_Password.Password,
-                Contract_Conclusion_Date = DateOnly.Parse(txbContract_Conclusion_Date.Text),
-                Phone_Number = txbPhone_Number.Text,
-                Tariff_Cost = Decimal.Parse(txbTariff_Cost.Text),
-                Contract_Number = Convert.ToInt32(txbContract_Number.Text),
-            };
+                 Client client = new Client
+                 {
+                     Account_Number = txbAccount_Number.Text,
+                     Client_Email = txbClient_Email.Text,
+                     Client_Password = txbClient_Password.Password,
+                     Contract_Conclusion_Date = DateOnly.Parse(txbContract_Conclusion_Date.Text),
+                     Phone_Number = txbPhone_Number.Text,
+                     Tariff_Cost = Decimal.Parse(txbTariff_Cost.Text),
+                     Contract_Number = Convert.ToInt32(txbContract_Number.Text),
+                 };
 
-            Clients.Add(client);
-            db.Clients.Add(client);
-            db.SaveChanges();
-            clearRows();
+                 if (ApplicationContext.validData(client))
+                 {
+                    if (ApplicationContext.checkEmail(client.Client_Email))
+                    {
+                        Clients.Add(client);
+                        db.Clients.Add(client);
+                        db.SaveChanges();
+                        clearRows();
+                    }
+                    else
+                        MessageBox.Show("Почта занята");
+                   
+                 }
+            }
+            catch (Exception we) { }
+           
         }
 
     
@@ -75,20 +90,38 @@ namespace MobileConnection.Pages.Admin
             Client client = Clients[dtg.SelectedIndex];
             if (client != null)
             {
-                client = new Client
-                {
-                    Account_Number = txbAccount_Number.Text,
-                    Client_Email = txbClient_Email.Text,
-                    Client_Password = txbClient_Password.Password,
-                    Contract_Conclusion_Date = DateOnly.Parse(txbContract_Conclusion_Date.Text),
-                    Phone_Number = txbPhone_Number.Text,
-                    Tariff_Cost = Decimal.Parse(txbTariff_Cost.Text),
-                    Contract_Number = Convert.ToInt32(txbContract_Number.Text),
-                };
+                client.Account_Number = txbAccount_Number.Text;
+                client.Client_Email = txbClient_Email.Text;
+                client.Client_Password = txbClient_Password.Password;
+                client.Contract_Conclusion_Date = DateOnly.Parse(txbContract_Conclusion_Date.Text);
+                client.Phone_Number = txbPhone_Number.Text;
+                client.Tariff_Cost = Decimal.Parse(txbTariff_Cost.Text);
+                client.Contract_Number = Convert.ToInt32(txbContract_Number.Text);
 
-                db.Clients.Update(client);
-                db.SaveChanges();
-                clearRows();
+                if (ApplicationContext.validData(client))
+                {
+                    if (ApplicationContext.checkEmail(client.Client_Email))
+                    {
+                        db.Clients.Update(client);
+                        db.SaveChanges();
+                        clearRows();
+
+                        Clients = new(db.Clients.ToList());
+                        dtg.ItemsSource = Clients;
+                    }
+                    else
+                        MessageBox.Show("Почта занята");
+                }
+                else
+                {
+                    client.Account_Number = _saveClient.Account_Number;
+                    client.Client_Email = _saveClient.Client_Email;
+                    client.Client_Password = _saveClient.Client_Password;
+                    client.Contract_Conclusion_Date = _saveClient.Contract_Conclusion_Date;
+                    client.Phone_Number = _saveClient.Phone_Number;
+                    client.Tariff_Cost = _saveClient.Tariff_Cost;
+                    client.Contract_Number = _saveClient.Contract_Number;
+                }    
             }
         }
 
@@ -111,8 +144,24 @@ namespace MobileConnection.Pages.Admin
 
             if (client != null)
             {
-                db.Clients.Update(client);
-                db.SaveChanges();
+                if (ApplicationContext.validData(client))
+                {
+                    if (ApplicationContext.checkEmail(client.Client_Email))
+                    {
+                        db.Clients.Update(client);
+                        db.SaveChanges();
+                        return;
+                    }
+                    else
+                        MessageBox.Show("Почта занята");
+                }
+                client.Account_Number = _saveClient.Account_Number;
+                client.Client_Email = _saveClient.Client_Email;
+                client.Client_Password = _saveClient.Client_Password;
+                client.Contract_Conclusion_Date = _saveClient.Contract_Conclusion_Date;
+                client.Phone_Number = _saveClient.Phone_Number;
+                client.Tariff_Cost = _saveClient.Tariff_Cost;
+                client.Contract_Number = _saveClient.Contract_Number;
             }
         }
 
@@ -135,7 +184,6 @@ namespace MobileConnection.Pages.Admin
         }
 
 
-
         public void clearRows()
         {
             txbAccount_Number.Text = "";
@@ -145,6 +193,28 @@ namespace MobileConnection.Pages.Admin
             txbPhone_Number.Text = "";
             txbTariff_Cost.Text = "";
             txbContract_Number.Text = "";
+        }
+
+        private void dtg_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                var item = Clients[dtg.SelectedIndex];
+                _saveClient = new Client(item);
+                setData(item);
+            }
+            catch (Exception ex) { }
+        }
+
+        public void setData(Client client)
+        {
+            txbAccount_Number.Text = client.Account_Number;
+            txbClient_Email.Text = client.Client_Email;
+            txbClient_Password.Password = client.Client_Password;
+            txbContract_Conclusion_Date.Text = client.Contract_Conclusion_Date.ToString();
+            txbPhone_Number.Text = client.Phone_Number;
+            txbTariff_Cost.Text = client.Tariff_Cost.ToString();
+            txbContract_Number.Text = client.Tariff_Cost.ToString();
         }
     }
 }

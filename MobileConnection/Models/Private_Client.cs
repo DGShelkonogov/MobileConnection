@@ -10,6 +10,24 @@ namespace MobileConnection.Models
 {
     public class Private_Client : INotifyPropertyChanged
     {
+        public Private_Client()
+        {
+
+        }
+
+        public Private_Client(Private_Client Private_Client)
+        {
+            Client_Surname = Private_Client.Client_Surname;
+            Client_Name = Private_Client.Client_Name;
+            Client_Patronymic = Private_Client.Client_Patronymic;
+            Date_Of_Birth = Private_Client.Date_Of_Birth;
+            Passport_Series = Private_Client.Passport_Series;
+            Passport_Number = Private_Client.Passport_Number;
+            Adsress = Private_Client.Adsress;
+            Client = Private_Client.Client;
+        }
+
+
         [Key]
         public int ID_Private_Client { get; set; }
 

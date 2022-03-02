@@ -28,6 +28,8 @@ namespace MobileConnection.Pages.Admin
 
         public List<Employee> Employees { get; set; }
 
+        private static Service _saveService;
+
         public ServicePage()
         {
             InitializeComponent();
@@ -37,11 +39,11 @@ namespace MobileConnection.Pages.Admin
             Services = new(db.Services
                 .Include(x => x.Employee)
                 .ToList());
-
+            dtg.ItemsSource = Services;
             Employees = new(db.Employees.ToList());
 
             cmbEmployees.ItemsSource = Employees;
-            dtg.ItemsSource = Services;
+           
         }
 
         private void Button_Click_Back(object sender, RoutedEventArgs e)
@@ -65,11 +67,13 @@ namespace MobileConnection.Pages.Admin
                 Employee = db.Employees.FirstOrDefault(x => x.ID_Employee == employee.ID_Employee)
             };
 
-
-            Services.Add(service);
-            db.Services.Add(service);
-            db.SaveChanges();
-            clearRows();
+            if(ApplicationContext.validData(employee) && ApplicationContext.validData(service))
+            {
+                Services.Add(service);
+                db.Services.Add(service);
+                db.SaveChanges();
+                clearRows();
+            }
         }
 
        
@@ -82,17 +86,29 @@ namespace MobileConnection.Pages.Admin
                 Employee employee = cmbEmployees.SelectedItem as Employee;
                 var status = (cmbStatuses.SelectedItem as Label).Tag.ToString();
 
-                service = new Service
-                {
-                    Cost = Decimal.Parse(txbCost.Text),
-                    Service_Name = txbService_Name.Text,
-                    Service_Status = Boolean.Parse(status),
-                    Employee = db.Employees.FirstOrDefault(x => x.ID_Employee == employee.ID_Employee)
-                };
+                service.Cost = Decimal.Parse(txbCost.Text);
+                service.Service_Name = txbService_Name.Text;
+                service.Service_Status = Boolean.Parse(status);
+                service.Employee = db.Employees.FirstOrDefault(x => x.ID_Employee == employee.ID_Employee);
 
-                db.Services.Update(service);
-                db.SaveChanges();
-                clearRows();
+                if (ApplicationContext.validData(employee) && ApplicationContext.validData(service))
+                {
+                    db.Services.Update(service);
+                    db.SaveChanges();
+                    clearRows();
+
+                    Services = new(db.Services
+                        .Include(x => x.Employee)
+                        .ToList());
+                    dtg.ItemsSource = Services;
+                }
+                else
+                {
+                    service.Cost = _saveService.Cost;
+                    service.Service_Name = _saveService.Service_Name;
+                    service.Service_Status = _saveService.Service_Status;
+                    service.Employee.Employee_Name = _saveService.Employee.Employee_Name;
+                }
             }
         }
 
@@ -113,8 +129,18 @@ namespace MobileConnection.Pages.Admin
 
             if (service != null)
             {
-                db.Services.Update(service);
-                db.SaveChanges();
+                if (ApplicationContext.validData(service.Employee) && ApplicationContext.validData(service))
+                {
+                    db.Services.Update(service);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    service.Cost = _saveService.Cost;
+                    service.Service_Name = _saveService.Service_Name;
+                    service.Service_Status = _saveService.Service_Status;
+                    service.Employee.Employee_Name = _saveService.Employee.Employee_Name;
+                }
             }
         }
 
@@ -143,6 +169,26 @@ namespace MobileConnection.Pages.Admin
             txbService_Name.Text = "";
             cmbStatuses.SelectedItem = null;
             cmbEmployees.SelectedItem = null;
+        }
+
+
+        private void dtg_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                var item = Services[dtg.SelectedIndex];
+                _saveService = new Service(item);
+                setData(item);
+            }
+            catch (Exception ex) { }
+        }
+
+        public void setData(Service service)
+        {
+            txbCost.Text = service.Cost.ToString();
+            txbService_Name.Text = service.Service_Name;
+            cmbStatuses.SelectedItem = service.Service_Status;
+            cmbEmployees.SelectedItem = service.Employee;
         }
     }
 }

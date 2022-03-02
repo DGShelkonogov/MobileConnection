@@ -27,16 +27,19 @@ namespace MobileConnection.Pages.Admin
 
         public List<Type_Of_Call_And_Message> Type_Of_Calls_And_Messages { get; set; }
 
+        private static Message _saveMessage;
+
         public MessagePage()
         {
             InitializeComponent();
 
             db = DBConnection.getConnection();
             Messages = new(db.Messages.ToList());
+            dtg.ItemsSource = Messages;
             Type_Of_Calls_And_Messages = new(db.Type_Of_Calls_And_Messages.ToList());
 
             cmbTypeMessage.ItemsSource = Type_Of_Calls_And_Messages;
-            dtg.ItemsSource = Messages;
+            
         }
 
         private void Button_Click_Back(object sender, RoutedEventArgs e)
@@ -58,10 +61,13 @@ namespace MobileConnection.Pages.Admin
                 Subscriber_Number = tbxSubscriber_Number.Text,
             };
 
-            Messages.Add(message);
-            db.Messages.Add(message);
-            db.SaveChanges();
-            clearRows();
+            if(ApplicationContext.validData(type) && ApplicationContext.validData(message))
+            {
+                Messages.Add(message);
+                db.Messages.Add(message);
+                db.SaveChanges();
+                clearRows();
+            }
         }
 
         private void Button_Click_Edit(object sender, RoutedEventArgs e)
@@ -70,18 +76,30 @@ namespace MobileConnection.Pages.Admin
             if (message != null)
             {
                 Type_Of_Call_And_Message type = cmbTypeMessage.SelectedItem as Type_Of_Call_And_Message;
-                message = new Message
-                {
-                    Message_Date = DateOnly.Parse(tbxMessage_Date.Text),
-                    Sending_Time = TimeOnly.Parse(tbxSending_Time.Text),
-                    Type = db.Type_Of_Calls_And_Messages
-               .FirstOrDefault(x => x.ID_Type_Of_Call_And_Message == type.ID_Type_Of_Call_And_Message),
-                    Subscriber_Number = tbxSubscriber_Number.Text,
-                };
 
-                db.Messages.Update(message);
-                db.SaveChanges();
-                clearRows();
+                message.Message_Date = DateOnly.Parse(tbxMessage_Date.Text);
+                message.Sending_Time = TimeOnly.Parse(tbxSending_Time.Text);
+                message.Type = db.Type_Of_Calls_And_Messages
+                      .FirstOrDefault(x => x.ID_Type_Of_Call_And_Message == type.ID_Type_Of_Call_And_Message);
+                message.Subscriber_Number = tbxSubscriber_Number.Text;
+
+                if (ApplicationContext.validData(type) && ApplicationContext.validData(message))
+                {
+                    db.Messages.Update(message);
+                    db.SaveChanges();
+                    clearRows();
+
+                    Messages = new(db.Messages.ToList());
+                    dtg.ItemsSource = Messages;
+                }
+                else
+                {
+                    message.Type.Type_Name = _saveMessage.Type.Type_Name;
+                    message.Subscriber_Number = _saveMessage.Subscriber_Number;
+                    message.Message_Date = _saveMessage.Message_Date;
+                    message.Subscriber_Number = _saveMessage.Subscriber_Number;
+                    message.Subscriber_Number = _saveMessage.Subscriber_Number;
+                }
             }
         }
 
@@ -98,12 +116,23 @@ namespace MobileConnection.Pages.Admin
 
         private void dataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            Call call = e.Row.Item as Call;
+            Message message = e.Row.Item as Message;
 
-            if (call != null)
+            if (message != null)
             {
-                db.Calls.Update(call);
-                db.SaveChanges();
+                if (ApplicationContext.validData(message.Type) && ApplicationContext.validData(message))
+                {
+                    db.Messages.Update(message);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    message.Type.Type_Name = _saveMessage.Type.Type_Name;
+                    message.Subscriber_Number = _saveMessage.Subscriber_Number;
+                    message.Message_Date = _saveMessage.Message_Date;
+                    message.Subscriber_Number = _saveMessage.Subscriber_Number;
+                    message.Subscriber_Number = _saveMessage.Subscriber_Number;
+                }
             }
         }
 
@@ -129,6 +158,28 @@ namespace MobileConnection.Pages.Admin
             tbxSending_Time.Text = "";
             tbxSubscriber_Number.Text = "";
             cmbTypeMessage.SelectedItem = null;
+        }
+
+        private void dtg_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                if (_saveMessage == null)
+                {
+                    var item = Messages[dtg.SelectedIndex];
+                    _saveMessage = new Message(item);
+                    setData(item);
+                }
+            }
+            catch (Exception ex) { }
+        }
+
+        public void setData(Message message)
+        {
+            tbxMessage_Date.Text = message.Message_Date.ToString();
+            tbxSending_Time.Text = message.Sending_Time.ToString();
+            tbxSubscriber_Number.Text = message.Subscriber_Number;
+            cmbTypeMessage.SelectedItem = message.Type;
         }
     }
 }

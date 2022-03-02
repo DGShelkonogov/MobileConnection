@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:MobileConnection.Pages"
       mc:Ignorable="d" 
+      Background="White"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ServicePage">
 
@@ -18,16 +19,16 @@
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <Label Content="Управление услугами" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <DataGrid x:Name="dtgPilots" Grid.Row="1" AutoGenerateColumns="False" >
+        <DataGrid x:Name="dtg" Grid.Row="1" AutoGenerateColumns="False" IsEnabled="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Услуга"
-                                    Binding="{Binding Path=FirstName, 
+                                    Binding="{Binding Path=Service_Name, 
                     UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTextColumn Header="Цена"  
-                                    Binding="{Binding Path=LastName, 
+                                    Binding="{Binding Path=Cost, 
                     UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTextColumn Header="Статус" 
-                                    Binding="{Binding Path=Email, 
+                                    Binding="{Binding Path=Service_Status, 
                     UpdateSourceTrigger=PropertyChanged}"/>
             </DataGrid.Columns>
         </DataGrid>
@@ -38,7 +39,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Label Content="Выберите услугу" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-            <ComboBox Grid.Column="1" Margin="10,10,10,10"/>
+            <ComboBox x:Name="cmbServices" SelectionChanged="cmbServices_SelectionChanged" DisplayMemberPath="Service_Name" Grid.Column="1" Margin="10,10,10,10"/>
         </Grid>
         <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
@@ -46,7 +47,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Label Content="Стоимость" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-            <Label Content="100" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Grid.Column="1"/>
+            <Label x:Name="lblAmount" Content="100" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Grid.Column="1"/>
         </Grid>
 
         <Grid Grid.Row="4">
@@ -55,9 +56,9 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button Content="Назад" Margin="10,10,10,10"/>
-            <Button Grid.Column="1" Content="Добавить" Margin="10,10,10,10"/>
-            <Button Grid.Column="2" Content="Удалить услугу" Margin="10,10,10,10"/>
+            <Button Content="Назад" Margin="10,10,10,10" Click="Button_Click_Back"/>
+            <Button Grid.Column="1" Content="Добавить" Margin="10,10,10,10" Click="Button_Click_Add"/>
+            <Button Grid.Column="2" Content="Удалить услугу" Margin="10,10,10,10" Click="Button_Click_Delete"/>
 
         </Grid>
 

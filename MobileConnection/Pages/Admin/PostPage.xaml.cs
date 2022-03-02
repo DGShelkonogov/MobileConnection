@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace MobileConnection.Pages.Admin
 {
     /// <summary>
@@ -24,6 +25,9 @@ namespace MobileConnection.Pages.Admin
     {
         ApplicationContext db;
         public ObservableCollection<Post> Posts { get; set; }
+
+        private static Post _saveEditPost;
+
         public PostPage()
         {
             InitializeComponent();
@@ -47,10 +51,14 @@ namespace MobileConnection.Pages.Admin
             {
                 Post_Name = tbxTitle.Text.ToString(),
             };
-            Posts.Add(post);
-            db.Posts.Add(post);
-            db.SaveChanges();
-            tbxTitle.Text = "";
+
+            if (ApplicationContext.validData(post))
+            {
+                Posts.Add(post);
+                db.Posts.Add(post);
+                db.SaveChanges();
+                tbxTitle.Text = "";
+            }
         }
 
         private void Button_Click_Edit(object sender, RoutedEventArgs e)
@@ -59,9 +67,20 @@ namespace MobileConnection.Pages.Admin
             if (post != null)
             {
                 post.Post_Name = tbxTitle.Text.ToString();
-                db.Posts.Update(post);
-                db.SaveChanges();
-                tbxTitle.Text = "";
+
+                if (ApplicationContext.validData(post))
+                {
+                    db.Posts.Update(post);
+                    db.SaveChanges();
+                    tbxTitle.Text = "";
+
+                    Posts = new(db.Posts.ToList());
+                    dtg.ItemsSource = Posts;
+                }
+                else
+                {
+                    post.Post_Name = _saveEditPost.Post_Name;
+                }
             }      
         }
 
@@ -75,15 +94,20 @@ namespace MobileConnection.Pages.Admin
                 db.SaveChanges();
             }
         }
-
         private void dataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
             Post post = e.Row.Item as Post;
-            
             if (post != null)
             {
-                db.Posts.Update(post);
-                db.SaveChanges();
+                if (ApplicationContext.validData(post))
+                {
+                    db.Posts.Update(post);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    post.Post_Name = _saveEditPost.Post_Name;
+                }
             }
         }
 
@@ -109,6 +133,22 @@ namespace MobileConnection.Pages.Admin
                 .Where(x => x.Post_Name.Contains(search))
                 .ToList());
              dtg.ItemsSource = Posts;
+        }
+
+        private void dtg_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                var item = Posts[dtg.SelectedIndex];
+                _saveEditPost = new Post(item);
+                setData(item);
+            }
+            catch (Exception ex) { }
+        }
+
+        public void setData(Post post)
+        {
+            tbxTitle.Text = post.Post_Name;
         }
     }
 }

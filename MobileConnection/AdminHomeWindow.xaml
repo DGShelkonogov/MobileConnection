@@ -23,6 +23,7 @@
             <Button Content="Журнал звонков" Tag="Pages/Admin/CallLogPage.xaml" Click="Button_Click_Page_Navigation"/>
             <Button Content="Тип sms и call" Tag="Pages/Admin/TypeOfCallsAndMessagesPage.xaml" Click="Button_Click_Page_Navigation"/>
             <Button Content="Клиенты" Tag="Pages/Admin/ClientPage.xaml" Click="Button_Click_Page_Navigation"/>
+            <Button Content="Выйти" Click="Button_Click_Exit"/>
         </ToolBar>
 
 

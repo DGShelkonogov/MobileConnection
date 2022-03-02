@@ -10,6 +10,24 @@ namespace MobileConnection.Models
 {
     public class Client : INotifyPropertyChanged
     {
+
+        public Client()
+        {
+
+        }
+
+        public Client(Client client)
+        {
+            Account_Number = client.Account_Number;
+            Contract_Number = client.Contract_Number;
+            Contract_Conclusion_Date = client.Contract_Conclusion_Date;
+            Client_Email = client.Client_Email;
+            Client_Password = client.Client_Password;
+            Phone_Number = client.Phone_Number;
+            Tariff_Cost = client.Tariff_Cost;
+        }
+
+
         [Key]
         public int ID_Client { get; set; }
 

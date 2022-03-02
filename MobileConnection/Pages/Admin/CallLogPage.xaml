@@ -27,7 +27,9 @@
             <TextBox TextWrapping="Wrap" x:Name="txbSearch" Margin="10,10,10,10"/>
             <Button Grid.Column="1" Content="Поиск"  Margin="10,10,10,10" Click="Button_Click_Search"/>
         </Grid>
-        <DataGrid x:Name="dtg" Grid.Row="1" AutoGenerateColumns="False" CellEditEnding="dataGrid_CellEditEnding">
+        <DataGrid x:Name="dtg" Grid.Row="1" AutoGenerateColumns="False"
+                  MouseUp="dtg_MouseUp"
+                  CellEditEnding="dataGrid_CellEditEnding">
             <DataGrid.Columns>
                 <DataGridTextColumn 
                     Header="Исходящий абонент"

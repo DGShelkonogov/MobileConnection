@@ -10,6 +10,23 @@ namespace MobileConnection.Models
 {
     public class Message : INotifyPropertyChanged
     {
+
+        public Message()
+        {
+
+        }
+
+        public Message(Message Message)
+        {
+            Message_Date = Message.Message_Date;
+            Sending_Time = Message.Sending_Time;
+            Subscriber_Number = Message.Subscriber_Number;
+            Type = new Type_Of_Call_And_Message
+            {
+                Type_Name = Message.Type.Type_Name
+            };
+        }
+
         [Key]
         public int ID_Message { get; set; }
 

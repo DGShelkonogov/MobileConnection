@@ -27,7 +27,7 @@ namespace MobileConnection.Pages.Admin
 
         public List<Post> posts { get; set; }
 
-
+        private static Employee _saveEmployee;
         public EmployeePage()
         {
             InitializeComponent();
@@ -61,10 +61,20 @@ namespace MobileConnection.Pages.Admin
                 Post = db.Posts.FirstOrDefault(x => x.ID_Post == post.ID_Post)
             };
 
-            Employees.Add(employee);
-            db.Employees.Add(employee);
-            db.SaveChanges();
-            clearRows();
+
+            if(ApplicationContext.validData(post) && ApplicationContext.validData(employee))
+            {
+
+                if (ApplicationContext.checkEmail(employee.Employee_Email))
+                {
+                    Employees.Add(employee);
+                    db.Employees.Add(employee);
+                    db.SaveChanges();
+                    clearRows();
+                }
+                else
+                    MessageBox.Show("Почта занята");
+            }
         }
 
 
@@ -74,19 +84,38 @@ namespace MobileConnection.Pages.Admin
             if (employee != null)
             {
                 Post post = cmbPosts.SelectedItem as Post;
-                employee = new Employee
-                {
-                    Employee_Surname = tbxSurname.Text,
-                    Employee_Email = tbxEmail.Text,
-                    Employee_Name = tbxName.Text,
-                    Employee_Patronymic = tbxPatronymic.Text,
-                    Password = tbxPassword.Password,
-                    Post = db.Posts.FirstOrDefault(x => x.ID_Post == post.ID_Post)
-                };
 
-                db.Employees.Update(employee);
-                db.SaveChanges();
-                clearRows();
+                employee.Employee_Surname = tbxSurname.Text;
+                employee.Employee_Email = tbxEmail.Text;
+                employee.Employee_Name = tbxName.Text;
+                employee.Employee_Patronymic = tbxPatronymic.Text;
+                employee.Password = tbxPassword.Password;
+                employee.Post = db.Posts.FirstOrDefault(x => x.ID_Post == post.ID_Post);
+
+
+                if (ApplicationContext.validData(post) && ApplicationContext.validData(employee))
+                {
+                    if (ApplicationContext.checkEmail(employee.Employee_Email))
+                    {
+                        db.Employees.Update(employee);
+                        db.SaveChanges();
+                        clearRows();
+
+                        Employees = new(db.Employees.ToList());
+                        dtg.ItemsSource = Employees;
+                    }
+                    else
+                        MessageBox.Show("Почта занята");
+                }
+                else
+                {
+                    employee.Employee_Surname = _saveEmployee.Employee_Surname;
+                    employee.Employee_Email = _saveEmployee.Employee_Email;
+                    employee.Employee_Name = _saveEmployee.Employee_Name;
+                    employee.Employee_Patronymic = _saveEmployee.Employee_Patronymic;
+                    employee.Password = _saveEmployee.Password;
+                    employee.Post.Post_Name = _saveEmployee.Post.Post_Name;
+                }
             }
         }
 
@@ -108,25 +137,28 @@ namespace MobileConnection.Pages.Admin
 
             if (employee != null)
             {
-                db.Employees.Update(employee);
-                db.SaveChanges();
+                if (ApplicationContext.validData(employee.Post) && ApplicationContext.validData(employee))
+                {
+                    if (ApplicationContext.checkEmail(employee.Employee_Email))
+                    {
+                        db.Employees.Update(employee);
+                        db.SaveChanges();
+                        return;
+                    }
+                    else
+                        MessageBox.Show("Почта занята");
+                    
+                }
+                employee.Employee_Surname = _saveEmployee.Employee_Surname;
+                employee.Employee_Email = _saveEmployee.Employee_Email;
+                employee.Employee_Name = _saveEmployee.Employee_Name;
+                employee.Employee_Patronymic = _saveEmployee.Employee_Patronymic;
+                employee.Password = _saveEmployee.Password;
+                employee.Post.Post_Name = _saveEmployee.Post.Post_Name;     
             }
         }
 
-        private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            Employee employee = Employees[dtg.SelectedIndex];
-            if (employee != null)
-            {
-                tbxSurname.Text = employee.Employee_Surname;
-                tbxEmail.Text = employee.Employee_Email;
-                tbxName.Text = employee.Employee_Name;
-                tbxPatronymic.Text = employee.Employee_Patronymic;
-                tbxPassword.Password = employee.Password;
-                cmbPosts.SelectedItem = employee.Post;
-            }
-        }
-
+ 
         private void Button_Click_Search(object sender, RoutedEventArgs e)
         {
             string search = txbSearch.Text;
@@ -154,6 +186,28 @@ namespace MobileConnection.Pages.Admin
             tbxPatronymic.Text = "";
             tbxPassword.Password = "";
             cmbPosts.SelectedItem = null;
+        }
+
+        private void dtg_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                var item = Employees[dtg.SelectedIndex];
+                _saveEmployee = new Employee(item);
+                setData(item);
+            }
+            catch (Exception ex) { }
+        }
+
+
+        public void setData(Employee employee)
+        {
+            tbxSurname.Text = employee.Employee_Surname;
+            tbxEmail.Text = employee.Employee_Email;
+            tbxName.Text = employee.Employee_Name;
+            tbxPatronymic.Text = employee.Employee_Patronymic;
+            tbxPassword.Password = employee.Password;
+            cmbPosts.SelectedItem = employee.Post;
         }
     }
 }

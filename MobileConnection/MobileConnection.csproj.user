@@ -10,10 +10,7 @@
     <Compile Update="AdminHomeWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="ClientWindow.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="CorporateClientWindow.xaml.cs">
+    <Compile Update="AuthorizationWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Pages\Admin\CallLogPage.xaml.cs">
@@ -43,6 +40,12 @@
     <Compile Update="Pages\AuthorizationPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Pages\CorporateClientPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Pages\PrivateClientPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Pages\RecoveryPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -54,10 +57,7 @@
     <Page Update="AdminHomeWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="ClientWindow.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="CorporateClientWindow.xaml">
+    <Page Update="AuthorizationWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Pages\Admin\CallLogPage.xaml">
@@ -85,6 +85,12 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Pages\AuthorizationPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\CorporateClientPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\PrivateClientPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Pages\RecoveryPage.xaml">

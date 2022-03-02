@@ -12,6 +12,23 @@ namespace MobileConnection.Models
     public class ClientMessage : INotifyPropertyChanged
     {
 
+        public ClientMessage()
+        {
+
+        }
+        
+        public ClientMessage(ClientMessage ClientMessage)
+        {
+            Client = new Client
+            {
+                Phone_Number = ClientMessage.Client.Phone_Number
+            };
+            Message = new Message
+            {
+                Subscriber_Number = ClientMessage.Message.Subscriber_Number
+            };
+        }
+
         [Key]
         public int ID_ClientMessage { get; set; }
 

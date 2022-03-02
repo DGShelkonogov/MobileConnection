@@ -10,9 +10,29 @@ namespace MobileConnection.Models
 {
     public class Corporate_Client : INotifyPropertyChanged
     {
+
+        public Corporate_Client()
+        {
+
+        }
+
+        public Corporate_Client(Corporate_Client Corporate_Client)
+        {
+            INN = Corporate_Client.INN;
+            Company_Name = Corporate_Client.Company_Name;
+            Legal_Adsress = Corporate_Client.Legal_Adsress;
+            Physical_Adsress = Corporate_Client.Physical_Adsress;
+            Personal_Account_Number = Corporate_Client.Personal_Account_Number;
+            Client = new Client
+            {
+                Account_Number = Corporate_Client.Client.Account_Number
+            };
+        }
+
+
+
         [Key]
         public int ID_Corporate_Client { get; set; }
-
 
         [Required]
         [StringLength(10)]

@@ -37,7 +37,14 @@ namespace MobileConnection
             setPage((sender as Button).Tag.ToString());
         }
 
-       
+
+        private void Button_Click_Exit(object sender, RoutedEventArgs e)
+        {
+            AuthorizationWindow window = new AuthorizationWindow();
+            window.Show();
+            this.Close();
+        }
+
 
 
         public void btnBack_Click_Back()

@@ -28,6 +28,8 @@ namespace MobileConnection.Pages.Admin
 
         public List<Client> Clients { get; set; }
 
+        private static Corporate_Client _saveCorporate_Client;
+
         public CorporateClientPage()
         {
             InitializeComponent();
@@ -63,11 +65,13 @@ namespace MobileConnection.Pages.Admin
                 Client = db.Clients.FirstOrDefault(x => x.ID_Client == client.ID_Client),
             };
 
-
-            Corporate_Clients.Add(corporate_Client);
-            db.Corporate_Clients.Add(corporate_Client);
-            db.SaveChanges();
-            clearRows();
+            if(ApplicationContext.validData(client) && ApplicationContext.validData(corporate_Client))
+            {
+                Corporate_Clients.Add(corporate_Client);
+                db.Corporate_Clients.Add(corporate_Client);
+                db.SaveChanges();
+                clearRows();
+            }
         }
     
         private void Button_Click_Edit(object sender, RoutedEventArgs e)
@@ -77,20 +81,25 @@ namespace MobileConnection.Pages.Admin
             {
                 Client client = cmbClients.SelectedItem as Client;
 
+                corporate_Client.Company_Name = txbCompany_Name.Text;
+                corporate_Client.INN = txbINN.Text;
+                corporate_Client.Legal_Adsress = txbLegal_Adsress.Text;
+                corporate_Client.Physical_Adsress = txbPhysical_Adsress.Text;
+                corporate_Client.Personal_Account_Number = txbPersonal_Account_Number.Text;
+                corporate_Client.Client = db.Clients.FirstOrDefault(x => x.ID_Client == client.ID_Client);
 
-                corporate_Client = new Corporate_Client
+
+                if (ApplicationContext.validData(client) && ApplicationContext.validData(corporate_Client))
                 {
-                    Company_Name = txbCompany_Name.Text,
-                    INN = txbINN.Text,
-                    Legal_Adsress = txbLegal_Adsress.Text,
-                    Physical_Adsress = txbPhysical_Adsress.Text,
-                    Personal_Account_Number = txbPersonal_Account_Number.Text,
-                    Client = db.Clients.FirstOrDefault(x => x.ID_Client == client.ID_Client),
-                };
+                    db.Corporate_Clients.Update(corporate_Client);
+                    db.SaveChanges();
+                    clearRows();
 
-                db.Corporate_Clients.Update(corporate_Client);
-                db.SaveChanges();
-                clearRows();
+                    Corporate_Clients = new(db.Corporate_Clients
+                        .Include(x => x.Client)
+                        .ToList());
+                    dtg.ItemsSource = Corporate_Clients;
+                }  
             }
         }
 
@@ -111,8 +120,21 @@ namespace MobileConnection.Pages.Admin
 
             if (corporate_Client != null)
             {
-                db.Corporate_Clients.Update(corporate_Client);
-                db.SaveChanges();
+                if (ApplicationContext.validData(corporate_Client.Client) 
+                    && ApplicationContext.validData(corporate_Client))
+                {
+                    db.Corporate_Clients.Update(corporate_Client);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    corporate_Client.Company_Name = _saveCorporate_Client.Company_Name;
+                    corporate_Client.INN = _saveCorporate_Client.Company_Name;
+                    corporate_Client.Legal_Adsress = _saveCorporate_Client.Company_Name;
+                    corporate_Client.Physical_Adsress = _saveCorporate_Client.Company_Name;
+                    corporate_Client.Personal_Account_Number = _saveCorporate_Client.Company_Name;
+                    corporate_Client.Client.Account_Number = _saveCorporate_Client.Client.Account_Number;
+                }
             }
         }
 
@@ -148,6 +170,27 @@ namespace MobileConnection.Pages.Admin
             txbPhysical_Adsress.Text = "";
             txbPersonal_Account_Number.Text = "";
             cmbClients.SelectedItem = null;
+        }
+
+        private void dtg_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                var item = Corporate_Clients[dtg.SelectedIndex];
+                _saveCorporate_Client = new Corporate_Client(item);
+                setData(item);
+            }
+            catch (Exception ex) { }
+        }
+
+        public void setData(Corporate_Client client)
+        {
+            txbCompany_Name.Text = client.Company_Name;
+            txbINN.Text = client.INN;
+            txbLegal_Adsress.Text = client.Legal_Adsress;
+            txbPhysical_Adsress.Text = client.Physical_Adsress;
+            txbPersonal_Account_Number.Text = client.Personal_Account_Number;
+            cmbClients.SelectedItem = client.Client;
         }
     }
 }

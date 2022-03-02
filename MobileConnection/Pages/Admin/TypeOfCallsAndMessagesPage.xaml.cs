@@ -25,7 +25,7 @@ namespace MobileConnection.Pages.Admin
         ApplicationContext db;
         public ObservableCollection<Type_Of_Call_And_Message> Type_Of_Calls_And_Messages { get; set; }
 
-
+        private static Type_Of_Call_And_Message _saveType_Of_Call_And_Message;
         public TypeOfCallsAndMessagesPage()
         {
             InitializeComponent();
@@ -48,10 +48,15 @@ namespace MobileConnection.Pages.Admin
                 Type_Name = tbxTitle.Text.ToString(),
             };
 
-            Type_Of_Calls_And_Messages.Add(type);
-            db.Type_Of_Calls_And_Messages.Add(type);
-            db.SaveChanges();
-            tbxTitle.Text = "";
+            if (ApplicationContext.validData(type))
+            {
+                Type_Of_Calls_And_Messages.Add(type);
+                db.Type_Of_Calls_And_Messages.Add(type);
+                db.SaveChanges();
+                tbxTitle.Text = "";
+            }
+
+           
         }
 
         private void Button_Click_Edit(object sender, RoutedEventArgs e)
@@ -60,9 +65,20 @@ namespace MobileConnection.Pages.Admin
             if (type != null)
             {
                 type.Type_Name = tbxTitle.Text.ToString();
-                db.Type_Of_Calls_And_Messages.Update(type);
-                db.SaveChanges();
-                tbxTitle.Text = "";
+
+                if (ApplicationContext.validData(type))
+                {
+                    db.Type_Of_Calls_And_Messages.Update(type);
+                    db.SaveChanges();
+                    tbxTitle.Text = "";
+
+                    Type_Of_Calls_And_Messages = new(db.Type_Of_Calls_And_Messages.ToList());
+                    dtg.ItemsSource = Type_Of_Calls_And_Messages;
+                }
+                else
+                {
+                    type.Type_Name = _saveType_Of_Call_And_Message.Type_Name;
+                }
             }
         }
 
@@ -83,8 +99,15 @@ namespace MobileConnection.Pages.Admin
 
             if (type != null)
             {
-                db.Type_Of_Calls_And_Messages.Update(type);
-                db.SaveChanges();
+                if (ApplicationContext.validData(type))
+                {
+                    db.Type_Of_Calls_And_Messages.Update(type);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    type.Type_Name = _saveType_Of_Call_And_Message.Type_Name;
+                }
             }
         }
 
@@ -110,6 +133,22 @@ namespace MobileConnection.Pages.Admin
                 .Where(x => x.Type_Name.Contains(search))
                 .ToList());
             dtg.ItemsSource = Type_Of_Calls_And_Messages;
+        }
+
+        private void dtg_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                var item = Type_Of_Calls_And_Messages[dtg.SelectedIndex];
+                _saveType_Of_Call_And_Message = new Type_Of_Call_And_Message(item);
+                setData(item);
+            }
+            catch (Exception ex) { }
+        }
+
+        public void setData(Type_Of_Call_And_Message type)
+        {
+            tbxTitle.Text = type.Type_Name;
         }
     }
 }

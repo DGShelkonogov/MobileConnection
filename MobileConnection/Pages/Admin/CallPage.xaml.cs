@@ -27,6 +27,8 @@ namespace MobileConnection.Pages.Admin
 
         public List<Type_Of_Call_And_Message> Type_Of_Calls_And_Messages { get; set; }
 
+        private static Call _saveCall;
+
         public CallPage()
         {
             InitializeComponent();
@@ -48,22 +50,31 @@ namespace MobileConnection.Pages.Admin
 
         private void Button_Click_Add(object sender, RoutedEventArgs e)
         {
-            Type_Of_Call_And_Message type = cmbTypeCall.SelectedItem as Type_Of_Call_And_Message;
-
-            Call call = new Call
+            try
             {
-                Call_Date = DateOnly.Parse(tbxCall_Date.Text),
-                Call_Start_Time = TimeOnly.Parse(tbxCall_Start_Time.Text),
-                Duration = tbxDuration.Text,
-                Subscriber_Called_Number = tbxSubscriber_Called_Number.Text,
-                Type = db.Type_Of_Calls_And_Messages
-                .FirstOrDefault(x => x.ID_Type_Of_Call_And_Message == type.ID_Type_Of_Call_And_Message)
-            };
+                Type_Of_Call_And_Message type = cmbTypeCall.SelectedItem as Type_Of_Call_And_Message;
 
-            Calls.Add(call);
-            db.Calls.Add(call);
-            db.SaveChanges();
-            clearRows();
+                Call call = new Call
+                {
+                    Call_Date = DateOnly.Parse(tbxCall_Date.Text),
+                    Call_Start_Time = TimeOnly.Parse(tbxCall_Start_Time.Text),
+                    Duration = tbxDuration.Text,
+                    Subscriber_Called_Number = tbxSubscriber_Called_Number.Text,
+                    Type = db.Type_Of_Calls_And_Messages
+                    .FirstOrDefault(x => x.ID_Type_Of_Call_And_Message == type.ID_Type_Of_Call_And_Message)
+                };
+
+                if (ApplicationContext.validData(call) && ApplicationContext.validData(type))
+                {
+                    Calls.Add(call);
+                    db.Calls.Add(call);
+                    db.SaveChanges();
+                    clearRows();
+                }
+            }
+            catch (Exception ex) {
+                MessageBox.Show("Проверьте правильность заполнения полей");
+            }
         }
 
       
@@ -74,19 +85,33 @@ namespace MobileConnection.Pages.Admin
             if (call != null)
             {
                 Type_Of_Call_And_Message type = cmbTypeCall.SelectedItem as Type_Of_Call_And_Message;
-                call = new Call
-                {
-                    Call_Date = DateOnly.Parse(tbxCall_Date.Text),
-                    Call_Start_Time = TimeOnly.Parse(tbxCall_Start_Time.Text),
-                    Duration = tbxDuration.Text,
-                    Subscriber_Called_Number = tbxSubscriber_Called_Number.Text,
-                    Type = db.Type_Of_Calls_And_Messages
-                 .FirstOrDefault(x => x.ID_Type_Of_Call_And_Message == type.ID_Type_Of_Call_And_Message)
-                };
 
-                db.Calls.Update(call);
-                db.SaveChanges();
-                clearRows();
+                call.Call_Date = DateOnly.Parse(tbxCall_Date.Text);
+                call.Call_Start_Time = TimeOnly.Parse(tbxCall_Start_Time.Text);
+                call.Duration = tbxDuration.Text;
+                call.Subscriber_Called_Number = tbxSubscriber_Called_Number.Text;
+                call.Type = db.Type_Of_Calls_And_Messages
+                    .FirstOrDefault(x => x.ID_Type_Of_Call_And_Message 
+                    == type.ID_Type_Of_Call_And_Message);
+
+
+                if (ApplicationContext.validData(call) && ApplicationContext.validData(type))
+                {
+                    db.Calls.Update(call);
+                    db.SaveChanges();
+                    clearRows();
+
+                    Calls = new(db.Calls.ToList());
+                    dtg.ItemsSource = Calls;
+                }
+                else
+                {
+                    call.Type = _saveCall.Type;
+                    call.Call_Date = _saveCall.Call_Date;
+                    call.Call_Start_Time = _saveCall.Call_Start_Time;
+                    call.Duration = _saveCall.Duration;
+                    call.Subscriber_Called_Number = _saveCall.Subscriber_Called_Number;
+                }
             }
         }
 
@@ -107,8 +132,20 @@ namespace MobileConnection.Pages.Admin
 
             if (call != null)
             {
-                db.Calls.Update(call);
-                db.SaveChanges();
+                if (ApplicationContext.validData(call) && ApplicationContext.validData(call.Type))
+                {
+                    db.Calls.Update(call);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    call.Type = _saveCall.Type;
+                    call.Call_Date = _saveCall.Call_Date;
+                    call.Call_Start_Time = _saveCall.Call_Start_Time;
+                    call.Duration = _saveCall.Duration;
+                    call.Subscriber_Called_Number = _saveCall.Subscriber_Called_Number;
+                }
+                   
             }
         }
 
@@ -127,8 +164,6 @@ namespace MobileConnection.Pages.Admin
             dtg.ItemsSource = Calls;
         }
 
-
-
         public void clearRows()
         {
             tbxCall_Date.Text = "";
@@ -138,5 +173,21 @@ namespace MobileConnection.Pages.Admin
             cmbTypeCall.SelectedItem = null;
         }
 
+
+        private void dtg_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            var item = Calls[dtg.SelectedIndex];
+            _saveCall = new Call(item);
+            setData(item);
+        }
+
+        public void setData(Call call)
+        {
+            tbxCall_Date.Text = call.Call_Date.ToString();
+            tbxCall_Start_Time.Text = call.Call_Start_Time.ToString();
+            tbxDuration.Text = call.Duration.ToString();
+            tbxSubscriber_Called_Number.Text = call.Subscriber_Called_Number.ToString();
+            cmbTypeCall.SelectedItem = call.Type;
+        }
     }
 }

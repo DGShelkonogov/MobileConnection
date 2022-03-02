@@ -10,6 +10,17 @@ namespace MobileConnection.Models
 {
     public class Type_Of_Call_And_Message : INotifyPropertyChanged
     {
+
+        public Type_Of_Call_And_Message()
+        {
+
+        }
+
+        public Type_Of_Call_And_Message(Type_Of_Call_And_Message Type_Of_Call_And_Message)
+        {
+            Type_Name = Type_Of_Call_And_Message.Type_Name;
+        }
+
         [Key]
         public int ID_Type_Of_Call_And_Message { get; set; }
 

@@ -2,9 +2,13 @@
 using MobileConnection.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using Annotation = System.ComponentModel.DataAnnotations;
+
 
 namespace MobileConnection
 {
@@ -29,6 +33,34 @@ namespace MobileConnection
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=MobileConnection;Username=postgres;Password=123");
+        }
+
+
+        public static bool validData(Object args)
+        {
+            var results = new List<Annotation.ValidationResult>();
+            var context = new ValidationContext(args);
+            if (!Validator.TryValidateObject(args, context, results, true))
+            {
+                string message = "";
+                foreach (var error in results)
+                {
+                    message += error.ErrorMessage + '\n';
+                }
+                MessageBox.Show(message);
+                return false;
+            }
+            return true;
+        }
+
+        public static bool checkEmail(string email)
+        {
+            ApplicationContext db = DBConnection.getConnection();
+            var client = db.Clients.FirstOrDefault(x => x.Client_Email.Equals(email));
+            var employee = db.Employees.FirstOrDefault(x => x.Employee_Email.Equals(email));
+            if (client != null) return false;
+            if (employee != null) return false;
+            return true;
         }
     }
 }

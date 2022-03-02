@@ -10,21 +10,29 @@
       Title="RecoveryPage">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition  Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition  Height="50"/>
+            <RowDefinition  Height="50"/>
+            <RowDefinition  Height="50"/>
+            <RowDefinition />
         </Grid.RowDefinitions>
         <Label Content="Восстановление доступа" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <Label Content="Email:" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1"/>
-        <Button Content="Подтвердить" HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Center"/>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="5*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Email" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center"/>
+            <TextBox x:Name="txbEmail" Grid.Column="1" Margin="10,10,300,10" TextWrapping="Wrap"/>
+
+        </Grid>
+        <Button Content="Подтвердить" Grid.Row="2" Margin="300,10,300,10" Click="Button_Click_Send_Key" Width="200"/>
         <Label Content="Секретный код" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="3"/>
-        <TextBox HorizontalAlignment="Center" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Center" Width="120"/>
-        <Button Content="Вход" HorizontalAlignment="Center" Grid.Row="5" VerticalAlignment="Center"/>
-        <Button Content="Назад" HorizontalAlignment="Left" Grid.Row="6" VerticalAlignment="Bottom" Height="30" Width="50"/>
+        <TextBox x:Name="txbKey" Grid.Row="4" TextWrapping="Wrap" Margin="250,10,250,10"/>
+        <Button Content="Вход" Grid.Row="5" Margin="300,10,300,10" Click="Button_Click_LogIn" Width="200"/>
+        <Button Content="Назад" HorizontalAlignment="Left" Margin="10,10,10,10" Grid.Row="6" VerticalAlignment="Bottom" Height="30" Width="50" Click="Button_Click_Back"/>
 
 
 

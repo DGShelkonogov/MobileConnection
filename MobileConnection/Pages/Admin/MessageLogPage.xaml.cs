@@ -29,6 +29,8 @@ namespace MobileConnection.Pages.Admin
         public List<Message> Messages { get; set; }
         public List<Client> Clients { get; set; }
 
+        private static ClientMessage _saveClientMessage;
+
 
         public MessageLogPage()
         {
@@ -40,13 +42,14 @@ namespace MobileConnection.Pages.Admin
                 .Include(x => x.Client)
                 .Include(x => x.Message)
                 .ToList());
+            dtg.ItemsSource = ClientMessages;
 
             Messages = new(db.Messages.ToList());
             Clients = new(db.Clients.ToList());
 
             cmbMessages.ItemsSource = Messages;
             cmbClients.ItemsSource = Clients;
-            dtg.ItemsSource = ClientMessages;
+            
         }
 
         private void Button_Click_Back(object sender, RoutedEventArgs e)
@@ -67,10 +70,13 @@ namespace MobileConnection.Pages.Admin
                 Message = db.Messages.FirstOrDefault(x => x.ID_Message == message.ID_Message),
             };
 
-            ClientMessages.Add(clientMessage);
-            db.ClientMessages.Add(clientMessage);
-            db.SaveChanges();
-            clearRows();
+            if(ApplicationContext.validData(client) && ApplicationContext.validData(message))
+            {
+                ClientMessages.Add(clientMessage);
+                db.ClientMessages.Add(clientMessage);
+                db.SaveChanges();
+                clearRows();
+            }
         }
 
 
@@ -81,15 +87,27 @@ namespace MobileConnection.Pages.Admin
             {
                 Client client = cmbClients.SelectedItem as Client;
                 Message message = cmbMessages.SelectedItem as Message;
-                clientMessage = new ClientMessage
-                {
-                    Client = db.Clients.FirstOrDefault(x => x.ID_Client == client.ID_Client),
-                    Message = db.Messages.FirstOrDefault(x => x.ID_Message == message.ID_Message),
-                };
 
-                db.ClientMessages.Update(clientMessage);
-                db.SaveChanges();
-                clearRows();
+                clientMessage.Client = db.Clients.FirstOrDefault(x => x.ID_Client == client.ID_Client);
+                clientMessage.Message = db.Messages.FirstOrDefault(x => x.ID_Message == message.ID_Message);
+
+                if (ApplicationContext.validData(client) && ApplicationContext.validData(message))
+                {
+                    db.ClientMessages.Update(clientMessage);
+                    db.SaveChanges();
+                    clearRows();
+
+                    ClientMessages = new(db.ClientMessages
+                        .Include(x => x.Client)
+                        .Include(x => x.Message)
+                        .ToList());
+                    dtg.ItemsSource = ClientMessages;
+                }
+                else
+                {
+                    clientMessage.Message.Subscriber_Number = _saveClientMessage.Message.Subscriber_Number;
+                    clientMessage.Client.Phone_Number = _saveClientMessage.Client.Phone_Number;
+                }
             }
         }
 
@@ -110,8 +128,16 @@ namespace MobileConnection.Pages.Admin
 
             if (clientMessage != null)
             {
-                db.ClientMessages.Update(clientMessage);
-                db.SaveChanges();
+                if (ApplicationContext.validData(clientMessage.Message) && ApplicationContext.validData(clientMessage.Client))
+                {
+                    db.ClientMessages.Update(clientMessage);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    clientMessage.Message.Subscriber_Number = _saveClientMessage.Message.Subscriber_Number;
+                    clientMessage.Client.Phone_Number = _saveClientMessage.Client.Phone_Number;
+                }
             }
         }
 
@@ -142,6 +168,23 @@ namespace MobileConnection.Pages.Admin
         {
             cmbMessages.SelectedItem = null;
             cmbClients.SelectedItem = null;
+        }
+
+        private void dtg_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                var item = ClientMessages[dtg.SelectedIndex];
+                _saveClientMessage = new ClientMessage(item);
+                setData(item);
+            }
+            catch (Exception ex) { }
+        }
+
+        public void setData(ClientMessage clientMessage)
+        {
+            cmbMessages.SelectedItem = clientMessage.Message;
+            cmbClients.SelectedItem = clientMessage.Client;
         }
     }
 }

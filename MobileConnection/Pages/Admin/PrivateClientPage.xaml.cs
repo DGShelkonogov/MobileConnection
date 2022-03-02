@@ -28,6 +28,8 @@ namespace MobileConnection.Pages.Admin
 
         public List<Client> Clients { get; set; }
 
+        private static Private_Client _savePrivate_Client;
+
         public PrivateClientPage()
         {
             InitializeComponent();
@@ -37,9 +39,9 @@ namespace MobileConnection.Pages.Admin
             Private_Clients = new(db.Private_Clients
                 .Include(x => x.Client)
                 .ToList());
-            Clients = new(db.Clients.ToList());
-
             dtg.ItemsSource = Private_Clients;
+            
+            Clients = new(db.Clients.ToList());
             cmbClients.ItemsSource = Clients;
         }
 
@@ -65,14 +67,14 @@ namespace MobileConnection.Pages.Admin
                 Client = db.Clients.FirstOrDefault(x => x.ID_Client == client.ID_Client),
             };
 
-
-            Private_Clients.Add(private_Client);
-            db.Private_Clients.Add(private_Client);
-            db.SaveChanges();
-            clearRows();
+            if(ApplicationContext.validData(client) && ApplicationContext.validData(private_Client))
+            {
+                Private_Clients.Add(private_Client);
+                db.Private_Clients.Add(private_Client);
+                db.SaveChanges();
+                clearRows();
+            }
         }
-
-       
 
         private void Button_Click_Edit(object sender, RoutedEventArgs e)
         {
@@ -82,22 +84,37 @@ namespace MobileConnection.Pages.Admin
             {
                 Client client = cmbClients.SelectedItem as Client;
 
+                private_Client.Client_Surname = txbClient_Surname.Text;
+                private_Client.Client_Name = txbClient_Name.Text;
+                private_Client.Client_Patronymic = txbClient_Patronymic.Text;
+                private_Client.Adsress = txbAdsress.Text;
+                private_Client.Passport_Series = Convert.ToInt32(txbPassport_Series.Text);
+                private_Client.Passport_Number = Convert.ToInt32(txbPassport_Number.Text);
+                private_Client.Date_Of_Birth = DateOnly.Parse(txbDate_Of_Birth.Text);
+                private_Client.Client = db.Clients.FirstOrDefault(x => x.ID_Client == client.ID_Client);
 
-                private_Client = new Private_Client
+                if (ApplicationContext.validData(client) && ApplicationContext.validData(private_Client))
                 {
-                    Client_Surname = txbClient_Surname.Text,
-                    Client_Name = txbClient_Name.Text,
-                    Client_Patronymic = txbClient_Patronymic.Text,
-                    Adsress = txbAdsress.Text,
-                    Passport_Series = Convert.ToInt32(txbPassport_Series.Text),
-                    Passport_Number = Convert.ToInt32(txbPassport_Number.Text),
-                    Date_Of_Birth = DateOnly.Parse(txbDate_Of_Birth.Text),
-                    Client = db.Clients.FirstOrDefault(x => x.ID_Client == client.ID_Client),
-                };
+                    db.Private_Clients.Update(private_Client);
+                    db.SaveChanges();
+                    clearRows();
 
-                db.Private_Clients.Update(private_Client);
-                db.SaveChanges();
-                clearRows();
+                    Private_Clients = new(db.Private_Clients
+                        .Include(x => x.Client)
+                        .ToList());
+                    dtg.ItemsSource = Private_Clients;
+                }
+                else
+                {
+                    private_Client.Client.Account_Number = _savePrivate_Client.Client.Account_Number;
+                    private_Client.Client_Surname = _savePrivate_Client.Client_Surname;
+                    private_Client.Client_Name = _savePrivate_Client.Client_Name;
+                    private_Client.Client_Patronymic = _savePrivate_Client.Client_Patronymic;
+                    private_Client.Adsress = _savePrivate_Client.Adsress;
+                    private_Client.Passport_Series = _savePrivate_Client.Passport_Series;
+                    private_Client.Passport_Number = _savePrivate_Client.Passport_Number;
+                    private_Client.Date_Of_Birth = _savePrivate_Client.Date_Of_Birth;
+                }
             }
         }
 
@@ -119,8 +136,22 @@ namespace MobileConnection.Pages.Admin
 
             if (private_Client != null)
             {
-                db.Private_Clients.Update(private_Client);
-                db.SaveChanges();
+                if (ApplicationContext.validData(private_Client.Client) && ApplicationContext.validData(private_Client))
+                {
+                    db.Private_Clients.Update(private_Client);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    private_Client.Client.Account_Number = _savePrivate_Client.Client.Account_Number;
+                    private_Client.Client_Surname = _savePrivate_Client.Client_Surname;
+                    private_Client.Client_Name = _savePrivate_Client.Client_Name;
+                    private_Client.Client_Patronymic = _savePrivate_Client.Client_Patronymic;
+                    private_Client.Adsress = _savePrivate_Client.Adsress;
+                    private_Client.Passport_Series = _savePrivate_Client.Passport_Series;
+                    private_Client.Passport_Number = _savePrivate_Client.Passport_Number;
+                    private_Client.Date_Of_Birth = _savePrivate_Client.Date_Of_Birth;
+                }
             }
         }
 
@@ -157,6 +188,30 @@ namespace MobileConnection.Pages.Admin
             txbPassport_Number.Text = "";
             txbDate_Of_Birth.Text = "";
             cmbClients.SelectedItem = null;
+        }
+
+
+        private void dtg_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                var item = Private_Clients[dtg.SelectedIndex];
+                _savePrivate_Client = new Private_Client(item);
+                setData(item);
+            }
+            catch (Exception ex) { }
+        }
+
+        public void setData(Private_Client client)
+        {
+            txbClient_Surname.Text = client.Client_Surname;
+            txbClient_Name.Text = client.Client_Name;
+            txbClient_Patronymic.Text = client.Client_Patronymic;
+            txbAdsress.Text = client.Adsress;
+            txbPassport_Series.Text = client.Passport_Series.ToString();
+            txbPassport_Number.Text = client.Passport_Number.ToString();
+            txbDate_Of_Birth.Text = client.Date_Of_Birth.ToString();
+            cmbClients.SelectedItem = client.Client;
         }
     }
 }

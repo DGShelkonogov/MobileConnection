@@ -10,6 +10,16 @@ namespace MobileConnection.Models
 {
     public class Post : INotifyPropertyChanged
     {
+
+        public Post()
+        {
+
+        }
+        public Post(Post Post)
+        {
+            Post_Name = Post.Post_Name;
+        }
+
         [Key]
         public int ID_Post { get; set; }
 

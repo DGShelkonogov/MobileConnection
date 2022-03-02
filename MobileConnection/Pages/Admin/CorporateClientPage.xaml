@@ -24,7 +24,9 @@
             <TextBox x:Name="txbSearch" TextWrapping="Wrap" Margin="10,10,10,10"/>
             <Button Grid.Column="1" Content="Поиск"  Margin="10,10,10,10" Click="Button_Click_Search"/>
         </Grid>
-        <DataGrid x:Name="dtg" Grid.Row="1" AutoGenerateColumns="False" CellEditEnding="dataGrid_CellEditEnding">
+        <DataGrid x:Name="dtg" Grid.Row="1" AutoGenerateColumns="False" 
+                  MouseUp="dtg_MouseUp"
+                  CellEditEnding="dataGrid_CellEditEnding">
             <DataGrid.Columns>
                 <DataGridTextColumn 
                     Header="Номер счета"
@@ -75,7 +77,7 @@
                     <RowDefinition/>
                     <RowDefinition Height="50"/>
                 </Grid.RowDefinitions>
-                <Button Content="Назад"  Margin="10,10,10,10" Grid.Row="1" Click="Button_Click_Back"/>
+                <Button Content="Назад" Margin="10,10,10,10" Grid.Row="1" Click="Button_Click_Back"/>
             </Grid>
 
             <Grid Grid.Column="3">
@@ -153,12 +155,6 @@
                     <Label Content="Номер лицевого счета" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center"/>
                     <TextBox Grid.Column="1" x:Name="txbPersonal_Account_Number" TextWrapping="Wrap"/>
                 </Grid>
-
-            
-
-         
-
-
             </Grid>
         </Grid>
     </Grid>

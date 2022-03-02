@@ -11,6 +11,25 @@ namespace MobileConnection.Models
 
     public class Service : INotifyPropertyChanged
     {
+
+        public Service()
+        {
+
+        }
+
+        public Service(Service Service)
+        {
+            Service_Name = Service.Service_Name;
+            Service_Status = Service.Service_Status;
+            Cost = Service.Cost;
+            Employee = new Employee
+            {
+                Employee_Name = Service.Employee.Employee_Name
+            };
+        }
+
+
+
         [Key]
         public int ID_Service { get; set; }
 

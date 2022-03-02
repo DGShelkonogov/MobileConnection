@@ -29,6 +29,8 @@ namespace MobileConnection.Pages.Admin
         public List<Call> Calls { get; set; }
         public List<Client> Clients { get; set; }
 
+        private static ClientCall _SaveClientCall;
+
         public CallLogPage()
         {
             InitializeComponent();
@@ -60,16 +62,19 @@ namespace MobileConnection.Pages.Admin
             Client client = cmbClients.SelectedItem as Client;
             Call call = cmbCall.SelectedItem as Call;
 
-            ClientCall clientCall = new ClientCall
+            if (ApplicationContext.validData(client) && ApplicationContext.validData(call))
             {
-                Client = db.Clients.FirstOrDefault(x => x.ID_Client == client.ID_Client),
-                Call = db.Calls.FirstOrDefault(x => x.ID_Call == call.ID_Call),
-            };
+                ClientCall clientCall = new ClientCall
+                {
+                    Client = db.Clients.FirstOrDefault(x => x.ID_Client == client.ID_Client),
+                    Call = db.Calls.FirstOrDefault(x => x.ID_Call == call.ID_Call),
+                };
 
-            ClientCalls.Add(clientCall);
-            db.ClientCalls.Add(clientCall);
-            db.SaveChanges();
-            clearRows();
+                ClientCalls.Add(clientCall);
+                db.ClientCalls.Add(clientCall);
+                db.SaveChanges();
+                clearRows();
+            }
         }
 
 
@@ -80,15 +85,28 @@ namespace MobileConnection.Pages.Admin
             {
                 Client client = cmbClients.SelectedItem as Client;
                 Call call = cmbCall.SelectedItem as Call;
-                clientCall = new ClientCall
-                {
-                    Client = db.Clients.FirstOrDefault(x => x.ID_Client == client.ID_Client),
-                    Call = db.Calls.FirstOrDefault(x => x.ID_Call == call.ID_Call),
-                };
 
-                db.ClientCalls.Update(clientCall);
-                db.SaveChanges();
-                clearRows();
+                if (ApplicationContext.validData(client) && ApplicationContext.validData(call))
+                {
+                    clientCall.Client = db.Clients.FirstOrDefault(x => x.ID_Client == client.ID_Client);
+                    clientCall.Call = db.Calls.FirstOrDefault(x => x.ID_Call == call.ID_Call);
+
+                    
+                    db.ClientCalls.Update(clientCall);
+                    db.SaveChanges();
+                    clearRows();
+
+                    ClientCalls = new(db.ClientCalls
+                        .Include(x => x.Client)
+                        .Include(x => x.Call)
+                        .ToList());
+                    dtg.ItemsSource = ClientCalls;
+                }
+                else
+                {
+                    clientCall.Client.Phone_Number = _SaveClientCall.Client.Phone_Number;
+                    clientCall.Call.Subscriber_Called_Number = _SaveClientCall.Call.Subscriber_Called_Number;
+                }
             }
         }
 
@@ -109,8 +127,17 @@ namespace MobileConnection.Pages.Admin
 
             if (clientCall != null)
             {
-                db.ClientCalls.Update(clientCall);
-                db.SaveChanges();
+                if(ApplicationContext.validData(clientCall.Call) 
+                    && ApplicationContext.validData(clientCall.Client))
+                {
+                    db.ClientCalls.Update(clientCall);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    clientCall.Client.Phone_Number = _SaveClientCall.Client.Phone_Number;
+                    clientCall.Call.Subscriber_Called_Number = _SaveClientCall.Call.Subscriber_Called_Number;
+                }
             }
         }
 
@@ -142,6 +169,20 @@ namespace MobileConnection.Pages.Admin
         {
             cmbCall.SelectedItem = null;
             cmbClients.SelectedItem = null;
+        }
+
+
+        private void dtg_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            var item = ClientCalls[dtg.SelectedIndex];
+            _SaveClientCall = new ClientCall(item);
+            setData(item);
+        }
+
+        public void setData(ClientCall clientCall)
+        {
+            cmbCall.SelectedItem = clientCall.Call;
+            cmbClients.SelectedItem= clientCall.Client;
         }
     }
 }

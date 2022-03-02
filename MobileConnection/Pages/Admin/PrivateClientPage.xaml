@@ -23,7 +23,9 @@
             <TextBox x:Name="txbSearch" TextWrapping="Wrap" Margin="10,10,10,10"/>
             <Button Click="Button_Click_Search" Grid.Column="1" Content="Поиск"  Margin="10,10,10,10" />
         </Grid>
-        <DataGrid x:Name="dtg" Grid.Row="1" AutoGenerateColumns="False" CellEditEnding="dataGrid_CellEditEnding">
+        <DataGrid x:Name="dtg" Grid.Row="1" AutoGenerateColumns="False"
+                  MouseUp="dtg_MouseUp"
+                  CellEditEnding="dataGrid_CellEditEnding">
             <DataGrid.Columns>
                 <DataGridTextColumn 
                     Header="Номер счета"

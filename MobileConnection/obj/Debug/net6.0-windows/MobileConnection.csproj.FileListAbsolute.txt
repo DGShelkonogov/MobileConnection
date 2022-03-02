@@ -60,9 +60,11 @@ C:\Users\dana\source\repos\MobileConnection\MobileConnection\obj\Debug\net6.0-wi
 C:\Users\dana\source\repos\MobileConnection\MobileConnection\obj\Debug\net6.0-windows\MobileConnection.genruntimeconfig.cache
 C:\Users\dana\source\repos\MobileConnection\MobileConnection\obj\Debug\net6.0-windows\AdminHomeWindow.g.cs
 C:\Users\dana\source\repos\MobileConnection\MobileConnection\obj\Debug\net6.0-windows\AdminHomeWindow.baml
-C:\Users\dana\source\repos\MobileConnection\MobileConnection\obj\Debug\net6.0-windows\ClientWindow.g.cs
-C:\Users\dana\source\repos\MobileConnection\MobileConnection\obj\Debug\net6.0-windows\CorporateClientWindow.g.cs
-C:\Users\dana\source\repos\MobileConnection\MobileConnection\obj\Debug\net6.0-windows\ClientWindow.baml
-C:\Users\dana\source\repos\MobileConnection\MobileConnection\obj\Debug\net6.0-windows\CorporateClientWindow.baml
 C:\Users\dana\source\repos\MobileConnection\MobileConnection\obj\Debug\net6.0-windows\Pages\ServicePage.g.cs
 C:\Users\dana\source\repos\MobileConnection\MobileConnection\obj\Debug\net6.0-windows\Pages\ServicePage.baml
+C:\Users\dana\source\repos\MobileConnection\MobileConnection\obj\Debug\net6.0-windows\AuthorizationWindow.g.cs
+C:\Users\dana\source\repos\MobileConnection\MobileConnection\obj\Debug\net6.0-windows\Pages\CorporateClientPage.g.cs
+C:\Users\dana\source\repos\MobileConnection\MobileConnection\obj\Debug\net6.0-windows\Pages\PrivateClientPage.g.cs
+C:\Users\dana\source\repos\MobileConnection\MobileConnection\obj\Debug\net6.0-windows\AuthorizationWindow.baml
+C:\Users\dana\source\repos\MobileConnection\MobileConnection\obj\Debug\net6.0-windows\Pages\CorporateClientPage.baml
+C:\Users\dana\source\repos\MobileConnection\MobileConnection\obj\Debug\net6.0-windows\Pages\PrivateClientPage.baml

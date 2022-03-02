@@ -10,6 +10,27 @@ namespace MobileConnection.Models
 {
     public class Employee : INotifyPropertyChanged
     {
+
+        public Employee()
+        {
+
+        }
+
+        public Employee(Employee Employee)
+        {
+            Employee_Surname = Employee.Employee_Surname;
+            Employee_Name = Employee.Employee_Name;
+            Employee_Patronymic = Employee.Employee_Patronymic;
+            Employee_Email = Employee.Employee_Email;
+            Password = Employee.Password;
+            Post = new Post
+            {
+                Post_Name = Employee.Post.Post_Name
+            };
+        }
+
+
+
         [Key]
         public int ID_Employee { get; set; }
         [Required]

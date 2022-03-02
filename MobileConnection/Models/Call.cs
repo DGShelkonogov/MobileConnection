@@ -10,6 +10,22 @@ namespace MobileConnection.Models
 {
     public class Call : INotifyPropertyChanged
     {
+        public Call()
+        {
+
+        }
+
+        public Call(Call call)
+        {
+            Call_Date = call.Call_Date;
+            Call_Start_Time = call.Call_Start_Time;
+            Duration = call.Duration;
+            Subscriber_Called_Number = call.Subscriber_Called_Number;
+            Type = new Type_Of_Call_And_Message
+            {
+                Type_Name = call.Type.Type_Name
+            };
+        }
 
         [Key]
         public int ID_Call { get; set; }
