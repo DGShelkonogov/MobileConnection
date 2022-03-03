@@ -25,12 +25,15 @@ namespace MobileConnection.Pages.Admin
     {
         ApplicationContext db;
         public ObservableCollection<ClientCall> ClientCalls { get; set; }
-
         public List<Call> Calls { get; set; }
         public List<Client> Clients { get; set; }
 
         private static ClientCall _SaveClientCall;
 
+
+        /// <summary>
+        /// Импорт данных из БД, заполнение DataGrid и Combobox
+        /// </summary>
         public CallLogPage()
         {
             InitializeComponent();
@@ -47,8 +50,8 @@ namespace MobileConnection.Pages.Admin
             cmbCall.ItemsSource = Calls;
             cmbClients.ItemsSource = Clients;
             dtg.ItemsSource = ClientCalls;
-
         }
+
 
         private void Button_Click_Back(object sender, RoutedEventArgs e)
         {
@@ -136,8 +139,12 @@ namespace MobileConnection.Pages.Admin
                     db.SaveChanges();
                 }
             }
-            catch (Exception ex) { }
+            catch (Exception ex) 
+            {
+                
+            }
         }
+
 
         private void dataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
@@ -166,6 +173,7 @@ namespace MobileConnection.Pages.Admin
             }
         }
 
+
         private void Button_Click_Search(object sender, RoutedEventArgs e)
         {
             string search = txbSearch.Text;
@@ -182,18 +190,11 @@ namespace MobileConnection.Pages.Admin
             ClientCalls = new(db.ClientCalls
                     .Include(x => x.Client)
                     .Include(x => x.Call)
-                    .Where(x => x.Client.Phone_Number.Contains(search) 
+                    .Where(x => x.Client.Phone_Number.Contains(search)
                     || x.Call.Subscriber_Called_Number.Contains(search))
                     .ToList());
 
             dtg.ItemsSource = ClientCalls;
-        }
-
-
-        public void clearRows()
-        {
-            cmbCall.SelectedItem = null;
-            cmbClients.SelectedItem = null;
         }
 
 
@@ -211,6 +212,21 @@ namespace MobileConnection.Pages.Admin
             }
         }
 
+
+        /// <summary>
+        /// отчиска UI эелементов
+        /// </summary>
+        public void clearRows()
+        {
+            cmbCall.SelectedItem = null;
+            cmbClients.SelectedItem = null;
+        }
+
+
+        /// <summary>
+        /// заполнение UI элементов данными существующего обьекта
+        /// </summary>
+        /// <param name="clientCall">источник даных</param>
         public void setData(ClientCall clientCall)
         {
             cmbCall.SelectedItem = clientCall.Call;

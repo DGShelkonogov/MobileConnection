@@ -28,10 +28,12 @@ namespace MobileConnection
             setPage("Pages/AuthorizationPage.xaml");
         }
 
+
         public void setPage(string tag)
         {
             Frame.Source = new Uri(tag, UriKind.Relative);
         }
+
 
         public void openPrivateClient(int id)
         {
@@ -39,11 +41,13 @@ namespace MobileConnection
             Frame.Navigate(page);
         }
 
+
         public void openCorporateClient(int id)
         {
             CorporateClientPage page = new CorporateClientPage(id);
             Frame.Navigate(page);
         }
+
 
         public void openService(int id)
         {
@@ -52,6 +56,9 @@ namespace MobileConnection
         }
 
 
+        /// <summary>
+        /// возврат на предыдушю страницу
+        /// </summary>
         public void btnBack_Click_Back()
         {
             try

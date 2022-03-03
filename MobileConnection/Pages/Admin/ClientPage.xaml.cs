@@ -27,6 +27,10 @@ namespace MobileConnection.Pages.Admin
         public ObservableCollection<Client> Clients { get; set; }
 
         private static Client _saveClient;
+
+        /// <summary>
+        /// Импорт данных из БД, заполнение DataGrid
+        /// </summary>
         public ClientPage()
         {
             InitializeComponent();
@@ -37,17 +41,20 @@ namespace MobileConnection.Pages.Admin
             dtg.ItemsSource = Clients;
         }
 
+
         private void Button_Click_SetPage(object sender, RoutedEventArgs e)
         {
             AdminHomeWindow win = (AdminHomeWindow)Window.GetWindow(this);
             win.setPage((sender as Button).Tag.ToString());
         }
 
+
         private void Button_Click_Back(object sender, RoutedEventArgs e)
         {
             AdminHomeWindow win = (AdminHomeWindow)Window.GetWindow(this);
             win.btnBack_Click_Back();
         }
+
 
         private void Button_Click_Add(object sender, RoutedEventArgs e)
         {
@@ -75,15 +82,11 @@ namespace MobileConnection.Pages.Admin
                     }
                     else
                         MessageBox.Show("Почта занята");
-                   
                  }
             }
             catch (Exception we) { }
-           
         }
-
-    
-
+        
 
         private void Button_Click_Edit(object sender, RoutedEventArgs e)
         {
@@ -129,6 +132,7 @@ namespace MobileConnection.Pages.Admin
             catch (Exception we) { }
         }
 
+        
         private void Button_Click_Delete(object sender, RoutedEventArgs e)
         {
             try
@@ -143,7 +147,6 @@ namespace MobileConnection.Pages.Admin
             }
             catch (Exception we) { }
         }
-
 
         private void dataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
@@ -175,6 +178,7 @@ namespace MobileConnection.Pages.Admin
             catch (Exception we) { }
         }
 
+
         private void Button_Click_Search(object sender, RoutedEventArgs e)
         {
             string search = txbSearch.Text;
@@ -194,6 +198,9 @@ namespace MobileConnection.Pages.Admin
         }
 
 
+        /// <summary>
+        /// отчиска UI эелементов
+        /// </summary>
         public void clearRows()
         {
             txbAccount_Number.Text = "";
@@ -204,6 +211,7 @@ namespace MobileConnection.Pages.Admin
             txbTariff_Cost.Text = "";
             txbContract_Number.Text = "";
         }
+
 
         private void dtg_MouseUp(object sender, MouseButtonEventArgs e)
         {
@@ -216,6 +224,11 @@ namespace MobileConnection.Pages.Admin
             catch (Exception ex) { }
         }
 
+
+        /// <summary>
+        /// заполнение UI элементов данными существующего обьекта
+        /// </summary>
+        /// <param name="client">источник даных</param>
         public void setData(Client client)
         {
             txbAccount_Number.Text = client.Account_Number;

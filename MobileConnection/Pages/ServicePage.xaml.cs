@@ -25,19 +25,24 @@ namespace MobileConnection.Pages
     {
         public ObservableCollection<Service> Services { get; set; }
 
-
         ApplicationContext db;
+
         private static Client client;
+
         private static Private_Client private_Client;
+
         private static Corporate_Client corporate_Client;
+        
 
-
+        /// <summary>
+        /// Импорт данных из БД, заполнение DataGrid и Combobox
+        /// </summary>
+        /// <param name="id">айди клиента</param>
         public ServicePage(int? id)
         {
             InitializeComponent();
 
             db = DBConnection.getConnection();
-
 
             client = db.Clients.FirstOrDefault(x => x.ID_Client == id);
 
@@ -49,8 +54,6 @@ namespace MobileConnection.Pages
               .Include(x => x.Client)
               .FirstOrDefault(x => x.Client.ID_Client == id);
 
-               
-       
             Services = new(db.Services.ToList());
             dtg.ItemsSource = Services;
             cmbServices.ItemsSource = Services;

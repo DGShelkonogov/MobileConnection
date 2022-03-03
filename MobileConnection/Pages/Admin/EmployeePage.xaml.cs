@@ -28,6 +28,10 @@ namespace MobileConnection.Pages.Admin
         public List<Post> posts { get; set; }
 
         private static Employee _saveEmployee;
+
+        /// <summary>
+        /// Импорт данных из БД, заполнение DataGrid и Combobox
+        /// </summary>
         public EmployeePage()
         {
             InitializeComponent();
@@ -46,6 +50,7 @@ namespace MobileConnection.Pages.Admin
             AdminHomeWindow win = (AdminHomeWindow)Window.GetWindow(this);
             win.btnBack_Click_Back();
         }
+
 
         private void Button_Click_Add(object sender, RoutedEventArgs e)
         {
@@ -127,6 +132,7 @@ namespace MobileConnection.Pages.Admin
             catch (Exception ex) { }
         }
 
+
         private void Button_Click_Delete(object sender, RoutedEventArgs e)
         {
             try
@@ -141,6 +147,7 @@ namespace MobileConnection.Pages.Admin
             }
             catch (Exception ex) { }
         }
+
 
         private void dataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
@@ -192,6 +199,10 @@ namespace MobileConnection.Pages.Admin
             dtg.ItemsSource = Employees;
         }
 
+
+        /// <summary>
+        /// отчиска UI эелементов
+        /// </summary>
         public void clearRows()
         {
             tbxSurname.Text = "";
@@ -201,6 +212,7 @@ namespace MobileConnection.Pages.Admin
             tbxPassword.Password = "";
             cmbPosts.SelectedItem = null;
         }
+
 
         private void dtg_MouseUp(object sender, MouseButtonEventArgs e)
         {
@@ -214,6 +226,10 @@ namespace MobileConnection.Pages.Admin
         }
 
 
+        /// <summary>
+        /// заполнение UI элементов данными существующего обьекта
+        /// </summary>
+        /// <param name="employee">источник даных</param>
         public void setData(Employee employee)
         {
             tbxSurname.Text = employee.Employee_Surname;

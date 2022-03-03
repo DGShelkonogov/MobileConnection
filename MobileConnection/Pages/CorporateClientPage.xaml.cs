@@ -23,8 +23,13 @@ namespace MobileConnection.Pages
     public partial class CorporateClientPage : Page
     {
         ApplicationContext db;
+
         private static Corporate_Client corporate_Client;
 
+
+        /// <summary>
+        /// Импорт данных из БД
+        /// </summary>
         public CorporateClientPage(int? idClient)
         {
             InitializeComponent();
@@ -39,6 +44,10 @@ namespace MobileConnection.Pages
             setData();
         }
 
+
+        /// <summary>
+        /// заполнение UI элементов данными существующего обьекта
+        /// </summary>
         public void setData()
         {
             if (corporate_Client != null)
@@ -71,11 +80,13 @@ namespace MobileConnection.Pages
             win.openService(corporate_Client.Client.ID_Client);
         }
 
+
         private void Button_Click_Exit(object sender, RoutedEventArgs e)
         {
             AuthorizationWindow win = (AuthorizationWindow)Window.GetWindow(this);
             win.setPage("Pages/AuthorizationPage.xaml");
         }
+
 
         private void Button_Click_Edit(object sender, RoutedEventArgs e)
         {

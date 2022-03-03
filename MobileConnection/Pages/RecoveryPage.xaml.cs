@@ -29,6 +29,10 @@ namespace MobileConnection.Pages
         private static Client _client;
 
         ApplicationContext db;
+
+        /// <summary>
+        /// Подключение к БД
+        /// </summary>
         public RecoveryPage()
         {
             InitializeComponent();
@@ -41,6 +45,10 @@ namespace MobileConnection.Pages
             win.btnBack_Click_Back();
         }
 
+
+        /// <summary>
+        /// отправка секретного кода на почту
+        /// </summary>
         private void Button_Click_Send_Key(object sender, RoutedEventArgs e)
         {
             try
@@ -57,6 +65,7 @@ namespace MobileConnection.Pages
             }
             catch (Exception ex) { }
         }
+
 
         private void Button_Click_LogIn(object sender, RoutedEventArgs e)
         {
@@ -85,6 +94,7 @@ namespace MobileConnection.Pages
             catch (Exception ex) { }
         }
 
+
         private static async Task SendEmailAsync()
         {
             try
@@ -102,6 +112,7 @@ namespace MobileConnection.Pages
             }
             catch(Exception ex) { }
         }
+
 
         public static string GetRandomString()
         {

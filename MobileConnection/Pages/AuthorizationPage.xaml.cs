@@ -23,12 +23,20 @@ namespace MobileConnection.Pages
     public partial class AuthorizationPage : Page
     {
         ApplicationContext db;
+
+        /// <summary>
+        /// Подключение к БД
+        /// </summary>
         public AuthorizationPage()
         {
             InitializeComponent();
             db = DBConnection.getConnection();
         }
 
+
+        /// <summary>
+        /// Авторизация пользователя
+        /// </summary>
         private void Button_Click_LogIn(object sender, RoutedEventArgs e)
         {
             try
@@ -72,6 +80,7 @@ namespace MobileConnection.Pages
             }
             catch (Exception ex) { }
         }
+
 
         private void Button_Click_RecoveryPassword(object sender, RoutedEventArgs e)
         {

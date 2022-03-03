@@ -25,11 +25,14 @@ namespace MobileConnection.Pages.Admin
     {
         ApplicationContext db;
         public ObservableCollection<Service> Services { get; set; }
-
         public List<Employee> Employees { get; set; }
 
         private static Service _saveService;
 
+
+        /// <summary>
+        /// Импорт данных из БД, заполнение DataGrid и Combobox
+        /// </summary>
         public ServicePage()
         {
             InitializeComponent();
@@ -43,14 +46,15 @@ namespace MobileConnection.Pages.Admin
             Employees = new(db.Employees.ToList());
 
             cmbEmployees.ItemsSource = Employees;
-           
         }
+
 
         private void Button_Click_Back(object sender, RoutedEventArgs e)
         {
             AdminHomeWindow win = (AdminHomeWindow)Window.GetWindow(this);
             win.btnBack_Click_Back();
         }
+
 
         private void Button_Click_Add(object sender, RoutedEventArgs e)
         {
@@ -79,7 +83,6 @@ namespace MobileConnection.Pages.Admin
             catch (Exception ex) { }
         }
 
-       
 
         private void Button_Click_Edit(object sender, RoutedEventArgs e)
         {
@@ -119,6 +122,7 @@ namespace MobileConnection.Pages.Admin
             catch (Exception ex) { }
         }
 
+
         private void Button_Click_Delete(object sender, RoutedEventArgs e)
         {
             try
@@ -132,9 +136,8 @@ namespace MobileConnection.Pages.Admin
                 }
             }
             catch (Exception ex) { }
-
-           
         }
+
 
         private void dataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
@@ -163,6 +166,7 @@ namespace MobileConnection.Pages.Admin
            
         }
 
+
         private void Button_Click_Search(object sender, RoutedEventArgs e)
         {
             string search = txbSearch.Text;
@@ -182,6 +186,9 @@ namespace MobileConnection.Pages.Admin
         }
 
 
+        /// <summary>
+        /// отчиска UI эелементов
+        /// </summary>
         public void clearRows()
         {
             txbCost.Text = "";
@@ -202,6 +209,11 @@ namespace MobileConnection.Pages.Admin
             catch (Exception ex) { }
         }
 
+
+        /// <summary>
+        /// заполнение UI элементов данными существующего обьекта
+        /// </summary>
+        /// <param name="service">источник даных</param>
         public void setData(Service service)
         {
             txbCost.Text = service.Cost.ToString();

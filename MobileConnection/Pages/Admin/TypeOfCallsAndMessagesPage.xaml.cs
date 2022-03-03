@@ -26,6 +26,11 @@ namespace MobileConnection.Pages.Admin
         public ObservableCollection<Type_Of_Call_And_Message> Type_Of_Calls_And_Messages { get; set; }
 
         private static Type_Of_Call_And_Message _saveType_Of_Call_And_Message;
+
+
+        /// <summary>
+        /// Импорт данных из БД, заполнение DataGrid и Combobox
+        /// </summary>
         public TypeOfCallsAndMessagesPage()
         {
             InitializeComponent();
@@ -40,6 +45,7 @@ namespace MobileConnection.Pages.Admin
             AdminHomeWindow win = (AdminHomeWindow)Window.GetWindow(this);
             win.btnBack_Click_Back();
         }
+
 
         private void Button_Click_Add(object sender, RoutedEventArgs e)
         {
@@ -60,6 +66,7 @@ namespace MobileConnection.Pages.Admin
             }
             catch(Exception ex) { }
         }
+
 
         private void Button_Click_Edit(object sender, RoutedEventArgs e)
         {
@@ -88,6 +95,7 @@ namespace MobileConnection.Pages.Admin
             catch (Exception ex) { }
         }
 
+
         private void Button_Click_Delete(object sender, RoutedEventArgs e)
         {
             try
@@ -103,6 +111,7 @@ namespace MobileConnection.Pages.Admin
             catch (Exception ex) { }
         }
 
+        
         private void dataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
             try
@@ -125,6 +134,7 @@ namespace MobileConnection.Pages.Admin
             catch (Exception ex) { }
         }
 
+
         private void Button_Click_Search(object sender, RoutedEventArgs e)
         {
             string search = txbSearch.Text;
@@ -140,6 +150,7 @@ namespace MobileConnection.Pages.Admin
             dtg.ItemsSource = Type_Of_Calls_And_Messages;
         }
 
+
         private void dtg_MouseUp(object sender, MouseButtonEventArgs e)
         {
             try
@@ -151,6 +162,11 @@ namespace MobileConnection.Pages.Admin
             catch (Exception ex) { }
         }
 
+
+        /// <summary>
+        /// заполнение UI элементов данными существующего обьекта
+        /// </summary>
+        /// <param name="type">источник даных</param>
         public void setData(Type_Of_Call_And_Message type)
         {
             tbxTitle.Text = type.Type_Name;

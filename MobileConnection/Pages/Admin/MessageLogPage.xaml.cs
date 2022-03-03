@@ -31,7 +31,9 @@ namespace MobileConnection.Pages.Admin
 
         private static ClientMessage _saveClientMessage;
 
-
+        /// <summary>
+        /// Импорт данных из БД, заполнение DataGrid и Combobox
+        /// </summary>
         public MessageLogPage()
         {
             InitializeComponent();
@@ -49,8 +51,8 @@ namespace MobileConnection.Pages.Admin
 
             cmbMessages.ItemsSource = Messages;
             cmbClients.ItemsSource = Clients;
-            
         }
+
 
         private void Button_Click_Back(object sender, RoutedEventArgs e)
         {
@@ -119,6 +121,7 @@ namespace MobileConnection.Pages.Admin
             catch (Exception ex) { }
         }
 
+
         private void Button_Click_Delete(object sender, RoutedEventArgs e)
         {
             try
@@ -134,30 +137,30 @@ namespace MobileConnection.Pages.Admin
             catch (Exception ex) { }
         }
 
+
         private void dataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
             try
             {
+                ClientMessage clientMessage = e.Row.Item as ClientMessage;
 
+                if (clientMessage != null)
+                {
+                    if (ApplicationContext.validData(clientMessage.Message) && ApplicationContext.validData(clientMessage.Client))
+                    {
+                        db.ClientMessages.Update(clientMessage);
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        clientMessage.Message.Subscriber_Number = _saveClientMessage.Message.Subscriber_Number;
+                        clientMessage.Client.Phone_Number = _saveClientMessage.Client.Phone_Number;
+                    }
+                }
             }
             catch (Exception ex) { }
-
-            ClientMessage clientMessage = e.Row.Item as ClientMessage;
-
-            if (clientMessage != null)
-            {
-                if (ApplicationContext.validData(clientMessage.Message) && ApplicationContext.validData(clientMessage.Client))
-                {
-                    db.ClientMessages.Update(clientMessage);
-                    db.SaveChanges();
-                }
-                else
-                {
-                    clientMessage.Message.Subscriber_Number = _saveClientMessage.Message.Subscriber_Number;
-                    clientMessage.Client.Phone_Number = _saveClientMessage.Client.Phone_Number;
-                }
-            }
         }
+
 
         private void Button_Click_Search(object sender, RoutedEventArgs e)
         {
@@ -182,11 +185,16 @@ namespace MobileConnection.Pages.Admin
             dtg.ItemsSource = ClientMessages;
         }
 
+
+        /// <summary>
+        /// отчиска UI эелементов
+        /// </summary>
         public void clearRows()
         {
             cmbMessages.SelectedItem = null;
             cmbClients.SelectedItem = null;
         }
+
 
         private void dtg_MouseUp(object sender, MouseButtonEventArgs e)
         {
@@ -199,6 +207,11 @@ namespace MobileConnection.Pages.Admin
             catch (Exception ex) { }
         }
 
+
+        /// <summary>
+        /// заполнение UI элементов данными существующего обьекта
+        /// </summary>
+        /// <param name="clientMessage">источник даных</param>
         public void setData(ClientMessage clientMessage)
         {
             cmbMessages.SelectedItem = clientMessage.Message;

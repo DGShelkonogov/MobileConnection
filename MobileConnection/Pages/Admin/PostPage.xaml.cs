@@ -28,6 +28,9 @@ namespace MobileConnection.Pages.Admin
 
         private static Post _saveEditPost;
 
+        /// <summary>
+        /// Импорт данных из БД, заполнение DataGrid
+        /// </summary>
         public PostPage()
         {
             InitializeComponent();
@@ -44,6 +47,7 @@ namespace MobileConnection.Pages.Admin
             AdminHomeWindow win = (AdminHomeWindow)Window.GetWindow(this);
             win.btnBack_Click_Back();
         }
+
 
         private void Button_Click_Add(object sender, RoutedEventArgs e)
         {
@@ -64,6 +68,7 @@ namespace MobileConnection.Pages.Admin
             }
             catch (Exception ex) { }
         }
+
 
         private void Button_Click_Edit(object sender, RoutedEventArgs e)
         {
@@ -92,6 +97,7 @@ namespace MobileConnection.Pages.Admin
             catch (Exception ex) { }
         }
 
+
         private void Button_Click_Delete(object sender, RoutedEventArgs e)
         {
             try
@@ -106,6 +112,8 @@ namespace MobileConnection.Pages.Admin
             }
             catch (Exception ex) { }
         }
+
+
         private void dataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
             try
@@ -127,6 +135,7 @@ namespace MobileConnection.Pages.Admin
             catch (Exception ex) { }
         }
 
+
         private void Button_Click_Search(object sender, RoutedEventArgs e)
         {
             string search = txbSearch.Text;
@@ -142,6 +151,7 @@ namespace MobileConnection.Pages.Admin
              dtg.ItemsSource = Posts;
         }
 
+
         private void dtg_MouseUp(object sender, MouseButtonEventArgs e)
         {
             try
@@ -153,6 +163,11 @@ namespace MobileConnection.Pages.Admin
             catch (Exception ex) { }
         }
 
+
+        /// <summary>
+        /// заполнение UI элементов данными существующего обьекта
+        /// </summary>
+        /// <param name="post">источник даных</param>
         public void setData(Post post)
         {
             tbxTitle.Text = post.Post_Name;

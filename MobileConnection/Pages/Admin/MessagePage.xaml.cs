@@ -24,11 +24,14 @@ namespace MobileConnection.Pages.Admin
     {
         ApplicationContext db;
         public ObservableCollection<Message> Messages { get; set; }
-
         public List<Type_Of_Call_And_Message> Type_Of_Calls_And_Messages { get; set; }
 
         private static Message _saveMessage;
 
+
+        /// <summary>
+        /// Импорт данных из БД, заполнение DataGrid и Combobox
+        /// </summary>
         public MessagePage()
         {
             InitializeComponent();
@@ -41,12 +44,14 @@ namespace MobileConnection.Pages.Admin
             cmbTypeMessage.ItemsSource = Type_Of_Calls_And_Messages;
             
         }
+        
 
         private void Button_Click_Back(object sender, RoutedEventArgs e)
         {
             AdminHomeWindow win = (AdminHomeWindow)Window.GetWindow(this);
             win.btnBack_Click_Back();
         }
+
 
         private void Button_Click_Add(object sender, RoutedEventArgs e)
         {
@@ -59,7 +64,7 @@ namespace MobileConnection.Pages.Admin
                     Message_Date = DateOnly.Parse(tbxMessage_Date.Text),
                     Sending_Time = TimeOnly.Parse(tbxSending_Time.Text),
                     Type = db.Type_Of_Calls_And_Messages
-                    .FirstOrDefault(x => x.ID_Type_Of_Call_And_Message == type.ID_Type_Of_Call_And_Message),
+                        .FirstOrDefault(x => x.ID_Type_Of_Call_And_Message == type.ID_Type_Of_Call_And_Message),
                     Subscriber_Number = tbxSubscriber_Number.Text,
                 };
 
@@ -73,6 +78,7 @@ namespace MobileConnection.Pages.Admin
             }
             catch (Exception ex) { }
         }
+
 
         private void Button_Click_Edit(object sender, RoutedEventArgs e)
         {
@@ -111,6 +117,7 @@ namespace MobileConnection.Pages.Admin
             catch (Exception ex) { }
         }
 
+
         private void Button_Click_Delete(object sender, RoutedEventArgs e)
         {
             try
@@ -125,6 +132,7 @@ namespace MobileConnection.Pages.Admin
             }
             catch (Exception ex) { }
         }
+
 
         private void dataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
@@ -152,6 +160,7 @@ namespace MobileConnection.Pages.Admin
             catch (Exception ex) { }
         }
 
+
         private void Button_Click_Search(object sender, RoutedEventArgs e)
         {
             string search = txbSearch.Text;
@@ -168,6 +177,9 @@ namespace MobileConnection.Pages.Admin
         }
 
 
+        /// <summary>
+        /// отчиска UI эелементов
+        /// </summary>
         public void clearRows()
         {
             tbxMessage_Date.Text = "";
@@ -175,6 +187,7 @@ namespace MobileConnection.Pages.Admin
             tbxSubscriber_Number.Text = "";
             cmbTypeMessage.SelectedItem = null;
         }
+
 
         private void dtg_MouseUp(object sender, MouseButtonEventArgs e)
         {
@@ -187,6 +200,11 @@ namespace MobileConnection.Pages.Admin
             catch (Exception ex) { }
         }
 
+
+        /// <summary>
+        /// заполнение UI элементов данными существующего обьекта
+        /// </summary>
+        /// <param name="message">источник даных</param>
         public void setData(Message message)
         {
             tbxMessage_Date.Text = message.Message_Date.ToString();

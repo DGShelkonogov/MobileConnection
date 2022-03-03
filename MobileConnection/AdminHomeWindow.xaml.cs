@@ -26,18 +26,25 @@ namespace MobileConnection
             db = DBConnection.getConnection();
         }
 
+
         public void setPage(string tag)
         {
             Frame.Source = new Uri(tag, UriKind.Relative);
         }
 
 
+        /// <summary>
+        /// навигация по страницам
+        /// </summary>
         private void Button_Click_Page_Navigation(object sender, RoutedEventArgs e)
         {
             setPage((sender as Button).Tag.ToString());
         }
 
 
+        /// <summary>
+        /// выход из аккаунта
+        /// </summary>
         private void Button_Click_Exit(object sender, RoutedEventArgs e)
         {
             AuthorizationWindow window = new AuthorizationWindow();
@@ -46,7 +53,9 @@ namespace MobileConnection
         }
 
 
-
+        /// <summary>
+        /// возврат на предыдушю страницу
+        /// </summary>
         public void btnBack_Click_Back()
         {
             try

@@ -24,6 +24,10 @@ namespace MobileConnection.Pages
     {
         ApplicationContext db; 
         private static Private_Client privateClient;
+
+        /// <summary>
+        /// Импорт данных из БД
+        /// </summary>
         public PrivateClientPage(int? idClient)
         {
             InitializeComponent();
@@ -37,6 +41,10 @@ namespace MobileConnection.Pages
             setData();
         }
 
+
+        /// <summary>
+        /// заполнение UI элементов данными существующего обьекта
+        /// </summary>
         public void setData()
         {
             if(privateClient != null)
@@ -55,8 +63,6 @@ namespace MobileConnection.Pages
                 txbClient_Email.Text = privateClient.Client.Client_Email;
                 txbClient_Password.Text = privateClient.Client.Client_Password;
 
-              
-
                 decimal amount = 0;
                 foreach(var item in privateClient.Client.Services)
                 {
@@ -66,17 +72,20 @@ namespace MobileConnection.Pages
             }
         }
 
+
         private void Button_Click_Open_Service_Page(object sender, RoutedEventArgs e)
         {
             AuthorizationWindow win = (AuthorizationWindow)Window.GetWindow(this);
             win.openService(privateClient.Client.ID_Client);
         }
 
+
         private void Button_Click_Exit(object sender, RoutedEventArgs e)
         {
             AuthorizationWindow win = (AuthorizationWindow)Window.GetWindow(this);
             win.setPage("Pages/AuthorizationPage.xaml");
         }
+
 
         private void Button_Click_Edit(object sender, RoutedEventArgs e)
         {

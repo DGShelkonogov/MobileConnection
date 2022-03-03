@@ -30,6 +30,10 @@ namespace MobileConnection.Pages.Admin
 
         private static Corporate_Client _saveCorporate_Client;
 
+
+        /// <summary>
+        /// Импорт данных из БД, заполнение DataGrid и Combobox
+        /// </summary>
         public CorporateClientPage()
         {
             InitializeComponent();
@@ -111,6 +115,7 @@ namespace MobileConnection.Pages.Admin
             catch (Exception ex) { }
         }
 
+
         private void Button_Click_Delete(object sender, RoutedEventArgs e)
         {
             try
@@ -125,6 +130,7 @@ namespace MobileConnection.Pages.Admin
             }
             catch (Exception ex) { }
         }
+
 
         private void dataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
@@ -154,6 +160,7 @@ namespace MobileConnection.Pages.Admin
             catch (Exception ex) { }
         }
 
+
         private void Button_Click_Search(object sender, RoutedEventArgs e)
         {
             string search = txbSearch.Text;
@@ -178,6 +185,9 @@ namespace MobileConnection.Pages.Admin
         }
 
 
+        /// <summary>
+        /// отчиска UI эелементов
+        /// </summary>
         public void clearRows()
         {
             txbCompany_Name.Text = "";
@@ -187,6 +197,7 @@ namespace MobileConnection.Pages.Admin
             txbPersonal_Account_Number.Text = "";
             cmbClients.SelectedItem = null;
         }
+
 
         private void dtg_MouseUp(object sender, MouseButtonEventArgs e)
         {
@@ -199,6 +210,11 @@ namespace MobileConnection.Pages.Admin
             catch (Exception ex) { }
         }
 
+
+        /// <summary>
+        /// заполнение UI элементов данными существующего обьекта
+        /// </summary>
+        /// <param name="client">источник даных</param>
         public void setData(Corporate_Client client)
         {
             txbCompany_Name.Text = client.Company_Name;

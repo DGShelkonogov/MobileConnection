@@ -25,11 +25,14 @@ namespace MobileConnection.Pages.Admin
     {
         ApplicationContext db;
         public ObservableCollection<Private_Client> Private_Clients { get; set; }
-
         public List<Client> Clients { get; set; }
 
         private static Private_Client _savePrivate_Client;
 
+
+        /// <summary>
+        /// Импорт данных из БД, заполнение DataGrid и Combobox
+        /// </summary>
         public PrivateClientPage()
         {
             InitializeComponent();
@@ -45,11 +48,13 @@ namespace MobileConnection.Pages.Admin
             cmbClients.ItemsSource = Clients;
         }
 
+
         private void Button_Click_Back(object sender, RoutedEventArgs e)
         {
             AdminHomeWindow win = (AdminHomeWindow)Window.GetWindow(this);
             win.btnBack_Click_Back();
         }
+
 
         private void Button_Click_Add(object sender, RoutedEventArgs e)
         {
@@ -82,6 +87,7 @@ namespace MobileConnection.Pages.Admin
 
             }
         }
+
 
         private void Button_Click_Edit(object sender, RoutedEventArgs e)
         {
@@ -129,6 +135,7 @@ namespace MobileConnection.Pages.Admin
             catch (Exception ex){}
         }
 
+
         private void Button_Click_Delete(object sender, RoutedEventArgs e)
         {
             try
@@ -144,6 +151,7 @@ namespace MobileConnection.Pages.Admin
             }
             catch (Exception ex) { }
         }
+
 
         private void dataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
@@ -174,6 +182,7 @@ namespace MobileConnection.Pages.Admin
             catch (Exception ex) { }
         }
 
+
         private void Button_Click_Search(object sender, RoutedEventArgs e)
         {
             string search = txbSearch.Text;
@@ -197,6 +206,10 @@ namespace MobileConnection.Pages.Admin
             dtg.ItemsSource = Private_Clients;
         }
 
+
+        /// <summary>
+        /// отчиска UI эелементов
+        /// </summary>
         public void clearRows()
         {
             txbClient_Surname.Text = "";
@@ -221,6 +234,11 @@ namespace MobileConnection.Pages.Admin
             catch (Exception ex) { }
         }
 
+
+        /// <summary>
+        /// заполнение UI элементов данными существующего обьекта
+        /// </summary>
+        /// <param name="client">источник даных</param>
         public void setData(Private_Client client)
         {
             txbClient_Surname.Text = client.Client_Surname;
