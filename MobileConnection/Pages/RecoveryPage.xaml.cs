@@ -43,52 +43,64 @@ namespace MobileConnection.Pages
 
         private void Button_Click_Send_Key(object sender, RoutedEventArgs e)
         {
-            _key = GetRandomString();
-            _email = "OrexKashtan@gmail.com";
-            _client = db.Clients.FirstOrDefault(x => x.Client_Email.Equals(_email));
+            try
+            {
 
-            if (_client != null)
-                SendEmailAsync();
-            else
-                MessageBox.Show("Вы не регистрированны");
-           
+                _key = GetRandomString();
+                _email = txbEmail.Text;
+                _client = db.Clients.FirstOrDefault(x => x.Client_Email.Equals(_email));
+
+                if (_client != null)
+                    SendEmailAsync();
+                else
+                    MessageBox.Show("Вы не регистрированны");
+            }
+            catch (Exception ex) { }
         }
 
         private void Button_Click_LogIn(object sender, RoutedEventArgs e)
         {
-            string key = txbKey.Text;
-            if (key.Equals(_key))
+            try
             {
-                AuthorizationWindow win = (AuthorizationWindow)Window.GetWindow(this);
+                string key = txbKey.Text;
+                if (key.Equals(_key))
+                {
+                    AuthorizationWindow win = (AuthorizationWindow)Window.GetWindow(this);
 
-                Private_Client private_Client = db.Private_Clients
-                    .Include(x => x.Client)
-                    .FirstOrDefault(x => x.Client.ID_Client == _client.ID_Client);
+                    Private_Client private_Client = db.Private_Clients
+                        .Include(x => x.Client)
+                        .FirstOrDefault(x => x.Client.ID_Client == _client.ID_Client);
 
-                Corporate_Client corporate_Client = db.Corporate_Clients
-                   .Include(x => x.Client)
-                   .FirstOrDefault(x => x.Client.ID_Client == _client.ID_Client);
+                    Corporate_Client corporate_Client = db.Corporate_Clients
+                       .Include(x => x.Client)
+                       .FirstOrDefault(x => x.Client.ID_Client == _client.ID_Client);
 
-                if (private_Client != null)
-                    win.setPage("Pages/PrivateClientPage.xaml");
+                    if (private_Client != null)
+                        win.setPage("Pages/PrivateClientPage.xaml");
 
-                if (corporate_Client != null)
-                    win.setPage("Pages/CorporateClientPage.xaml");
+                    if (corporate_Client != null)
+                        win.setPage("Pages/CorporateClientPage.xaml");
+                }
             }
+            catch (Exception ex) { }
         }
 
         private static async Task SendEmailAsync()
         {
-            MailAddress from = new MailAddress("OrexKashtan@gmail.com", "Compamy name");
-            MailAddress to = new MailAddress(_email);
-            MailMessage m = new MailMessage(from, to);
-            m.Subject = "Восстановление доступа к аккаунту";
-            m.Body = "Ключ: " + _key;
-            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-            smtp.Credentials = new NetworkCredential("OrexKashtan@gmail.com", "HXJ4p65COnfW");
-            smtp.EnableSsl = true;
-            await smtp.SendMailAsync(m);
-            MessageBox.Show("Письмо отправленно");
+            try
+            {
+                MailAddress from = new MailAddress("OrexKashtan@gmail.com", "Compamy name");
+                MailAddress to = new MailAddress(_email);
+                MailMessage m = new MailMessage(from, to);
+                m.Subject = "Восстановление доступа к аккаунту";
+                m.Body = "Ключ: " + _key;
+                SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+                smtp.Credentials = new NetworkCredential("OrexKashtan@gmail.com", "HXJ4p65COnfW");
+                smtp.EnableSsl = true;
+                await smtp.SendMailAsync(m);
+                MessageBox.Show("Письмо отправленно");
+            }
+            catch(Exception ex) { }
         }
 
         public static string GetRandomString()

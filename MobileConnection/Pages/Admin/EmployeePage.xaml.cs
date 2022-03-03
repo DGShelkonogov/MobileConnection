@@ -49,66 +49,118 @@ namespace MobileConnection.Pages.Admin
 
         private void Button_Click_Add(object sender, RoutedEventArgs e)
         {
-            Post post = cmbPosts.SelectedItem as Post;
-
-            Employee employee = new Employee
+            try
             {
-                Employee_Surname = tbxSurname.Text,
-                Employee_Email = tbxEmail.Text,
-                Employee_Name = tbxName.Text,
-                Employee_Patronymic = tbxPatronymic.Text,
-                Password = tbxPassword.Password,
-                Post = db.Posts.FirstOrDefault(x => x.ID_Post == post.ID_Post)
-            };
+                Post post = cmbPosts.SelectedItem as Post;
 
-
-            if(ApplicationContext.validData(post) && ApplicationContext.validData(employee))
-            {
-
-                if (ApplicationContext.checkEmail(employee.Employee_Email))
+                Employee employee = new Employee
                 {
-                    Employees.Add(employee);
-                    db.Employees.Add(employee);
-                    db.SaveChanges();
-                    clearRows();
+                    Employee_Surname = tbxSurname.Text,
+                    Employee_Email = tbxEmail.Text,
+                    Employee_Name = tbxName.Text,
+                    Employee_Patronymic = tbxPatronymic.Text,
+                    Password = tbxPassword.Password,
+                    Post = db.Posts.FirstOrDefault(x => x.ID_Post == post.ID_Post)
+                };
+
+
+                if (ApplicationContext.validData(post) && ApplicationContext.validData(employee))
+                {
+
+                    if (ApplicationContext.checkEmail(employee.Employee_Email))
+                    {
+                        Employees.Add(employee);
+                        db.Employees.Add(employee);
+                        db.SaveChanges();
+                        clearRows();
+                    }
+                    else
+                        MessageBox.Show("Почта занята");
                 }
-                else
-                    MessageBox.Show("Почта занята");
             }
+            catch (Exception ex) { }
         }
 
 
         private void Button_Click_Edit(object sender, RoutedEventArgs e)
         {
-            Employee employee = Employees[dtg.SelectedIndex];
-            if (employee != null)
+            try
             {
-                Post post = cmbPosts.SelectedItem as Post;
-
-                employee.Employee_Surname = tbxSurname.Text;
-                employee.Employee_Email = tbxEmail.Text;
-                employee.Employee_Name = tbxName.Text;
-                employee.Employee_Patronymic = tbxPatronymic.Text;
-                employee.Password = tbxPassword.Password;
-                employee.Post = db.Posts.FirstOrDefault(x => x.ID_Post == post.ID_Post);
-
-
-                if (ApplicationContext.validData(post) && ApplicationContext.validData(employee))
+                Employee employee = Employees[dtg.SelectedIndex];
+                if (employee != null)
                 {
-                    if (ApplicationContext.checkEmail(employee.Employee_Email))
-                    {
-                        db.Employees.Update(employee);
-                        db.SaveChanges();
-                        clearRows();
+                    Post post = cmbPosts.SelectedItem as Post;
 
-                        Employees = new(db.Employees.ToList());
-                        dtg.ItemsSource = Employees;
+                    employee.Employee_Surname = tbxSurname.Text;
+                    employee.Employee_Email = tbxEmail.Text;
+                    employee.Employee_Name = tbxName.Text;
+                    employee.Employee_Patronymic = tbxPatronymic.Text;
+                    employee.Password = tbxPassword.Password;
+                    employee.Post = db.Posts.FirstOrDefault(x => x.ID_Post == post.ID_Post);
+
+
+                    if (ApplicationContext.validData(post) && ApplicationContext.validData(employee))
+                    {
+                        if (ApplicationContext.checkEmail(employee.Employee_Email))
+                        {
+                            db.Employees.Update(employee);
+                            db.SaveChanges();
+                            clearRows();
+
+                            Employees = new(db.Employees.ToList());
+                            dtg.ItemsSource = Employees;
+                        }
+                        else
+                            MessageBox.Show("Почта занята");
                     }
                     else
-                        MessageBox.Show("Почта занята");
+                    {
+                        employee.Employee_Surname = _saveEmployee.Employee_Surname;
+                        employee.Employee_Email = _saveEmployee.Employee_Email;
+                        employee.Employee_Name = _saveEmployee.Employee_Name;
+                        employee.Employee_Patronymic = _saveEmployee.Employee_Patronymic;
+                        employee.Password = _saveEmployee.Password;
+                        employee.Post.Post_Name = _saveEmployee.Post.Post_Name;
+                    }
                 }
-                else
+            }
+            catch (Exception ex) { }
+        }
+
+        private void Button_Click_Delete(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Employee employee = Employees[dtg.SelectedIndex];
+                if (employee != null)
                 {
+                    Employees.Remove(employee);
+                    db.Employees.Remove(employee);
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex) { }
+        }
+
+        private void dataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            try
+            {
+                Employee employee = e.Row.Item as Employee;
+                if (employee != null)
+                {
+                    if (ApplicationContext.validData(employee.Post) && ApplicationContext.validData(employee))
+                    {
+                        if (ApplicationContext.checkEmail(employee.Employee_Email))
+                        {
+                            db.Employees.Update(employee);
+                            db.SaveChanges();
+                            return;
+                        }
+                        else
+                            MessageBox.Show("Почта занята");
+
+                    }
                     employee.Employee_Surname = _saveEmployee.Employee_Surname;
                     employee.Employee_Email = _saveEmployee.Employee_Email;
                     employee.Employee_Name = _saveEmployee.Employee_Name;
@@ -117,45 +169,7 @@ namespace MobileConnection.Pages.Admin
                     employee.Post.Post_Name = _saveEmployee.Post.Post_Name;
                 }
             }
-        }
-
-        private void Button_Click_Delete(object sender, RoutedEventArgs e)
-        {
-            Employee employee = Employees[dtg.SelectedIndex];
-            if (employee != null)
-            {
-                Employees.Remove(employee);
-                db.Employees.Remove(employee);
-                db.SaveChanges();
-            }
-        }
-
-        private void dataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
-        {
-            Employee employee = e.Row.Item as Employee;
-
-
-            if (employee != null)
-            {
-                if (ApplicationContext.validData(employee.Post) && ApplicationContext.validData(employee))
-                {
-                    if (ApplicationContext.checkEmail(employee.Employee_Email))
-                    {
-                        db.Employees.Update(employee);
-                        db.SaveChanges();
-                        return;
-                    }
-                    else
-                        MessageBox.Show("Почта занята");
-                    
-                }
-                employee.Employee_Surname = _saveEmployee.Employee_Surname;
-                employee.Employee_Email = _saveEmployee.Employee_Email;
-                employee.Employee_Name = _saveEmployee.Employee_Name;
-                employee.Employee_Patronymic = _saveEmployee.Employee_Patronymic;
-                employee.Password = _saveEmployee.Password;
-                employee.Post.Post_Name = _saveEmployee.Post.Post_Name;     
-            }
+            catch (Exception ex) { }
         }
 
  

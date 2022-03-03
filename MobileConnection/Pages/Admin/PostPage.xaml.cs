@@ -47,77 +47,84 @@ namespace MobileConnection.Pages.Admin
 
         private void Button_Click_Add(object sender, RoutedEventArgs e)
         {
-            Post post = new Post
+            try
             {
-                Post_Name = tbxTitle.Text.ToString(),
-            };
+                Post post = new Post
+                {
+                    Post_Name = tbxTitle.Text.ToString(),
+                };
 
-            if (ApplicationContext.validData(post))
-            {
-                Posts.Add(post);
-                db.Posts.Add(post);
-                db.SaveChanges();
-                tbxTitle.Text = "";
+                if (ApplicationContext.validData(post))
+                {
+                    Posts.Add(post);
+                    db.Posts.Add(post);
+                    db.SaveChanges();
+                    tbxTitle.Text = "";
+                }
             }
+            catch (Exception ex) { }
         }
 
         private void Button_Click_Edit(object sender, RoutedEventArgs e)
         {
-            Post post = Posts[dtg.SelectedIndex];
-            if (post != null)
+            try
             {
-                post.Post_Name = tbxTitle.Text.ToString();
-
-                if (ApplicationContext.validData(post))
+                Post post = Posts[dtg.SelectedIndex];
+                if (post != null)
                 {
-                    db.Posts.Update(post);
-                    db.SaveChanges();
-                    tbxTitle.Text = "";
+                    post.Post_Name = tbxTitle.Text.ToString();
 
-                    Posts = new(db.Posts.ToList());
-                    dtg.ItemsSource = Posts;
+                    if (ApplicationContext.validData(post))
+                    {
+                        db.Posts.Update(post);
+                        db.SaveChanges();
+                        tbxTitle.Text = "";
+
+                        Posts = new(db.Posts.ToList());
+                        dtg.ItemsSource = Posts;
+                    }
+                    else
+                    {
+                        post.Post_Name = _saveEditPost.Post_Name;
+                    }
                 }
-                else
-                {
-                    post.Post_Name = _saveEditPost.Post_Name;
-                }
-            }      
+            }
+            catch (Exception ex) { }
         }
 
         private void Button_Click_Delete(object sender, RoutedEventArgs e)
         {
-            Post post = Posts[dtg.SelectedIndex];
-            if (post != null)
+            try
             {
-                Posts.Remove(post);
-                db.Posts.Remove(post);
-                db.SaveChanges();
+                Post post = Posts[dtg.SelectedIndex];
+                if (post != null)
+                {
+                    Posts.Remove(post);
+                    db.Posts.Remove(post);
+                    db.SaveChanges();
+                }
             }
+            catch (Exception ex) { }
         }
         private void dataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            Post post = e.Row.Item as Post;
-            if (post != null)
+            try
             {
-                if (ApplicationContext.validData(post))
+                Post post = e.Row.Item as Post;
+                if (post != null)
                 {
-                    db.Posts.Update(post);
-                    db.SaveChanges();
-                }
-                else
-                {
-                    post.Post_Name = _saveEditPost.Post_Name;
+                    if (ApplicationContext.validData(post))
+                    {
+                        db.Posts.Update(post);
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        post.Post_Name = _saveEditPost.Post_Name;
+                    }
                 }
             }
-        }
-
-
-
-        private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            Post post = Posts[dtg.SelectedIndex];
-            if (post != null)
-                tbxTitle.Text = post.Post_Name;
+            catch (Exception ex) { }
         }
 
         private void Button_Click_Search(object sender, RoutedEventArgs e)

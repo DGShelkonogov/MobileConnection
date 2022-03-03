@@ -53,89 +53,105 @@ namespace MobileConnection.Pages.Admin
 
         private void Button_Click_Add(object sender, RoutedEventArgs e)
         {
-            Client client = cmbClients.SelectedItem as Client;
-
-            Corporate_Client corporate_Client = new Corporate_Client
+            try
             {
-                Company_Name = txbCompany_Name.Text,
-                INN = txbINN.Text,
-                Legal_Adsress = txbLegal_Adsress.Text,
-                Physical_Adsress = txbPhysical_Adsress.Text,
-                Personal_Account_Number = txbPersonal_Account_Number.Text,
-                Client = db.Clients.FirstOrDefault(x => x.ID_Client == client.ID_Client),
-            };
+                Client client = cmbClients.SelectedItem as Client;
 
-            if(ApplicationContext.validData(client) && ApplicationContext.validData(corporate_Client))
-            {
-                Corporate_Clients.Add(corporate_Client);
-                db.Corporate_Clients.Add(corporate_Client);
-                db.SaveChanges();
-                clearRows();
+                Corporate_Client corporate_Client = new Corporate_Client
+                {
+                    Company_Name = txbCompany_Name.Text,
+                    INN = txbINN.Text,
+                    Legal_Adsress = txbLegal_Adsress.Text,
+                    Physical_Adsress = txbPhysical_Adsress.Text,
+                    Personal_Account_Number = txbPersonal_Account_Number.Text,
+                    Client = db.Clients.FirstOrDefault(x => x.ID_Client == client.ID_Client),
+                };
+
+                if (ApplicationContext.validData(client) && ApplicationContext.validData(corporate_Client))
+                {
+                    Corporate_Clients.Add(corporate_Client);
+                    db.Corporate_Clients.Add(corporate_Client);
+                    db.SaveChanges();
+                    clearRows();
+                }
             }
+            catch (Exception ex) { }
         }
     
         private void Button_Click_Edit(object sender, RoutedEventArgs e)
         {
-            Corporate_Client corporate_Client = Corporate_Clients[dtg.SelectedIndex];
-            if (corporate_Client != null)
+            try
             {
-                Client client = cmbClients.SelectedItem as Client;
-
-                corporate_Client.Company_Name = txbCompany_Name.Text;
-                corporate_Client.INN = txbINN.Text;
-                corporate_Client.Legal_Adsress = txbLegal_Adsress.Text;
-                corporate_Client.Physical_Adsress = txbPhysical_Adsress.Text;
-                corporate_Client.Personal_Account_Number = txbPersonal_Account_Number.Text;
-                corporate_Client.Client = db.Clients.FirstOrDefault(x => x.ID_Client == client.ID_Client);
-
-
-                if (ApplicationContext.validData(client) && ApplicationContext.validData(corporate_Client))
+                Corporate_Client corporate_Client = Corporate_Clients[dtg.SelectedIndex];
+                if (corporate_Client != null)
                 {
-                    db.Corporate_Clients.Update(corporate_Client);
-                    db.SaveChanges();
-                    clearRows();
+                    Client client = cmbClients.SelectedItem as Client;
 
-                    Corporate_Clients = new(db.Corporate_Clients
-                        .Include(x => x.Client)
-                        .ToList());
-                    dtg.ItemsSource = Corporate_Clients;
-                }  
+                    corporate_Client.Company_Name = txbCompany_Name.Text;
+                    corporate_Client.INN = txbINN.Text;
+                    corporate_Client.Legal_Adsress = txbLegal_Adsress.Text;
+                    corporate_Client.Physical_Adsress = txbPhysical_Adsress.Text;
+                    corporate_Client.Personal_Account_Number = txbPersonal_Account_Number.Text;
+                    corporate_Client.Client = db.Clients.FirstOrDefault(x => x.ID_Client == client.ID_Client);
+
+
+                    if (ApplicationContext.validData(client) && ApplicationContext.validData(corporate_Client))
+                    {
+                        db.Corporate_Clients.Update(corporate_Client);
+                        db.SaveChanges();
+                        clearRows();
+
+                        Corporate_Clients = new(db.Corporate_Clients
+                            .Include(x => x.Client)
+                            .ToList());
+                        dtg.ItemsSource = Corporate_Clients;
+                    }
+                }
             }
+            catch (Exception ex) { }
         }
 
         private void Button_Click_Delete(object sender, RoutedEventArgs e)
         {
-            Corporate_Client corporate_Client = Corporate_Clients[dtg.SelectedIndex];
-            if (corporate_Client != null)
+            try
             {
-                Corporate_Clients.Remove(corporate_Client);
-                db.Corporate_Clients.Remove(corporate_Client);
-                db.SaveChanges();
+                Corporate_Client corporate_Client = Corporate_Clients[dtg.SelectedIndex];
+                if (corporate_Client != null)
+                {
+                    Corporate_Clients.Remove(corporate_Client);
+                    db.Corporate_Clients.Remove(corporate_Client);
+                    db.SaveChanges();
+                }
             }
+            catch (Exception ex) { }
         }
 
         private void dataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            Corporate_Client corporate_Client = e.Row.Item as Corporate_Client;
-
-            if (corporate_Client != null)
+            try
             {
-                if (ApplicationContext.validData(corporate_Client.Client) 
-                    && ApplicationContext.validData(corporate_Client))
+                Corporate_Client corporate_Client = e.Row.Item as Corporate_Client;
+
+                if (corporate_Client != null)
                 {
-                    db.Corporate_Clients.Update(corporate_Client);
-                    db.SaveChanges();
-                }
-                else
-                {
-                    corporate_Client.Company_Name = _saveCorporate_Client.Company_Name;
-                    corporate_Client.INN = _saveCorporate_Client.Company_Name;
-                    corporate_Client.Legal_Adsress = _saveCorporate_Client.Company_Name;
-                    corporate_Client.Physical_Adsress = _saveCorporate_Client.Company_Name;
-                    corporate_Client.Personal_Account_Number = _saveCorporate_Client.Company_Name;
-                    corporate_Client.Client.Account_Number = _saveCorporate_Client.Client.Account_Number;
+                    if (ApplicationContext.validData(corporate_Client.Client)
+                        && ApplicationContext.validData(corporate_Client))
+                    {
+                        db.Corporate_Clients.Update(corporate_Client);
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        corporate_Client.Company_Name = _saveCorporate_Client.Company_Name;
+                        corporate_Client.INN = _saveCorporate_Client.Company_Name;
+                        corporate_Client.Legal_Adsress = _saveCorporate_Client.Company_Name;
+                        corporate_Client.Physical_Adsress = _saveCorporate_Client.Company_Name;
+                        corporate_Client.Personal_Account_Number = _saveCorporate_Client.Company_Name;
+                        corporate_Client.Client.Account_Number = _saveCorporate_Client.Client.Account_Number;
+                    }
                 }
             }
+            catch (Exception ex) { }
         }
 
         private void Button_Click_Search(object sender, RoutedEventArgs e)

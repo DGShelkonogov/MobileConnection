@@ -43,81 +43,86 @@ namespace MobileConnection.Pages.Admin
 
         private void Button_Click_Add(object sender, RoutedEventArgs e)
         {
-            Type_Of_Call_And_Message type = new Type_Of_Call_And_Message
+            try
             {
-                Type_Name = tbxTitle.Text.ToString(),
-            };
+                Type_Of_Call_And_Message type = new Type_Of_Call_And_Message
+                {
+                    Type_Name = tbxTitle.Text.ToString(),
+                };
 
-            if (ApplicationContext.validData(type))
-            {
-                Type_Of_Calls_And_Messages.Add(type);
-                db.Type_Of_Calls_And_Messages.Add(type);
-                db.SaveChanges();
-                tbxTitle.Text = "";
+                if (ApplicationContext.validData(type))
+                {
+                    Type_Of_Calls_And_Messages.Add(type);
+                    db.Type_Of_Calls_And_Messages.Add(type);
+                    db.SaveChanges();
+                    tbxTitle.Text = "";
+                }
             }
-
-           
+            catch(Exception ex) { }
         }
 
         private void Button_Click_Edit(object sender, RoutedEventArgs e)
         {
-            Type_Of_Call_And_Message type = Type_Of_Calls_And_Messages[dtg.SelectedIndex];
-            if (type != null)
+            try
             {
-                type.Type_Name = tbxTitle.Text.ToString();
-
-                if (ApplicationContext.validData(type))
+                Type_Of_Call_And_Message type = Type_Of_Calls_And_Messages[dtg.SelectedIndex];
+                if (type != null)
                 {
-                    db.Type_Of_Calls_And_Messages.Update(type);
-                    db.SaveChanges();
-                    tbxTitle.Text = "";
+                    type.Type_Name = tbxTitle.Text.ToString();
 
-                    Type_Of_Calls_And_Messages = new(db.Type_Of_Calls_And_Messages.ToList());
-                    dtg.ItemsSource = Type_Of_Calls_And_Messages;
-                }
-                else
-                {
-                    type.Type_Name = _saveType_Of_Call_And_Message.Type_Name;
+                    if (ApplicationContext.validData(type))
+                    {
+                        db.Type_Of_Calls_And_Messages.Update(type);
+                        db.SaveChanges();
+                        tbxTitle.Text = "";
+
+                        Type_Of_Calls_And_Messages = new(db.Type_Of_Calls_And_Messages.ToList());
+                        dtg.ItemsSource = Type_Of_Calls_And_Messages;
+                    }
+                    else
+                    {
+                        type.Type_Name = _saveType_Of_Call_And_Message.Type_Name;
+                    }
                 }
             }
+            catch (Exception ex) { }
         }
 
         private void Button_Click_Delete(object sender, RoutedEventArgs e)
         {
-            Type_Of_Call_And_Message type = Type_Of_Calls_And_Messages[dtg.SelectedIndex];
-            if (type != null)
+            try
             {
-                Type_Of_Calls_And_Messages.Remove(type);
-                db.Type_Of_Calls_And_Messages.Remove(type);
-                db.SaveChanges();
+                Type_Of_Call_And_Message type = Type_Of_Calls_And_Messages[dtg.SelectedIndex];
+                if (type != null)
+                {
+                    Type_Of_Calls_And_Messages.Remove(type);
+                    db.Type_Of_Calls_And_Messages.Remove(type);
+                    db.SaveChanges();
+                }
             }
+            catch (Exception ex) { }
         }
 
         private void dataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            Type_Of_Call_And_Message type = e.Row.Item as Type_Of_Call_And_Message;
-
-            if (type != null)
+            try
             {
-                if (ApplicationContext.validData(type))
+                Type_Of_Call_And_Message type = e.Row.Item as Type_Of_Call_And_Message;
+
+                if (type != null)
                 {
-                    db.Type_Of_Calls_And_Messages.Update(type);
-                    db.SaveChanges();
-                }
-                else
-                {
-                    type.Type_Name = _saveType_Of_Call_And_Message.Type_Name;
+                    if (ApplicationContext.validData(type))
+                    {
+                        db.Type_Of_Calls_And_Messages.Update(type);
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        type.Type_Name = _saveType_Of_Call_And_Message.Type_Name;
+                    }
                 }
             }
-        }
-
-
-
-        private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            Type_Of_Call_And_Message type = Type_Of_Calls_And_Messages[dtg.SelectedIndex];
-            if (type != null)
-                tbxTitle.Text = type.Type_Name;
+            catch (Exception ex) { }
         }
 
         private void Button_Click_Search(object sender, RoutedEventArgs e)

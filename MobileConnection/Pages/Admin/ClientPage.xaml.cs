@@ -87,33 +87,82 @@ namespace MobileConnection.Pages.Admin
 
         private void Button_Click_Edit(object sender, RoutedEventArgs e)
         {
-            Client client = Clients[dtg.SelectedIndex];
-            if (client != null)
+            try
             {
-                client.Account_Number = txbAccount_Number.Text;
-                client.Client_Email = txbClient_Email.Text;
-                client.Client_Password = txbClient_Password.Password;
-                client.Contract_Conclusion_Date = DateOnly.Parse(txbContract_Conclusion_Date.Text);
-                client.Phone_Number = txbPhone_Number.Text;
-                client.Tariff_Cost = Decimal.Parse(txbTariff_Cost.Text);
-                client.Contract_Number = Convert.ToInt32(txbContract_Number.Text);
-
-                if (ApplicationContext.validData(client))
+                Client client = Clients[dtg.SelectedIndex];
+                if (client != null)
                 {
-                    if (ApplicationContext.checkEmail(client.Client_Email))
-                    {
-                        db.Clients.Update(client);
-                        db.SaveChanges();
-                        clearRows();
+                    client.Account_Number = txbAccount_Number.Text;
+                    client.Client_Email = txbClient_Email.Text;
+                    client.Client_Password = txbClient_Password.Password;
+                    client.Contract_Conclusion_Date = DateOnly.Parse(txbContract_Conclusion_Date.Text);
+                    client.Phone_Number = txbPhone_Number.Text;
+                    client.Tariff_Cost = Decimal.Parse(txbTariff_Cost.Text);
+                    client.Contract_Number = Convert.ToInt32(txbContract_Number.Text);
 
-                        Clients = new(db.Clients.ToList());
-                        dtg.ItemsSource = Clients;
+                    if (ApplicationContext.validData(client))
+                    {
+                        if (ApplicationContext.checkEmail(client.Client_Email))
+                        {
+                            db.Clients.Update(client);
+                            db.SaveChanges();
+                            clearRows();
+
+                            Clients = new(db.Clients.ToList());
+                            dtg.ItemsSource = Clients;
+                        }
+                        else
+                            MessageBox.Show("Почта занята");
                     }
                     else
-                        MessageBox.Show("Почта занята");
+                    {
+                        client.Account_Number = _saveClient.Account_Number;
+                        client.Client_Email = _saveClient.Client_Email;
+                        client.Client_Password = _saveClient.Client_Password;
+                        client.Contract_Conclusion_Date = _saveClient.Contract_Conclusion_Date;
+                        client.Phone_Number = _saveClient.Phone_Number;
+                        client.Tariff_Cost = _saveClient.Tariff_Cost;
+                        client.Contract_Number = _saveClient.Contract_Number;
+                    }
                 }
-                else
+            }
+            catch (Exception we) { }
+        }
+
+        private void Button_Click_Delete(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Client client = Clients[dtg.SelectedIndex];
+                if (client != null)
                 {
+                    Clients.Remove(client);
+                    db.Clients.Remove(client);
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception we) { }
+        }
+
+
+        private void dataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            try
+            {
+                Client client = e.Row.Item as Client;
+                if (client != null)
+                {
+                    if (ApplicationContext.validData(client))
+                    {
+                        if (ApplicationContext.checkEmail(client.Client_Email))
+                        {
+                            db.Clients.Update(client);
+                            db.SaveChanges();
+                            return;
+                        }
+                        else
+                            MessageBox.Show("Почта занята");
+                    }
                     client.Account_Number = _saveClient.Account_Number;
                     client.Client_Email = _saveClient.Client_Email;
                     client.Client_Password = _saveClient.Client_Password;
@@ -121,48 +170,9 @@ namespace MobileConnection.Pages.Admin
                     client.Phone_Number = _saveClient.Phone_Number;
                     client.Tariff_Cost = _saveClient.Tariff_Cost;
                     client.Contract_Number = _saveClient.Contract_Number;
-                }    
-            }
-        }
-
-        private void Button_Click_Delete(object sender, RoutedEventArgs e)
-        {
-            Client client = Clients[dtg.SelectedIndex];
-            if (client != null)
-            {
-                Clients.Remove(client);
-                db.Clients.Remove(client);
-                db.SaveChanges();
-            }
-        }
-
-
-        private void dataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
-        {
-            Client client = e.Row.Item as Client;
-
-
-            if (client != null)
-            {
-                if (ApplicationContext.validData(client))
-                {
-                    if (ApplicationContext.checkEmail(client.Client_Email))
-                    {
-                        db.Clients.Update(client);
-                        db.SaveChanges();
-                        return;
-                    }
-                    else
-                        MessageBox.Show("Почта занята");
                 }
-                client.Account_Number = _saveClient.Account_Number;
-                client.Client_Email = _saveClient.Client_Email;
-                client.Client_Password = _saveClient.Client_Password;
-                client.Contract_Conclusion_Date = _saveClient.Contract_Conclusion_Date;
-                client.Phone_Number = _saveClient.Phone_Number;
-                client.Tariff_Cost = _saveClient.Tariff_Cost;
-                client.Contract_Number = _saveClient.Contract_Number;
             }
+            catch (Exception we) { }
         }
 
         private void Button_Click_Search(object sender, RoutedEventArgs e)

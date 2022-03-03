@@ -32,14 +32,14 @@ namespace MobileConnection.Models
         public int ID_Private_Client { get; set; }
 
         [Required]
-        [StringLength(25)]
+        [StringLength(25, ErrorMessage = "Длинна фамилии не должна привышать 25 символов")]
         public string Client_Surname { get; set; }
 
         [Required]
-        [StringLength(25)]
+        [StringLength(25, ErrorMessage = "Длинна имени не должна привышать 25 символов")]
         public string Client_Name { get; set; }
 
-        [StringLength(25)]
+        [StringLength(25, ErrorMessage = "Длинна отчества не должна привышать 25 символов")]
         public string Client_Patronymic { get; set; }
 
         [Required]
@@ -52,7 +52,7 @@ namespace MobileConnection.Models
         public int Passport_Number { get; set; }
 
         [Required]
-        [StringLength(70)]
+        [StringLength(70, ErrorMessage = "Длинна  адреса не должна привышать 70 символов")]
         public string Adsress { get; set; }
 
         [Required]

@@ -53,106 +53,125 @@ namespace MobileConnection.Pages.Admin
 
         private void Button_Click_Add(object sender, RoutedEventArgs e)
         {
-            Client client = cmbClients.SelectedItem as Client;
-
-            Private_Client private_Client = new Private_Client
+            try
             {
-                Client_Surname = txbClient_Surname.Text,
-                Client_Name = txbClient_Name.Text,
-                Client_Patronymic = txbClient_Patronymic.Text,
-                Adsress = txbAdsress.Text,
-                Passport_Series = Convert.ToInt32(txbPassport_Series.Text),
-                Passport_Number = Convert.ToInt32(txbPassport_Number.Text),
-                Date_Of_Birth = DateOnly.Parse(txbDate_Of_Birth.Text),
-                Client = db.Clients.FirstOrDefault(x => x.ID_Client == client.ID_Client),
-            };
+                Client client = cmbClients.SelectedItem as Client;
 
-            if(ApplicationContext.validData(client) && ApplicationContext.validData(private_Client))
+                Private_Client private_Client = new Private_Client
+                {
+                    Client_Surname = txbClient_Surname.Text,
+                    Client_Name = txbClient_Name.Text,
+                    Client_Patronymic = txbClient_Patronymic.Text,
+                    Adsress = txbAdsress.Text,
+                    Passport_Series = Convert.ToInt32(txbPassport_Series.Text),
+                    Passport_Number = Convert.ToInt32(txbPassport_Number.Text),
+                    Date_Of_Birth = DateOnly.Parse(txbDate_Of_Birth.Text),
+                    Client = db.Clients.FirstOrDefault(x => x.ID_Client == client.ID_Client),
+                };
+
+                if (ApplicationContext.validData(client) && ApplicationContext.validData(private_Client))
+                {
+                    Private_Clients.Add(private_Client);
+                    db.Private_Clients.Add(private_Client);
+                    db.SaveChanges();
+                    clearRows();
+                }
+            }
+            catch (Exception ex)
             {
-                Private_Clients.Add(private_Client);
-                db.Private_Clients.Add(private_Client);
-                db.SaveChanges();
-                clearRows();
+
             }
         }
 
         private void Button_Click_Edit(object sender, RoutedEventArgs e)
         {
-            Private_Client private_Client = Private_Clients[dtg.SelectedIndex];
-
-            if (private_Client != null)
+            try
             {
-                Client client = cmbClients.SelectedItem as Client;
+                Private_Client private_Client = Private_Clients[dtg.SelectedIndex];
 
-                private_Client.Client_Surname = txbClient_Surname.Text;
-                private_Client.Client_Name = txbClient_Name.Text;
-                private_Client.Client_Patronymic = txbClient_Patronymic.Text;
-                private_Client.Adsress = txbAdsress.Text;
-                private_Client.Passport_Series = Convert.ToInt32(txbPassport_Series.Text);
-                private_Client.Passport_Number = Convert.ToInt32(txbPassport_Number.Text);
-                private_Client.Date_Of_Birth = DateOnly.Parse(txbDate_Of_Birth.Text);
-                private_Client.Client = db.Clients.FirstOrDefault(x => x.ID_Client == client.ID_Client);
-
-                if (ApplicationContext.validData(client) && ApplicationContext.validData(private_Client))
+                if (private_Client != null)
                 {
-                    db.Private_Clients.Update(private_Client);
-                    db.SaveChanges();
-                    clearRows();
+                    Client client = cmbClients.SelectedItem as Client;
 
-                    Private_Clients = new(db.Private_Clients
-                        .Include(x => x.Client)
-                        .ToList());
-                    dtg.ItemsSource = Private_Clients;
-                }
-                else
-                {
-                    private_Client.Client.Account_Number = _savePrivate_Client.Client.Account_Number;
-                    private_Client.Client_Surname = _savePrivate_Client.Client_Surname;
-                    private_Client.Client_Name = _savePrivate_Client.Client_Name;
-                    private_Client.Client_Patronymic = _savePrivate_Client.Client_Patronymic;
-                    private_Client.Adsress = _savePrivate_Client.Adsress;
-                    private_Client.Passport_Series = _savePrivate_Client.Passport_Series;
-                    private_Client.Passport_Number = _savePrivate_Client.Passport_Number;
-                    private_Client.Date_Of_Birth = _savePrivate_Client.Date_Of_Birth;
+                    private_Client.Client_Surname = txbClient_Surname.Text;
+                    private_Client.Client_Name = txbClient_Name.Text;
+                    private_Client.Client_Patronymic = txbClient_Patronymic.Text;
+                    private_Client.Adsress = txbAdsress.Text;
+                    private_Client.Passport_Series = Convert.ToInt32(txbPassport_Series.Text);
+                    private_Client.Passport_Number = Convert.ToInt32(txbPassport_Number.Text);
+                    private_Client.Date_Of_Birth = DateOnly.Parse(txbDate_Of_Birth.Text);
+                    private_Client.Client = db.Clients.FirstOrDefault(x => x.ID_Client == client.ID_Client);
+
+                    if (ApplicationContext.validData(client) && ApplicationContext.validData(private_Client))
+                    {
+                        db.Private_Clients.Update(private_Client);
+                        db.SaveChanges();
+                        clearRows();
+
+                        Private_Clients = new(db.Private_Clients
+                            .Include(x => x.Client)
+                            .ToList());
+                        dtg.ItemsSource = Private_Clients;
+                    }
+                    else
+                    {
+                        private_Client.Client.Account_Number = _savePrivate_Client.Client.Account_Number;
+                        private_Client.Client_Surname = _savePrivate_Client.Client_Surname;
+                        private_Client.Client_Name = _savePrivate_Client.Client_Name;
+                        private_Client.Client_Patronymic = _savePrivate_Client.Client_Patronymic;
+                        private_Client.Adsress = _savePrivate_Client.Adsress;
+                        private_Client.Passport_Series = _savePrivate_Client.Passport_Series;
+                        private_Client.Passport_Number = _savePrivate_Client.Passport_Number;
+                        private_Client.Date_Of_Birth = _savePrivate_Client.Date_Of_Birth;
+                    }
                 }
             }
+            catch (Exception ex){}
         }
 
         private void Button_Click_Delete(object sender, RoutedEventArgs e)
         {
-            Private_Client private_Client = Private_Clients[dtg.SelectedIndex];
-
-            if (private_Client != null)
+            try
             {
-                Private_Clients.Remove(private_Client);
-                db.Private_Clients.Remove(private_Client);
-                db.SaveChanges();
+                Private_Client private_Client = Private_Clients[dtg.SelectedIndex];
+
+                if (private_Client != null)
+                {
+                    Private_Clients.Remove(private_Client);
+                    db.Private_Clients.Remove(private_Client);
+                    db.SaveChanges();
+                }
             }
+            catch (Exception ex) { }
         }
 
         private void dataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            Private_Client private_Client = e.Row.Item as Private_Client;
-
-            if (private_Client != null)
+            try
             {
-                if (ApplicationContext.validData(private_Client.Client) && ApplicationContext.validData(private_Client))
+                Private_Client private_Client = e.Row.Item as Private_Client;
+
+                if (private_Client != null)
                 {
-                    db.Private_Clients.Update(private_Client);
-                    db.SaveChanges();
-                }
-                else
-                {
-                    private_Client.Client.Account_Number = _savePrivate_Client.Client.Account_Number;
-                    private_Client.Client_Surname = _savePrivate_Client.Client_Surname;
-                    private_Client.Client_Name = _savePrivate_Client.Client_Name;
-                    private_Client.Client_Patronymic = _savePrivate_Client.Client_Patronymic;
-                    private_Client.Adsress = _savePrivate_Client.Adsress;
-                    private_Client.Passport_Series = _savePrivate_Client.Passport_Series;
-                    private_Client.Passport_Number = _savePrivate_Client.Passport_Number;
-                    private_Client.Date_Of_Birth = _savePrivate_Client.Date_Of_Birth;
+                    if (ApplicationContext.validData(private_Client.Client) && ApplicationContext.validData(private_Client))
+                    {
+                        db.Private_Clients.Update(private_Client);
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        private_Client.Client.Account_Number = _savePrivate_Client.Client.Account_Number;
+                        private_Client.Client_Surname = _savePrivate_Client.Client_Surname;
+                        private_Client.Client_Name = _savePrivate_Client.Client_Name;
+                        private_Client.Client_Patronymic = _savePrivate_Client.Client_Patronymic;
+                        private_Client.Adsress = _savePrivate_Client.Adsress;
+                        private_Client.Passport_Series = _savePrivate_Client.Passport_Series;
+                        private_Client.Passport_Number = _savePrivate_Client.Passport_Number;
+                        private_Client.Date_Of_Birth = _savePrivate_Client.Date_Of_Birth;
+                    }
                 }
             }
+            catch (Exception ex) { }
         }
 
         private void Button_Click_Search(object sender, RoutedEventArgs e)

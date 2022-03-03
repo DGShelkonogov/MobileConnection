@@ -59,85 +59,110 @@ namespace MobileConnection.Pages.Admin
 
         private void Button_Click_Add(object sender, RoutedEventArgs e)
         {
-            Client client = cmbClients.SelectedItem as Client;
-            Call call = cmbCall.SelectedItem as Call;
-
-            if (ApplicationContext.validData(client) && ApplicationContext.validData(call))
-            {
-                ClientCall clientCall = new ClientCall
-                {
-                    Client = db.Clients.FirstOrDefault(x => x.ID_Client == client.ID_Client),
-                    Call = db.Calls.FirstOrDefault(x => x.ID_Call == call.ID_Call),
-                };
-
-                ClientCalls.Add(clientCall);
-                db.ClientCalls.Add(clientCall);
-                db.SaveChanges();
-                clearRows();
-            }
-        }
-
-
-        private void Button_Click_Edit(object sender, RoutedEventArgs e)
-        {
-            ClientCall clientCall = ClientCalls[dtg.SelectedIndex];
-            if (clientCall != null)
+            try
             {
                 Client client = cmbClients.SelectedItem as Client;
                 Call call = cmbCall.SelectedItem as Call;
 
                 if (ApplicationContext.validData(client) && ApplicationContext.validData(call))
                 {
-                    clientCall.Client = db.Clients.FirstOrDefault(x => x.ID_Client == client.ID_Client);
-                    clientCall.Call = db.Calls.FirstOrDefault(x => x.ID_Call == call.ID_Call);
+                    ClientCall clientCall = new ClientCall
+                    {
+                        Client = db.Clients.FirstOrDefault(x => x.ID_Client == client.ID_Client),
+                        Call = db.Calls.FirstOrDefault(x => x.ID_Call == call.ID_Call),
+                    };
 
-                    
-                    db.ClientCalls.Update(clientCall);
+                    ClientCalls.Add(clientCall);
+                    db.ClientCalls.Add(clientCall);
                     db.SaveChanges();
                     clearRows();
+                }
+            }
+            catch (Exception ex)
+            {
 
-                    ClientCalls = new(db.ClientCalls
-                        .Include(x => x.Client)
-                        .Include(x => x.Call)
-                        .ToList());
-                    dtg.ItemsSource = ClientCalls;
-                }
-                else
+            }
+        }
+
+
+        private void Button_Click_Edit(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ClientCall clientCall = ClientCalls[dtg.SelectedIndex];
+                if (clientCall != null)
                 {
-                    clientCall.Client.Phone_Number = _SaveClientCall.Client.Phone_Number;
-                    clientCall.Call.Subscriber_Called_Number = _SaveClientCall.Call.Subscriber_Called_Number;
+                    Client client = cmbClients.SelectedItem as Client;
+                    Call call = cmbCall.SelectedItem as Call;
+
+                    if (ApplicationContext.validData(client) && ApplicationContext.validData(call))
+                    {
+                        clientCall.Client = db.Clients.FirstOrDefault(x => x.ID_Client == client.ID_Client);
+                        clientCall.Call = db.Calls.FirstOrDefault(x => x.ID_Call == call.ID_Call);
+
+
+                        db.ClientCalls.Update(clientCall);
+                        db.SaveChanges();
+                        clearRows();
+
+                        ClientCalls = new(db.ClientCalls
+                            .Include(x => x.Client)
+                            .Include(x => x.Call)
+                            .ToList());
+                        dtg.ItemsSource = ClientCalls;
+                    }
+                    else
+                    {
+                        clientCall.Client.Phone_Number = _SaveClientCall.Client.Phone_Number;
+                        clientCall.Call.Subscriber_Called_Number = _SaveClientCall.Call.Subscriber_Called_Number;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+
             }
         }
 
         private void Button_Click_Delete(object sender, RoutedEventArgs e)
         {
-            ClientCall clientCall = ClientCalls[dtg.SelectedIndex];
-            if (clientCall != null)
+            try
             {
-                ClientCalls.Remove(clientCall);
-                db.ClientCalls.Remove(clientCall);
-                db.SaveChanges();
+                ClientCall clientCall = ClientCalls[dtg.SelectedIndex];
+                if (clientCall != null)
+                {
+                    ClientCalls.Remove(clientCall);
+                    db.ClientCalls.Remove(clientCall);
+                    db.SaveChanges();
+                }
             }
+            catch (Exception ex) { }
         }
 
         private void dataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            ClientCall clientCall = e.Row.Item as ClientCall;
-
-            if (clientCall != null)
+            try
             {
-                if(ApplicationContext.validData(clientCall.Call) 
-                    && ApplicationContext.validData(clientCall.Client))
+                ClientCall clientCall = e.Row.Item as ClientCall;
+
+                if (clientCall != null)
                 {
-                    db.ClientCalls.Update(clientCall);
-                    db.SaveChanges();
+                    if (ApplicationContext.validData(clientCall.Call)
+                        && ApplicationContext.validData(clientCall.Client))
+                    {
+                        db.ClientCalls.Update(clientCall);
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        clientCall.Client.Phone_Number = _SaveClientCall.Client.Phone_Number;
+                        clientCall.Call.Subscriber_Called_Number = _SaveClientCall.Call.Subscriber_Called_Number;
+                    }
                 }
-                else
-                {
-                    clientCall.Client.Phone_Number = _SaveClientCall.Client.Phone_Number;
-                    clientCall.Call.Subscriber_Called_Number = _SaveClientCall.Call.Subscriber_Called_Number;
-                }
+            }
+            catch (Exception ex)
+            {
+
             }
         }
 
@@ -174,9 +199,16 @@ namespace MobileConnection.Pages.Admin
 
         private void dtg_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            var item = ClientCalls[dtg.SelectedIndex];
-            _SaveClientCall = new ClientCall(item);
-            setData(item);
+            try
+            {
+                var item = ClientCalls[dtg.SelectedIndex];
+                _SaveClientCall = new ClientCall(item);
+                setData(item);
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         public void setData(ClientCall clientCall)

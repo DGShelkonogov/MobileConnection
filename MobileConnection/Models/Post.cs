@@ -23,8 +23,8 @@ namespace MobileConnection.Models
         [Key]
         public int ID_Post { get; set; }
 
-        [Required]
-        [StringLength(20)]
+        [Required (ErrorMessage ="Пустое имя")]
+        [StringLength(20, ErrorMessage = "Длинна должна быть меньше 20 символов")]
         public string Post_Name { get; set; }
 
         public event PropertyChangedEventHandler? PropertyChanged;

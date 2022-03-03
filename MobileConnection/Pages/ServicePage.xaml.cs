@@ -59,46 +59,58 @@ namespace MobileConnection.Pages
 
         private void Button_Click_Back(object sender, RoutedEventArgs e)
         {
-            AuthorizationWindow win = (AuthorizationWindow)Window.GetWindow(this);
+            try
+            {
+                AuthorizationWindow win = (AuthorizationWindow)Window.GetWindow(this);
 
-            if (private_Client != null)
-                win.openPrivateClient(private_Client.ID_Private_Client);
-            else
-                win.openCorporateClient(corporate_Client.ID_Corporate_Client);
+                if (private_Client != null)
+                    win.openPrivateClient(private_Client.ID_Private_Client);
+                else
+                    win.openCorporateClient(corporate_Client.ID_Corporate_Client);
+            }
+            catch (Exception ex) { }
         }
 
         private void Button_Click_Add(object sender, RoutedEventArgs e)
         {
-            Service service = cmbServices.SelectedItem as Service;
-            if(service != null)
+            try
             {
-                if (!client.Services.Contains(service))
+                Service service = cmbServices.SelectedItem as Service;
+                if (service != null)
                 {
-                    client.Services.Add(service);
-                    db.SaveChanges();
-                }
-                else
-                {
-                    MessageBox.Show("У вас уже есть выбранный сервис");
+                    if (!client.Services.Contains(service))
+                    {
+                        client.Services.Add(service);
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        MessageBox.Show("У вас уже есть выбранный сервис");
+                    }
                 }
             }
+            catch (Exception ex) { }
         }
 
         private void Button_Click_Delete(object sender, RoutedEventArgs e)
         {
-            Service service = cmbServices.SelectedItem as Service;
-            if (service != null)
+            try
             {
-                if (client.Services.Contains(service))
+                Service service = cmbServices.SelectedItem as Service;
+                if (service != null)
                 {
-                    client.Services.Remove(service);
-                    db.SaveChanges();
-                }
-                else
-                {
-                    MessageBox.Show("У вас нет такого сервиса");
+                    if (client.Services.Contains(service))
+                    {
+                        client.Services.Remove(service);
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        MessageBox.Show("У вас нет такого сервиса");
+                    }
                 }
             }
+            catch(Exception ex) { }
         }
 
         private void cmbServices_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -107,7 +119,5 @@ namespace MobileConnection.Pages
             if (service != null)
                 lblAmount.Content = service.Cost.ToString();
         }
-
-   
     }
 }

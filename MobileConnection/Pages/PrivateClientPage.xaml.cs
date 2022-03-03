@@ -80,26 +80,30 @@ namespace MobileConnection.Pages
 
         private void Button_Click_Edit(object sender, RoutedEventArgs e)
         {
-            privateClient.Client_Surname = txbClient_Surname.Text;
-            privateClient.Client_Name = txbClient_Name.Text;
-            privateClient.Client_Patronymic= txbClient_Patronymic.Text;
-            privateClient.Date_Of_Birth = DateOnly.Parse(txbDate_Of_Birth.Text);
-            privateClient.Passport_Series = Convert.ToInt32(txbPassport_Series.Text);
-            privateClient.Passport_Number = Convert.ToInt32(txbPassport_Number.Text);
-            privateClient.Adsress = txbAdsress.Text;
-            privateClient.Client.Client_Email= txbClient_Email.Text;
-            privateClient.Client.Client_Password = txbClient_Password.Text;
-
-            if (ApplicationContext.validData(privateClient))
+            try
             {
-                if (ApplicationContext.checkEmail(privateClient.Client.Client_Email))
+                privateClient.Client_Surname = txbClient_Surname.Text;
+                privateClient.Client_Name = txbClient_Name.Text;
+                privateClient.Client_Patronymic = txbClient_Patronymic.Text;
+                privateClient.Date_Of_Birth = DateOnly.Parse(txbDate_Of_Birth.Text);
+                privateClient.Passport_Series = Convert.ToInt32(txbPassport_Series.Text);
+                privateClient.Passport_Number = Convert.ToInt32(txbPassport_Number.Text);
+                privateClient.Adsress = txbAdsress.Text;
+                privateClient.Client.Client_Email = txbClient_Email.Text;
+                privateClient.Client.Client_Password = txbClient_Password.Text;
+
+                if (ApplicationContext.validData(privateClient))
                 {
-                    db.SaveChanges();
-                    MessageBox.Show("Обновление успешно");
+                    if (ApplicationContext.checkEmail(privateClient.Client.Client_Email))
+                    {
+                        db.SaveChanges();
+                        MessageBox.Show("Обновление успешно");
+                    }
+                    else
+                        MessageBox.Show("Почта занята");
                 }
-                else
-                    MessageBox.Show("Почта занята");
             }
+            catch (Exception ex) { }
         }
     }
 }

@@ -37,7 +37,7 @@ namespace MobileConnection.Models
         public TimeOnly Sending_Time { get; set; }
 
         [Required]
-        [StringLength(11)]
+        [StringLength(11, ErrorMessage = "Длинна номера не должна привышать 11 символов")]
         public string Subscriber_Number { get; set; }
 
         public Type_Of_Call_And_Message Type { get; set; }

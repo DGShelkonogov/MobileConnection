@@ -35,23 +35,23 @@ namespace MobileConnection.Models
         public int ID_Corporate_Client { get; set; }
 
         [Required]
-        [StringLength(10)]
+        [StringLength(10, ErrorMessage = "Длинна ИНН не должна привышать 10 символов")]
         public string INN { get; set; }
 
         [Required] 
-        [StringLength(40)]
+        [StringLength(40, ErrorMessage = "Длинна наименования компании не должна привышать 40 символов")]
         public string Company_Name { get; set; }
 
         [Required]
-        [StringLength(70)]
+        [StringLength(70, ErrorMessage = "Длинна юридического адреса не должна привышать 70 символов")]
         public string Legal_Adsress { get; set; }
 
         [Required]
-        [StringLength(70)]
+        [StringLength(70, ErrorMessage = "Длинна фактического адреса не должна привышать 70 символов")]
         public string Physical_Adsress { get; set; }
 
         [Required]
-        [StringLength(70)]
+        [StringLength(70, ErrorMessage = "Длинна номера лицевого счета не должна привышать 70 символов")]
         public string Personal_Account_Number { get; set; }
 
         [Required]

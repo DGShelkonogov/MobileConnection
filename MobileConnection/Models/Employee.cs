@@ -34,18 +34,19 @@ namespace MobileConnection.Models
         [Key]
         public int ID_Employee { get; set; }
         [Required]
-        [StringLength(25)]
+        [StringLength(25, ErrorMessage ="Длинна фамилии не должна привышать 25 символов")]
         public string Employee_Surname { get; set; }
         [Required]
-        [StringLength(25)]
+        [StringLength(25, ErrorMessage = "Длинна имени не должна привышать 25 символов")]
         public string Employee_Name { get; set; }
-        [StringLength(25)]
+        [StringLength(25, ErrorMessage = "Длинна отчества не должна привышать 25 символов")]
         public string Employee_Patronymic { get; set; }
         [Required]
-        [StringLength(50)]
+        [StringLength(50, ErrorMessage = "Длинна почты не должна привышать 50 символов")]
         public string Employee_Email { get; set; }
         [Required]
-        [StringLength(25)]
+        [StringLength(25, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [RegularExpression(@"((?=.*[a-z]+)(?=.*[A-Z]+)(?=.*[0-9]+)(?=.*[!@#$%^&*()_+=\[{\]};:<>|./?,-]))")]
         public string Password { get; set; }
         [Required]
         public Post Post { get; set; }

@@ -25,7 +25,7 @@ namespace MobileConnection.Models
         public int ID_Type_Of_Call_And_Message { get; set; }
 
         [Required]
-        [StringLength(40)]
+        [StringLength(40, ErrorMessage = "Длинна типа не должна привышать 40 символов")]
         public string Type_Name { get; set; }
 
         public event PropertyChangedEventHandler? PropertyChanged;

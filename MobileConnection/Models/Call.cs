@@ -30,19 +30,21 @@ namespace MobileConnection.Models
         [Key]
         public int ID_Call { get; set; }
 
-        [Required]
+
+        [Required(ErrorMessage = "дата звонка не заполнена")]
         public DateOnly Call_Date { get; set; }
 
-        [Required]
-        public TimeOnly Call_Start_Time { get; set; } 
-        
-        [Required]
+        [Required(ErrorMessage = "время начала звонка не заполнено")]
+        public TimeOnly Call_Start_Time { get; set; }
+
+        [Required(ErrorMessage = "Длительность звонка не заполнена")]
         public string Duration { get; set; }
 
-        [Required]
-        [StringLength(11)]
+        [Required(ErrorMessage = "Номер вызываемого абонента не заполнен")]
+        [StringLength(11, ErrorMessage = "Длинна должна быть меньше или равна 11 символов")]
         public string Subscriber_Called_Number { get; set; }
 
+        [Required(ErrorMessage = "тип звонка не заполнен")]
         public Type_Of_Call_And_Message Type { get; set; }
 
         public event PropertyChangedEventHandler? PropertyChanged;

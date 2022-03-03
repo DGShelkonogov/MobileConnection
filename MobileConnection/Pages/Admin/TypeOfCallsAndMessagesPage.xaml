@@ -35,12 +35,6 @@
                     Binding="{Binding Path=Type_Name, 
                     UpdateSourceTrigger=PropertyChanged}"/>
             </DataGrid.Columns>
-
-            <DataGrid.ItemContainerStyle>
-                <Style TargetType="DataGridRow">
-                    <EventSetter Event="MouseDown" Handler="Row_DoubleClick"/>
-                </Style>
-            </DataGrid.ItemContainerStyle>
         </DataGrid>
 
         <Grid Grid.Row="2">

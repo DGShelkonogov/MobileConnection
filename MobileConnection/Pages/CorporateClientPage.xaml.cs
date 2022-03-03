@@ -79,24 +79,26 @@ namespace MobileConnection.Pages
 
         private void Button_Click_Edit(object sender, RoutedEventArgs e)
         {
-            
-            corporate_Client.INN = txbINN.Text;
-            corporate_Client.Company_Name = txbCompany_Name.Text;
-            corporate_Client.Legal_Adsress = txbLegal_Adsress.Text;
-            corporate_Client.Physical_Adsress = txbPhysical_Adsress.Text;
-            corporate_Client.Personal_Account_Number = txbPersonal_Account_Number.Text;
-
-            if (ApplicationContext.validData(corporate_Client))
+            try
             {
-                if (ApplicationContext.checkEmail(corporate_Client.Client.Client_Email))
+                corporate_Client.INN = txbINN.Text;
+                corporate_Client.Company_Name = txbCompany_Name.Text;
+                corporate_Client.Legal_Adsress = txbLegal_Adsress.Text;
+                corporate_Client.Physical_Adsress = txbPhysical_Adsress.Text;
+                corporate_Client.Personal_Account_Number = txbPersonal_Account_Number.Text;
+
+                if (ApplicationContext.validData(corporate_Client))
                 {
-                    db.SaveChanges();
-                    MessageBox.Show("Обновление успешно");
+                    if (ApplicationContext.checkEmail(corporate_Client.Client.Client_Email))
+                    {
+                        db.SaveChanges();
+                        MessageBox.Show("Обновление успешно");
+                    }
+                    else
+                        MessageBox.Show("Почта занята");
                 }
-                else
-                    MessageBox.Show("Почта занята");
             }
-           
+            catch (Exception ex) { }
         }
     }
 }

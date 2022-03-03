@@ -54,94 +54,113 @@ namespace MobileConnection.Pages.Admin
 
         private void Button_Click_Add(object sender, RoutedEventArgs e)
         {
-
-            Employee employee = cmbEmployees.SelectedItem as Employee;
-
-            var status = (cmbStatuses.SelectedItem as ComboBoxItem).Tag.ToString();
-
-            Service service = new Service
+            try
             {
-                Cost = Decimal.Parse(txbCost.Text),
-                Service_Name = txbService_Name.Text,
-                Service_Status = Boolean.Parse(status),
-                Employee = db.Employees.FirstOrDefault(x => x.ID_Employee == employee.ID_Employee)
-            };
+                Employee employee = cmbEmployees.SelectedItem as Employee;
 
-            if(ApplicationContext.validData(employee) && ApplicationContext.validData(service))
-            {
-                Services.Add(service);
-                db.Services.Add(service);
-                db.SaveChanges();
-                clearRows();
+                var status = (cmbStatuses.SelectedItem as ComboBoxItem).Tag.ToString();
+
+                Service service = new Service
+                {
+                    Cost = Decimal.Parse(txbCost.Text),
+                    Service_Name = txbService_Name.Text,
+                    Service_Status = Boolean.Parse(status),
+                    Employee = db.Employees.FirstOrDefault(x => x.ID_Employee == employee.ID_Employee)
+                };
+
+                if (ApplicationContext.validData(employee) && ApplicationContext.validData(service))
+                {
+                    Services.Add(service);
+                    db.Services.Add(service);
+                    db.SaveChanges();
+                    clearRows();
+                }
             }
+            catch (Exception ex) { }
         }
 
        
 
         private void Button_Click_Edit(object sender, RoutedEventArgs e)
         {
-            Service service = Services[dtg.SelectedIndex];
-            if (service != null)
+            try
             {
-                Employee employee = cmbEmployees.SelectedItem as Employee;
-                var status = (cmbStatuses.SelectedItem as Label).Tag.ToString();
-
-                service.Cost = Decimal.Parse(txbCost.Text);
-                service.Service_Name = txbService_Name.Text;
-                service.Service_Status = Boolean.Parse(status);
-                service.Employee = db.Employees.FirstOrDefault(x => x.ID_Employee == employee.ID_Employee);
-
-                if (ApplicationContext.validData(employee) && ApplicationContext.validData(service))
+                Service service = Services[dtg.SelectedIndex];
+                if (service != null)
                 {
-                    db.Services.Update(service);
-                    db.SaveChanges();
-                    clearRows();
+                    Employee employee = cmbEmployees.SelectedItem as Employee;
+                    var status = (cmbStatuses.SelectedItem as Label).Tag.ToString();
 
-                    Services = new(db.Services
-                        .Include(x => x.Employee)
-                        .ToList());
-                    dtg.ItemsSource = Services;
-                }
-                else
-                {
-                    service.Cost = _saveService.Cost;
-                    service.Service_Name = _saveService.Service_Name;
-                    service.Service_Status = _saveService.Service_Status;
-                    service.Employee.Employee_Name = _saveService.Employee.Employee_Name;
+                    service.Cost = Decimal.Parse(txbCost.Text);
+                    service.Service_Name = txbService_Name.Text;
+                    service.Service_Status = Boolean.Parse(status);
+                    service.Employee = db.Employees.FirstOrDefault(x => x.ID_Employee == employee.ID_Employee);
+
+                    if (ApplicationContext.validData(employee) && ApplicationContext.validData(service))
+                    {
+                        db.Services.Update(service);
+                        db.SaveChanges();
+                        clearRows();
+
+                        Services = new(db.Services
+                            .Include(x => x.Employee)
+                            .ToList());
+                        dtg.ItemsSource = Services;
+                    }
+                    else
+                    {
+                        service.Cost = _saveService.Cost;
+                        service.Service_Name = _saveService.Service_Name;
+                        service.Service_Status = _saveService.Service_Status;
+                        service.Employee.Employee_Name = _saveService.Employee.Employee_Name;
+                    }
                 }
             }
+            catch (Exception ex) { }
         }
 
         private void Button_Click_Delete(object sender, RoutedEventArgs e)
         {
-            Service service = Services[dtg.SelectedIndex];
-            if (service != null)
+            try
             {
-                Services.Remove(service);
-                db.Services.Remove(service);
-                db.SaveChanges();
+                Service service = Services[dtg.SelectedIndex];
+                if (service != null)
+                {
+                    Services.Remove(service);
+                    db.Services.Remove(service);
+                    db.SaveChanges();
+                }
             }
+            catch (Exception ex) { }
+
+           
         }
 
         private void dataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            Service service = e.Row.Item as Service;
-
-            if (service != null)
+            try
             {
-                if (ApplicationContext.validData(service.Employee) && ApplicationContext.validData(service))
+                Service service = e.Row.Item as Service;
+
+                if (service != null)
                 {
-                    db.Services.Update(service);
-                    db.SaveChanges();
-                }
-                else
-                {
-                    service.Cost = _saveService.Cost;
-                    service.Service_Name = _saveService.Service_Name;
-                    service.Service_Status = _saveService.Service_Status;
-                    service.Employee.Employee_Name = _saveService.Employee.Employee_Name;
+                    if (ApplicationContext.validData(service.Employee) && ApplicationContext.validData(service))
+                    {
+                        db.Services.Update(service);
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        service.Cost = _saveService.Cost;
+                        service.Service_Name = _saveService.Service_Name;
+                        service.Service_Status = _saveService.Service_Status;
+                        service.Employee.Employee_Name = _saveService.Employee.Employee_Name;
+                    }
                 }
             }
+            catch (Exception ex) { }
+
+           
         }
 
         private void Button_Click_Search(object sender, RoutedEventArgs e)

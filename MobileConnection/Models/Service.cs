@@ -34,7 +34,7 @@ namespace MobileConnection.Models
         public int ID_Service { get; set; }
 
         [Required]
-        [StringLength(25)]
+        [StringLength(25, ErrorMessage = "Длинна наименования не должна привышать 25 символов")]
         public string Service_Name { get; set; }
 
         public bool Service_Status { get; set; }

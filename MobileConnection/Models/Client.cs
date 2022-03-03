@@ -32,7 +32,7 @@ namespace MobileConnection.Models
         public int ID_Client { get; set; }
 
         [Required]
-        [StringLength(20)]
+        [StringLength(20, ErrorMessage = "Длинна номера счета не должена привышать 20 символов")]
         public string Account_Number { get; set; }
 
         [Required]
@@ -41,15 +41,16 @@ namespace MobileConnection.Models
         [Required]
         public DateOnly Contract_Conclusion_Date { get; set; }
   
-        [StringLength(50)]
+        [StringLength(50, ErrorMessage ="Длинна почты не должна привышать 50 символов")]
         public string Client_Email { get; set; }
 
         [Required]
-        [StringLength(25)]
+        [StringLength(25, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [RegularExpression(@"((?=.*[a-z]+)(?=.*[A-Z]+)(?=.*[0-9]+)(?=.*[!@#$%^&*()_+=\[{\]};:<>|./?,-]))")]
         public string Client_Password { get; set; }
 
         [Required]
-        [StringLength(11)]
+        [StringLength(11, ErrorMessage = "Длинна телефона не должена привышать 11 символов")]
         public string Phone_Number { get; set; }
 
         [Required]

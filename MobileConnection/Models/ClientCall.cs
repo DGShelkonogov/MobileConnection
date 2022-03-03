@@ -32,8 +32,10 @@ namespace MobileConnection.Models
         [Key]
         public int ID_ClientCall { get; set; }
 
+        [Required]
         public Client Client { get; set; }
 
+        [Required]
         public Call Call { get; set; }
 
         public event PropertyChangedEventHandler? PropertyChanged;
